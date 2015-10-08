@@ -57,13 +57,9 @@ public class Deck {
 
     //Skapar decket utav kort.
     private void createDeck(){
-        for (int k = 0; k < suits; k++){
-            for (int i = 0; i < ranks; i++){
-                try {
-                    theCards.add(new Card(i + 1, k + 1));
-                }catch (java.lang.IllegalArgumentException e){
-                    System.out.println("No such card exists"+  " Suit: " + (k+1) + " Rank: " + (i+1));
-                }
+        for (RankEnum r : RankEnum.values()){
+            for (SuitEnum s : SuitEnum.values()){
+                theCards.add(r,s);
             }
         }
     }
