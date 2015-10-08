@@ -7,9 +7,8 @@ package MoneyPackage;
 public class Money {
     //Hej Johan
     double moneyValue;
-    public Money(double moneyValue){
-        this.moneyValue = moneyValue;
-    }
+    public Money(double moneyValue){this.moneyValue = moneyValue;}
+    public Money(){moneyValue = 0;}
     public double getMoney(){return this.moneyValue;}
     public void addFunds (double money){
         if(money == 0){
