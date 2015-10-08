@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
 
         //Skapar och startar spelet.
-        Game game = new Game();
-        game.playGame();
+        //Game game = new Game();
+        //game.playGame();
     }
 }

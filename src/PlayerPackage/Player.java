@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  */
 
-abstract class Player {
+public class Player {
 
     private String userName;
     private Hand playerHand;

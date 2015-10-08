@@ -15,7 +15,7 @@ public class Game {
     private Scanner scan = new Scanner(System.in);
     private String playing;
     //skapa spelare
-    HumanPlayer humanus = new HumanPlayer("Nahoj");
+   /* HumanPlayer humanus = new HumanPlayer("Nahoj");
 
     //Skapar kortleken samt två händer.
     public Game(){
@@ -66,5 +66,5 @@ public class Game {
     public String  toString(Hand playerHand){
         return  playerHand.toString();
 
-    }
+    }*/
 }
