@@ -15,7 +15,7 @@ abstract public class Player {
     private Hand playerHand;
     private ChipCollection chips;
     private Money money;
-    //private Chip
+    private boolean stillInGame;
 
     public Player(String userName){
         this.userName = userName;
@@ -26,7 +26,8 @@ abstract public class Player {
     public String getName(){
         return this.userName;
     }
-
+    public void setStillInGame(boolean stillInGame){this.stillInGame = stillInGame;}
+    public boolean getStillInGame(){return this.stillInGame;};
     public void addCard(Card card){
         playerHand.addCard(card);
     }
