@@ -8,6 +8,7 @@ import java.util.Scanner;
  * Created by Arvid on 2015-09-15.
  *
  */
+//BADASS
 public class Game {
     private Deck theDeck;
     private Hand playerOne, playerComputer;
