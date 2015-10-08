@@ -1,70 +1,46 @@
 import CardPackage.Deck;
-import CardPackage.Hand;
-import CardPackage.NoSuchCardException;
+import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
-import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * Created by Arvid on 2015-09-15.
  *
  */
 public class Game {
-    private Deck theDeck;
-    private Hand playerOne, playerComputer;
-    private Scanner scan = new Scanner(System.in);
-    private String playing;
-    //skapa spelare
-   /* HumanPlayer humanus = new HumanPlayer("Nahoj");
 
-    //Skapar kortleken samt två händer.
-    public Game(){
+    private ArrayList<Player> players;
+    //computer;
+    Deck theDeck;
+
+    public Game() {
         theDeck = new Deck();
-        playerOne = new Hand("playerOne", true);
-        playerComputer = new Hand("playerComputer", false);
-        playing = "y";
-
+        players = new ArrayList<Player>();
+        theDeck.shuffleCards();
+        //add players temporary:
+        players.add(new TablePlayer("Table00"));
+        players.add(new HumanPlayer("Johan"));
+        players.add(new HumanPlayer("Arvid"));
+        players.add(new ComputerPlayer("SuperAI"));
 
     }
-
-    //Spelet.
-    public void playGame(){
-        //JOHAN IS TEH KING!
-        humanus.getName();
-        //HAHA JOHAN
-    }
-
-    private void tryToDealACard(Hand player){
-        try {
-            player.addCard(theDeck.dealCard());
-        }catch (NoSuchCardException e){
-            System.out.println(player.getName() + " tried to take a card but failed.(The Deck is out of cards, filling it up with a new cards.)");
-            theDeck = new Deck();
-            player.addCard(theDeck.dealCard());
-        }
-    }
-
-    //Räknar ut värdet på en spelares hand. (klätt = 10)
-    public int countHand(Hand playerHand){
-        int cardsInHand = playerHand.getNoOfCards();
-        int total = 0;
-
-        try {
-            for (int i = 0; i < cardsInHand; i++) {
-                if (playerHand.getCard(i).getRank() > 10 || playerHand.getCard(i).getRank() == 1)
-                    total += 10; //Kl�dda kort �r v�rda 10 och Ace = 11
-                else total += playerHand.getCard(i).getRank();
+    public void start(){
+        System.out.println("TEST");
+        for(Player onePlayer : players){
+            if(onePlayer instanceof HumanPlayer){
+                System.out.println("you are a human!");
+            }else if(onePlayer instanceof ComputerPlayer){
+                System.out.println("your are a computer");
+            }else if (onePlayer instanceof TablePlayer){
+                System.out.println("you are a table!");
             }
-            return total;
-        }catch(NoSuchCardException e){
-            System.out.println(e.getMessage());
+            System.out.println(onePlayer.toString());
         }
-        return 0;
+/*        p1.addMoney(200);
+        p1.addCard(theDeck.dealCard());
+        System.out.println(p1.toString());
+        */
     }
-
-    //Printar en spelares hand.
-    public String  toString(Hand playerHand){
-        return  playerHand.toString();
-
-    }*/
 }
