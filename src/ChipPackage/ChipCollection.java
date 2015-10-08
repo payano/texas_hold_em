@@ -2,7 +2,6 @@ package ChipPackage;
 
 import java.util.ArrayList;
 
-//dsadasdsa
 /**
  * Created by Arvid Bodin and Johan Svensson on 2015-09-15.
  * ChipCollection class holds an arrayList of chips and methods for accessing them.
