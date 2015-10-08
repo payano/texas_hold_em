@@ -21,11 +21,13 @@ public class Money {
         }
         moneyValue += money;
     }
-    public void withdrawFunds(double money){
+    public double withdrawFunds(double money){
         if((this.moneyValue - money) < 0){
             throw new NegativeFundException("Could not withdraw the amount: " + money + " from wallet: " + this.moneyValue + ".");
         }
         this.moneyValue -= money;
+        //return how much that has been withdrawn
+        return money;
     }
 
 }

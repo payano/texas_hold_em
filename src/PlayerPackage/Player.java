@@ -34,6 +34,9 @@ abstract public class Player {
     public void addMoney(double amount){
         money.addFunds(amount);
     }
+    public double withdrawMoney(double amount){
+        return money.withdrawFunds(amount);
+    }
 
     public void convertMoneyToChips(double amount){
 
