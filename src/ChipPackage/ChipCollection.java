@@ -35,7 +35,7 @@ public class ChipCollection {
     /**
      * removeChips - removes one chip from the collection.
      * @param id
-     * @return
+     * @return the chip that got removed
      */
     //INTE klar.. måste testas.
     public Chip removeChip(int id){
@@ -46,7 +46,7 @@ public class ChipCollection {
     }
     /**
      * toString - prints out chips
-     * @return
+     * @return a string
      */
     public String toString(){
         String result = new String();
