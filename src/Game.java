@@ -35,6 +35,8 @@ public class Game {
         theDeck.shuffleCards();
         System.out.println("Place your bets: it costs 50.");
         for(Player onePlayer : players){
+            //skip TablePlayer betting
+            if(onePlayer instanceof TablePlayer){continue;}
             if(onePlayer.getMoney() >= stake) {
                 if (onePlayer instanceof HumanPlayer) {
                     System.out.println(onePlayer.getName() + " are you in? 1=yes, 0=no");
@@ -54,10 +56,7 @@ public class Game {
                     System.out.println("your are a computer");
                 }
             }else{
-                if(!(onePlayer instanceof TablePlayer)){
-                    System.out.println("you are broke "+ onePlayer.getName() + ", money left: " + onePlayer.getMoney());
-                }
-
+                System.out.println("you are broke "+ onePlayer.getName() + ", money left: " + onePlayer.getMoney());
             }
             //System.out.println(onePlayer.toString());
         }
