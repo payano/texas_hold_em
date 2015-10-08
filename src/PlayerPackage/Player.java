@@ -25,9 +25,6 @@ abstract class Player {
         playerHand = new Hand();
         chips = new ChipCollection();
 
-
-        //Hej Johan
-
-
     }
+    public String getName(){return this.userName;}
 }
