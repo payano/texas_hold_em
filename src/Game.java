@@ -13,6 +13,7 @@ public class Game {
     private Hand playerOne, playerComputer;
     private Scanner scan = new Scanner(System.in);
     private String playing;
+    //Das
 
     //Skapar kortleken samt två händer.
     public Game(){
