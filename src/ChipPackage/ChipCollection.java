@@ -8,10 +8,24 @@ import java.util.ArrayList;
  */
 public class ChipCollection {
     ArrayList<Chip> theChips;
-
     ChipCollection(ArrayList<Chip> theChips){
         this.theChips = theChips;
     }
 
+
+    public int getChipsValue(){
+        int result = 0;
+        for(Chip s : theChips){
+            result += s.getChipValue();
+        }
+        return result;
+    }
+    public String toString(){
+        String result = new String();
+        for(Chip s : theChips){
+            result += s.toString() + "\n";
+        }
+        return result.trim();
+    }
 
 }

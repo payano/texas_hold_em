@@ -17,7 +17,7 @@ public class testMain {
 
         //Test chips
 
-        ChipPlayerCollection playerChips = new ChipPlayerCollection(someChips);
+        ChipCollection playerChips = new ChipCollection(someChips);
 
         System.out.println(playerChips.toString());
         System.out.println(playerChips.getChipsValue());
