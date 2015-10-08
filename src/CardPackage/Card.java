@@ -17,8 +17,8 @@ public class Card{
     private final SuitEnum suit;
 
     public Card(RankEnum rank, SuitEnum suit) throws java.lang.IllegalArgumentException{
-            this.rank = rank;
-            this.suit = suit;
+            this.rank = RankEnum.Eight;
+            this.suit = SuitEnum.Clubs;
             System.out.println("Card added.");
     }
     public int getRank() {

@@ -59,7 +59,7 @@ public class Deck {
     private void createDeck(){
         for (RankEnum r : RankEnum.values()){
             for (SuitEnum s : SuitEnum.values()){
-                theCards.add(r,s);
+                theCards.add(new Card(r,s));
             }
         }
     }
