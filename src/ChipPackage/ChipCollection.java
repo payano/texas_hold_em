@@ -31,6 +31,14 @@ public class ChipCollection {
      */
     //Inte klar... måste testas
     //kan bygga en addChips som tar en int som input och gör om det till chips i olika valörer.
+    private void addChips(ArrayList<Chip> chips){
+        if(chips.size() <= 0){
+            throw new EmptyChipsException("There is no chips in this arraylist, size is: " + chips.size());
+        }
+        //add all chips.
+        theChips.addAll(chips);
+    }
+    //Inte klar... måste testas
     public void addChips(Chip chip){theChips.add(chip);}
     /**
      * removeChips - removes one chip from the collection.
@@ -40,7 +48,7 @@ public class ChipCollection {
     //INTE klar.. måste testas.
     public Chip removeChip(int id){
         if(id < 0 || id > theChips.size()){
-            throw new ChipsOutOfRange("The chip you are trying to remove does not exist: " + id + ", the total size of arraylist is: " + theChips.size());
+            throw new ChipsOutOfRangeException("The chip you are trying to remove does not exist: " + id + ", the total size of arraylist is: " + theChips.size());
         }
         return theChips.remove(id);
     }
