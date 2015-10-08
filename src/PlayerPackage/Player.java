@@ -28,5 +28,9 @@ abstract class Player {
         chips = new ChipCollection();
         money = new Money();
     }
-    public String getName(){return this.userName;}
+    public String getName(){
+        return this.userName;
+    }
+
+
 }
