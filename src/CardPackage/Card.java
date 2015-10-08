@@ -12,7 +12,7 @@ public class Card{
     /**
      * @param rank 1 = Ace, 2 = 2, ...
      * @param suit 1 = spades, 2 = hearts, 3 = diamonds, 4 = clubs
-     */
+     */s
     private final RankEnum rank;
     private final SuitEnum suit;
 
