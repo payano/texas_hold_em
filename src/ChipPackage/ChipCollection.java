@@ -14,6 +14,8 @@ public class ChipCollection {
     public ChipCollection(){
         theChips = new ArrayList<>();
     }
+    public ChipCollection(ArrayList newChips){this.theChips.addAll(newChips);}
+    public ChipCollection(Chip newChips){this.theChips.add(newChips);}
     /**
      * getChipsValue
      * @return the amount the chips are worth.
