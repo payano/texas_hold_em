@@ -11,8 +11,6 @@ import java.util.List;
  */
 public class Deck {
     private List<Card> theCards = new ArrayList<>();
-    private int suits = 4, ranks = 13;
-
     public Deck (){
         createDeck();
     }
