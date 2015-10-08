@@ -5,6 +5,7 @@ import ChipPackage.ChipCollection;
 //package CardPackage.;
 
 import CardPackage.Hand;
+import MoneyPackage.Money;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,7 @@ abstract class Player {
     private String userName;
     private Hand playerHand;
     private ChipCollection chips;
+    private Money money;
     //private Chip
 
     public Player(String userName){
@@ -25,7 +27,6 @@ abstract class Player {
         playerHand = new Hand();
         chips = new ChipCollection();
 
-        //Haha git är broken
 
     }
     public String getName(){return this.userName;}
