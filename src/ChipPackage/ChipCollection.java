@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class ChipCollection {
     ArrayList<Chip> theChips;
 
-    public ChipCollection(ArrayList<Chip> theChips){
-        this.theChips = theChips;
+    public ChipCollection(){
+        theChips = new ArrayList<>();
     }
 
 

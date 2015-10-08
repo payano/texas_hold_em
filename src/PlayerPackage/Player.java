@@ -1,7 +1,7 @@
 package PlayerPackage;
 
 import CardPackage.Hand;
-import ChipPackage.ChipPlayerCollection;
+import ChipPackage.ChipCollection;
 //package CardPackage.;
 
 import CardPackage.Hand;
@@ -17,13 +17,14 @@ abstract class Player {
 
     private String userName;
     private Hand playerHand;
-    private ChipPlayerCollection chips;
+    private ChipCollection chips;
     //private Chip
 
     public Player(String userName){
         this.userName = userName;
         playerHand = new Hand();
-        //chips = new ChipPlayerCollection();
+        chips = new ChipCollection();
+
 
         //Hej Johan
 
