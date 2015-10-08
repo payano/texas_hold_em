@@ -18,7 +18,6 @@ public class Card{
         if(rankTab.length >= rank && suitTab.length >= suit) {
             this.rank = rank;
             this.suit = suit;
-            System.out.println("Card added.");
         }
        else throw new java.lang.IllegalArgumentException( " Suit: " + suit + "Rank: " + rank);
     }
