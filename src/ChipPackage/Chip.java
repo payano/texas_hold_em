@@ -2,7 +2,7 @@ package ChipPackage;
 
 /**
  * Created by Arvid Bodin and Johan Svensson on 2015-09-15.
- *
+ * HEJ
  */
 public class Chip {
     private final ChipEnum chipValue;
