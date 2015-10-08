@@ -32,5 +32,14 @@ public class Player {
         return this.userName;
     }
 
+    public void addMoney(double amount){
+        money.addFunds(amount);
+    }
+
+    public void convertMoneyToChips(double amount){
+
+    }
+
+
 
 }
