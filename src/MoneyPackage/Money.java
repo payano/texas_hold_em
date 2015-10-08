@@ -12,8 +12,10 @@ public class Money {
     }
     public double getMoney(){return this.moneyValue;}
     public void addFunds (double money){
-        if(money <= 0){
-            throw new NonPositiveFundException("Could not add the amount: " + money + " to wallet.");
+        if(money == 0){
+            throw new AddZeroFundException("Could not add the amount: " + money + " to wallet.");
+        }else if(money < 0){
+            throw new NegativeFundException("Could not add negative amount: " + money + " to wallet.");
         }
         moneyValue += money;
     }
