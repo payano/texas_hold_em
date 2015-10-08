@@ -26,9 +26,7 @@ abstract class Player {
         this.userName = userName;
         playerHand = new Hand();
         chips = new ChipCollection();
-
-
-
+        money = new Money();
     }
     public String getName(){return this.userName;}
 }
