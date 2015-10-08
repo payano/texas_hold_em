@@ -26,7 +26,7 @@ abstract class Player {
         //chips = new ChipPlayerCollection();
 
         //Hej Johan
-        
+
 
     }
 }
