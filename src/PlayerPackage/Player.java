@@ -1,6 +1,8 @@
 package PlayerPackage;
 
+import CardPackage.Deck;
 import CardPackage.Hand;
+import CardPackage.Card;
 import ChipPackage.ChipCollection;
 //package CardPackage.;
 
@@ -32,6 +34,10 @@ public class Player {
         return this.userName;
     }
 
+    public void addCard(Card card){
+        playerHand.addCard(card);
+    }
+
     public void addMoney(double amount){
         money.addFunds(amount);
     }
@@ -40,6 +46,17 @@ public class Player {
 
     }
 
+    public double getMoney(){
+        return money.getMoney();
+    }
 
+    public double getChips(){
+        return chips.getChipsValue();
+    }
+
+
+    public String toString(){
+        return "Player " + userName + " has " +money.getMoney() + " amount of money." + "\n Has the cards: " + playerHand.toString();
+    }
 
 }
