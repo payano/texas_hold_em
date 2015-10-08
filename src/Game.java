@@ -1,6 +1,7 @@
 import CardPackage.Deck;
 import CardPackage.Hand;
 import CardPackage.NoSuchCardException;
+import PlayerPackage.*;
 
 import java.util.Scanner;
 
@@ -13,6 +14,8 @@ public class Game {
     private Hand playerOne, playerComputer;
     private Scanner scan = new Scanner(System.in);
     private String playing;
+    //skapa spelare
+    HumanPlayer humanus = new HumanPlayer("Nahoj");
 
     //Skapar kortleken samt två händer.
     public Game(){
@@ -20,11 +23,14 @@ public class Game {
         playerOne = new Hand("playerOne", true);
         playerComputer = new Hand("playerComputer", false);
         playing = "y";
+
+
     }
 
     //Spelet.
     public void playGame(){
-
+        //JOHAN IS TEH KING!
+        humanus.getName();
         //HAHA JOHAN
     }
 
