@@ -23,7 +23,10 @@ abstract class Player {
     public Player(String userName){
         this.userName = userName;
         playerHand = new Hand();
-        chips = new ChipPlayerCollection();
+        //chips = new ChipPlayerCollection();
+
+        //Hej Johan
+        
 
     }
 }
