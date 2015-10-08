@@ -21,9 +21,17 @@ public class Game {
         theDeck.shuffleCards();
         //add players temporary:
         players.add(new TablePlayer("Table00"));
+        players.get(0).addMoney(999999);
+        players.get(0).addCard(theDeck.dealCard());
         players.add(new HumanPlayer("Johan"));
+        players.get(1).addMoney(1000);
+        players.get(1).addCard(theDeck.dealCard());
         players.add(new HumanPlayer("Arvid"));
+        players.get(2).addMoney(10000);
+        players.get(2).addCard(theDeck.dealCard());
         players.add(new ComputerPlayer("SuperAI"));
+        players.get(3).addMoney(100);
+        players.get(3).addCard(theDeck.dealCard());
 
     }
     public void start(){
