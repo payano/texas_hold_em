@@ -30,7 +30,7 @@ public class Game {
         players.get(3).addMoney(1000);
 
     }
-    private void betCheckFold(){
+    private void betRound(){
         for(Player onePlayer : players){
             //skip TablePlayer betting
             if(onePlayer instanceof TablePlayer){continue;}
@@ -38,32 +38,37 @@ public class Game {
             if(onePlayer instanceof HumanPlayer){
                 System.out.println("What do you want to do " + onePlayer.getName() + " : 0:check, 1:bet, 2:all-in, 3:fold");
                 System.out.println("Money left: " + onePlayer.getMoney());
-                switch (scan.nextInt()){
-                    case 0:
-                        break;
-                    case 1:
-                        System.out.println("how much? minimum is: " + stake);
-                        //check if is less than 50....
-                        for(Player t : players){
-                            //find the table...
-                            findTable().addMoney(onePlayer.withdrawMoney(scan.nextInt()));
-                        }
-                        break;
-                    case 2:
-                        System.out.println("All in choosen. Betting: " + onePlayer.getMoney());
-                        for(Player t : players){
-                            //find the table...
-                            findTable().addMoney(onePlayer.withdrawMoney(onePlayer.getMoney()));
-                            onePlayer.setStillInGame(true);
-                        }
-                        break;
-                    case 3:
-                        System.out.println("folded...");
-                        onePlayer.setStillInGame(false);
-                }
+                betCheckFold(onePlayer);
             }
         }
     }
+
+    public void betCheckFold(Player onePlayer){
+        switch (scan.nextInt()){
+            case 0:
+                break;
+            case 1:
+                System.out.println("how much? minimum is: " + stake);
+                //check if is less than 50....
+                for(Player t : players){
+                    //find the table...
+                    findTable().addMoney(onePlayer.withdrawMoney(scan.nextInt()));
+                }
+                break;
+            case 2:
+                System.out.println("All in choosen. Betting: " + onePlayer.getMoney());
+                for(Player t : players){
+                    //find the table...
+                    findTable().addMoney(onePlayer.withdrawMoney(onePlayer.getMoney()));
+                    onePlayer.setStillInGame(true);
+                }
+                break;
+            case 3:
+                System.out.println("folded...");
+                onePlayer.setStillInGame(false);
+        }
+    }
+
     public Player findTable(){
         for(Player t : players) {
             //find the table...
@@ -97,25 +102,27 @@ public class Game {
 
         Start of betting round = betCheckFold();
 
-        Den som är först i våran arraylista av spelare har "knappen".
+        Den som är SIST!!!! i våran arraylista av spelare har "knappen".
         När varje runda är slut så roterar man listan en gång
         Man borde inte rotera på tableplayer?
         eller så får man rotera två gånger, tableplayer och en computer/human player.
          */
         //NON WORKIN:
-        boolean firstPlayer = true;
         boolean smallBlindPlayer = true;
+        boolean bigBlindPlayer = true;
         for(Player onePlayer : players) {
             //skip TablePlayer betting
             if (onePlayer instanceof TablePlayer) {continue;}
-            if (firstPlayer){firstPlayer = false;}
             if(onePlayer.getMoney() >= stake/2 && smallBlindPlayer){
                 //find table
                 findTable().addMoney(onePlayer.withdrawMoney(stake/2));
                 smallBlindPlayer = false;
-            }else {
-                break;
+            }else if(bigBlindPlayer){
+                findTable().addMoney(onePlayer.withdrawMoney(stake));
+                bigBlindPlayer = false;
             }
+            //here is betCheckFold.. and continuing on the next player...
+
         }
 
 
