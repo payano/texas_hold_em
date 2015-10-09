@@ -31,18 +31,6 @@ public class Game {
 
     }
 
-    private boolean processBet(Player player){
-        boolean okToCheck = true;
-
-        for (Player oneplayer : players){
-            if(player.getRoundBet() < oneplayer.getRoundBet()){
-                okToCheck = false;
-            }
-        }
-
-        return okToCheck;
-    }
-
 
     private void betRound(){
         boolean allPlayersChecked = false;
