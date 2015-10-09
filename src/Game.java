@@ -64,12 +64,15 @@ public class Game {
             }else if(onePlayer.getMoney() >= stake/2 && smallBlindPlayer){
                 //player has taken small blind and is still in game.
                 //this player must also call the stake or the bet.
-                findTable().addMoney(onePlayer.withdrawMoney(stake/2));
+                findTable().addMoney(onePlayer.withdrawMoney(stake / 2));
                 onePlayer.setStillInGame(true);
                 smallBlindPlayer = false;
                 //add the amount to roundBet.
                 onePlayer.addRoundBet(stake/2);
-                findTable().addRoundBet(stake/2);
+                findTable().addRoundBet(stake / 2);
+
+                System.out.println("Player: " + onePlayer.getName() + " got small blind, stake: " + stake / 2);
+                System.out.println("Table has: " + findTable().getMoney() + " money and getRoundBet: " + findTable().getRoundBet());
 
             }else if(onePlayer.getMoney() < stake && bigBlindPlayer){
                 //the player is broke, next person must take the big-blind.
@@ -82,8 +85,15 @@ public class Game {
                 //add the amount to roundbet.
                 onePlayer.addRoundBet(stake);
                 findTable().addRoundBet(stake);
+                System.out.println("Player: " + onePlayer.getName() + " got big blind, stake: " + stake);
+                System.out.println("Table has: " + findTable().getMoney() + " money and getRoundBet: " + findTable().getRoundBet());
+                break;
+            }else {
+                //ghetto solution
+                throw new SmallAndBigBlindException("Small and big blind could not be taken from players on the table.");
             }
         }
+
     }
 
     public void betCheckFold(Player onePlayer){
@@ -122,11 +132,14 @@ public class Game {
         System.out.println("SHUFFLING CARDS...");
         theDeck.shuffleCards();
 
-        //make no player still in game
+        //make all players still in game
         for(Player onePlayer : players){
             onePlayer.setStillInGame(true);
         }
 
+
+
+        smallAndBigBlind();
         //first step, check who is interested.
         //first player in arraylist must pay smallblind: 25, the rest must pay bigblind, raise or fold.
         //the first player must also make a choice, fold, call or raise.
