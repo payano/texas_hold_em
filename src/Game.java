@@ -83,6 +83,11 @@ public class Game {
         System.out.println("SHUFFLING CARDS...");
         theDeck.shuffleCards();
 
+        //make no player still in game
+        for(Player onePlayer : players){
+            onePlayer.setStillInGame(false);
+        }
+
         //first step, check who is interested.
         //first player in arraylist must pay smallblind: 25, the rest must pay bigblind, raise or fold.
         //the first player must also make a choice, fold, call or raise.
@@ -117,9 +122,10 @@ public class Game {
                 //find table
                 findTable().addMoney(onePlayer.withdrawMoney(stake/2));
                 smallBlindPlayer = false;
-            }else if(bigBlindPlayer){
+            }else if(onePlayer.getMoney() >= stake && bigBlindPlayer){
                 findTable().addMoney(onePlayer.withdrawMoney(stake));
                 bigBlindPlayer = false;
+                onePlayer.setStillInGame(true);
             }
             //here is betCheckFold.. and continuing on the next player...
 
