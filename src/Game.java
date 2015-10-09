@@ -46,20 +46,15 @@ public class Game {
                         //check if is less than 50....
                         for(Player t : players){
                             //find the table...
-                            if(t instanceof TablePlayer){
-                                t.addMoney(onePlayer.withdrawMoney(scan.nextInt()));
-                                onePlayer.setStillInGame(true);
-                            }
+                            findTable().addMoney(onePlayer.withdrawMoney(scan.nextInt()));
                         }
                         break;
                     case 2:
                         System.out.println("All in choosen. Betting: " + onePlayer.getMoney());
                         for(Player t : players){
                             //find the table...
-                            if(t instanceof TablePlayer){
-                                t.addMoney(onePlayer.withdrawMoney(onePlayer.getMoney()));
-                                onePlayer.setStillInGame(true);
-                            }
+                            findTable().addMoney(onePlayer.withdrawMoney(onePlayer.getMoney()));
+                            onePlayer.setStillInGame(true);
                         }
                         break;
                     case 3:
@@ -69,61 +64,76 @@ public class Game {
             }
         }
     }
+    public Player findTable(){
+        for(Player t : players) {
+            //find the table...
+            if (t instanceof TablePlayer) {
+                return t;
+            }
+        }
+        return null;
+    }
     public void start(){
 
         System.out.println("SHUFFLING CARDS...");
         theDeck.shuffleCards();
 
         //first step, check who is interested.
-        System.out.println("Place your bets: it costs 50.");
-        //ERROR!!! 50 DOES NOT WITHDRAW SOMEHOW!!!!!
-        //CHECK IT UP!!!!!
-        for(Player onePlayer : players){
+        //first player in arraylist must pay smallblind: 25, the rest must pay bigblind, raise or fold.
+        //the first player must also make a choice, fold, call or raise.
+
+        //first time is special:
+        /*
+
+        Example Betting Round 1
+
+        There are five players at the table:
+
+        Player 1 - Button
+
+        Player 2 - Small blind (10¢)
+
+        Player 3 - Big blind (25¢)
+
+        Start of betting round = betCheckFold();
+
+        Den som är först i våran arraylista av spelare har "knappen".
+        När varje runda är slut så roterar man listan en gång
+        Man borde inte rotera på tableplayer?
+        eller så får man rotera två gånger, tableplayer och en computer/human player.
+         */
+        //NON WORKIN:
+        boolean firstPlayer = true;
+        boolean smallBlindPlayer = true;
+        for(Player onePlayer : players) {
             //skip TablePlayer betting
-            if(onePlayer instanceof TablePlayer){continue;}
-            if(onePlayer.getMoney() >= stake) {
-                if (onePlayer instanceof HumanPlayer) {
-                    System.out.println(onePlayer.getName() + " are you in? 1=yes, 0=no");
-                    if (scan.nextInt() == 1) {
-                        for (Player t : players) {
-                            //find the table, it can rotate between positions..
-                            if (t instanceof TablePlayer) {
-                                //Humanplayer gives money to the table
-                                System.out.println("im here");
-                                t.addMoney(onePlayer.withdrawMoney(stake));
-                                System.out.println("pla: " + onePlayer.getMoney());
-                                onePlayer.setStillInGame(true);
-                            }
-                        }
-                    }else{onePlayer.setStillInGame(false);}
-                } else if (onePlayer instanceof ComputerPlayer) {
-                    System.out.println("computer wants to play..");
-                    for (Player t : players) {
-                        t.addMoney(onePlayer.withdrawMoney(stake));
-                        onePlayer.setStillInGame(true);
-                    }
-                }
-            }else{
-                System.out.println("you are broke "+ onePlayer.getName() + ", money left: " + onePlayer.getMoney());
+            if (onePlayer instanceof TablePlayer) {continue;}
+            if (firstPlayer){firstPlayer = false;}
+            if(onePlayer.getMoney() >= stake/2 && smallBlindPlayer){
+                //find table
+                findTable().addMoney(onePlayer.withdrawMoney(stake/2));
+                smallBlindPlayer = false;
+            }else {
+                break;
             }
-            //System.out.println(onePlayer.toString());
         }
-        System.out.println("player: " + players.get(1).getName() + " money: " + players.get(1).getMoney());
+
+
         //lets check,raise or fold:
-        betCheckFold();
-        betCheckFold();
+        //betCheckFold();
+
         //lets deal the flop.
 
         //lets check,raise or fold:
-
+        //betCheckFold();
         //lets deal the fourth card.
 
         //lets check,raise or fold:
-
+        //betCheckFold();
         //lets deal the fourth card.
 
         //lets check,raise or fold:
-
+        //betCheckFold();
         //round over!
 
 /*        p1.addMoney(200);
