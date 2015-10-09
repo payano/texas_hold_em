@@ -30,6 +30,20 @@ public class Game {
 //        players.get(3).addMoney(100);
 
     }
+
+    private boolean processBet(Player player){
+        boolean okToCheck = true;
+
+        for (Player oneplayer : players){
+            if(player.getRoundBet() < oneplayer.getRoundBet()){
+                okToCheck = false;
+            }
+        }
+
+        return okToCheck;
+    }
+
+
     private void betRound(){
         boolean allPlayersChecked = false;
         while(!allPlayersChecked){
@@ -66,8 +80,8 @@ public class Game {
         Example Betting Round 1
         There are five players at the table:
         Player 1 - Button <= Last player
-        Player 2 - Small blind (10¢) <= first player in arraylist
-        Player 3 - Big blind (25¢) <= second player in arraylist
+        Player 2 - Small blind (10ï¿½) <= first player in arraylist
+        Player 3 - Big blind (25ï¿½) <= second player in arraylist
         */
         boolean smallBlindPlayer = true;
         boolean bigBlindPlayer = true;
@@ -196,10 +210,10 @@ public class Game {
 
         Start of betting round = betCheckFold();
 
-        Den som är SIST!!!! i våran arraylista av spelare har "knappen".
-        När varje runda är slut så roterar man listan en gång
-        Man borde inte rotera på tableplayer?
-        eller så får man rotera två gånger, tableplayer och en computer/human player.
+        Den som ï¿½r SIST!!!! i vï¿½ran arraylista av spelare har "knappen".
+        Nï¿½r varje runda ï¿½r slut sï¿½ roterar man listan en gï¿½ng
+        Man borde inte rotera pï¿½ tableplayer?
+        eller sï¿½ fï¿½r man rotera tvï¿½ gï¿½nger, tableplayer och en computer/human player.
          */
         //NON WORKIN:
 

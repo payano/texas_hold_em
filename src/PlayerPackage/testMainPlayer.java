@@ -24,6 +24,9 @@ public class testMainPlayer {
 
         p1.addMoney(200);
         p1.addCard(theDeck.dealCard());
+        p1.addCard(theDeck.dealCard());
+        p1.addCard(theDeck.dealCard());
+        p1.addCard(theDeck.dealCard());
         System.out.println(p1.toString());
 */
     }
