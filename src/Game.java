@@ -118,15 +118,31 @@ public class Game {
         for(Player onePlayer : players) {
             //skip TablePlayer betting
             if (onePlayer instanceof TablePlayer) {continue;}
+            //kommmer detta fungera?
+            if(onePlayer.getMoney() < stake/2 && smallBlindPlayer){
+                //the player is broke, next person must take the smallblind.
+                onePlayer.setStillInGame(false);
+            }
             if(onePlayer.getMoney() >= stake/2 && smallBlindPlayer){
-                //find table
+                //player has taken small blind and is still in game.
+                //this player must also call the stake or the bet.
                 findTable().addMoney(onePlayer.withdrawMoney(stake/2));
+                onePlayer.setStillInGame(true);
                 smallBlindPlayer = false;
+            }else if(onePlayer.getMoney() < stake && bigBlindPlayer){
+                //the player is broke, next person must take the big-blind.
+                onePlayer.setStillInGame(false);
             }else if(onePlayer.getMoney() >= stake && bigBlindPlayer){
+                //player has taken the big blind and is still in game.
                 findTable().addMoney(onePlayer.withdrawMoney(stake));
                 bigBlindPlayer = false;
                 onePlayer.setStillInGame(true);
+            }else{
+                //everything has gone right... small and big blind has been taken
+                //Betting round with start position from "oneplayer" is now taken place.
+
             }
+
             //here is betCheckFold.. and continuing on the next player...
 
         }
