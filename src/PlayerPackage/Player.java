@@ -20,9 +20,10 @@ abstract public class Player {
 
     public Player(String userName){
         this.userName = userName;
-        playerHand = new Hand();
-        chips = new ChipCollection();
-        money = new Money();
+        this.playerHand = new Hand();
+        this.chips = new ChipCollection();
+        this.money = new Money();
+        this.roundBet = 0;
     }
     public String getName(){
         return this.userName;
@@ -33,7 +34,8 @@ abstract public class Player {
         playerHand.addCard(card);
     }
     public double getRoundBet(){return roundBet;}
-    public void setRoundBet(double roundBet){this.roundBet = roundBet;}
+    public void addRoundBet(double roundBet){this.roundBet += roundBet;}
+    public void resetRoundBet(){this.roundBet = 0;}
     public void addMoney(double amount){
         money.addFunds(amount);
     }
@@ -44,6 +46,8 @@ abstract public class Player {
     public void convertMoneyToChips(double amount){
 
     }
+
+    abstract void playHand();
 
     public double getMoney(){
         return money.getMoney();
