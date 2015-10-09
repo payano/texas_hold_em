@@ -15,7 +15,7 @@ abstract public class Player {
     private Hand playerHand;
     private ChipCollection chips;
     private Money money;
-    private boolean stillInGame;
+    private boolean stillInGame, allowedToCheck;
     private double roundBet;
 
     public Player(String userName){
@@ -30,6 +30,8 @@ abstract public class Player {
     }
     public void setStillInGame(boolean stillInGame){this.stillInGame = stillInGame;}
     public boolean getStillInGame(){return this.stillInGame;}
+    public void setAllowedToCheck(boolean allowCheck){allowedToCheck = allowCheck;}
+    public boolean getAllowedToCheck(){return allowedToCheck;}
     public void addCard(Card card){
         playerHand.addCard(card);
     }

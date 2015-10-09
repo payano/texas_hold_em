@@ -40,9 +40,13 @@ public class Game {
                 if(onePlayer instanceof TablePlayer){continue;}
                 if(!onePlayer.getStillInGame()){continue;}
                 if(onePlayer instanceof HumanPlayer){
+
                     betCheckFold(onePlayer);
+
                 }
             }
+
+            /*
             for(Player onePlayer : players){
                 if(onePlayer instanceof TablePlayer){continue;}
                 if(!onePlayer.getStillInGame()){continue;}
@@ -56,7 +60,7 @@ public class Game {
                     allPlayersChecked = false;
                     break;
                 }
-            }
+            }*/
         }
     }
     public void smallAndBigBlind(){
@@ -175,9 +179,10 @@ public class Game {
         System.out.println("SHUFFLING CARDS...");
         theDeck.shuffleCards();
 
-        //make all players still in game
+        //make all players still in game and enabled to check
         for(Player onePlayer : players){
             onePlayer.setStillInGame(true);
+            onePlayer.setAllowedToCheck(true);
         }
 
 
