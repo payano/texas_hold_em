@@ -16,6 +16,7 @@ abstract public class Player {
     private ChipCollection chips;
     private Money money;
     private boolean stillInGame;
+    private double roundBet;
 
     public Player(String userName){
         this.userName = userName;
@@ -27,11 +28,12 @@ abstract public class Player {
         return this.userName;
     }
     public void setStillInGame(boolean stillInGame){this.stillInGame = stillInGame;}
-    public boolean getStillInGame(){return this.stillInGame;};
+    public boolean getStillInGame(){return this.stillInGame;}
     public void addCard(Card card){
         playerHand.addCard(card);
     }
-
+    public double getRoundBet(){return roundBet;}
+    public void setRoundBet(double roundBet){this.roundBet = roundBet;}
     public void addMoney(double amount){
         money.addFunds(amount);
     }

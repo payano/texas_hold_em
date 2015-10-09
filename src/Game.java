@@ -85,7 +85,7 @@ public class Game {
 
         //make no player still in game
         for(Player onePlayer : players){
-            onePlayer.setStillInGame(false);
+            onePlayer.setStillInGame(true);
         }
 
         //first step, check who is interested.
