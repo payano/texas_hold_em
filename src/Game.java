@@ -84,7 +84,16 @@ public class Game {
             //ROUND x is done and done!
             //setup some things for the next round
             //make table the highest bidder
+
+            //Have to chen if there is a winner here if the last player of that
+            //"lap" folded.
+            if (winner(players.get(i))){
+                System.out.printf(players.get(i).getName() + " wins!!");
+                //Take the money from the table and give it to the winner.
+                players.get(i).addMoney(findTable().withdrawMoney(findTable().getMoney()));
+            }
         }
+
         System.out.println("ROUND OVER!");
         setHighestBidder(findTable());
 
