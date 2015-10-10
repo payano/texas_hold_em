@@ -15,7 +15,8 @@ abstract public class Player {
     private Hand playerHand;
     private ChipCollection chips;
     private Money money;
-    private boolean stillInGame, isBigBlind, isSmallBlind;
+    //use highestBidder instead of isBigBlind and isSmallBlind.
+    private boolean stillInGame, highestBidder, isBigBlind, isSmallBlind;
     private double roundBet;
 
     public Player(String userName){
@@ -32,10 +33,30 @@ abstract public class Player {
         this.money = new Money(money);
         this.roundBet = 0;
     }
-    public void setBigBlind(boolean bigBlind){this.isBigBlind = bigBlind;}
-    public boolean getBigBlind(){return isBigBlind;}
-    public void setSmallBlind(boolean smallBlind){this.isSmallBlind = smallBlind;}
-    public boolean getSmallBlind(){return isSmallBlind;}
+
+    //these are trattiga aswell..!!
+    public void setHighestBidder(boolean highestBidder){this.highestBidder = highestBidder;}
+    public boolean getHighestBidder(){return highestBidder;}
+
+    //THESE IS ABOUT TO BE REPLACED WITH THE TWO FUNCTIONS ABOVE!
+    public void setBigBlind(boolean bigBlind){
+        System.out.println("setBigBlind will be obsolete, use setHighestBidder instead...");
+        this.isBigBlind = bigBlind;
+    }
+    public boolean getBigBlind(){
+        System.out.println("getBigBlind will be obsolete, use getHighestBidder instead...");
+        return isBigBlind;
+    }
+    public void setSmallBlind(boolean smallBlind){
+        System.out.println("setSmallBlind will be obsolete, use setHighestBidder instead...");
+        this.isSmallBlind = smallBlind;
+    }
+    public boolean getSmallBlind(){
+        System.out.println("getSmallBlind will be obsolete, use getHighestBidder instead...");
+        return isSmallBlind;
+    }
+    //END //
+
     public String getName(){
         return this.userName;
     }
