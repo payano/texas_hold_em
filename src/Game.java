@@ -34,6 +34,18 @@ public class Game {
     }
 
 
+    private void calculateBestHand(){
+        for(Player onePlayer : players){
+            if(onePlayer instanceof TablePlayer){continue;}
+            //add the Table hand to the player hands.
+            onePlayer.addCard(findTable().getCards());
+            //sort them
+            onePlayer.sortCardsByRank();
+            onePlayer.setHandValue();
+
+            //System.out.println(onePlayer.toString());
+        }
+    }
     //new version.
     private void betRound(){
         //go to the person to the left of the highest bidder.
@@ -81,10 +93,6 @@ public class Game {
                     players.get(i).addMoney(findTable().withdrawMoney(findTable().getMoney()));
                 }
             }
-            //ROUND x is done and done!
-            //setup some things for the next round
-            //make table the highest bidder
-
             //Have to chen if there is a winner here if the last player of that
             //"lap" folded.
             if (winner(players.get(i))){
@@ -93,7 +101,13 @@ public class Game {
                 players.get(i).addMoney(findTable().withdrawMoney(findTable().getMoney()));
             }
         }
-
+        //ROUND x is done and done!
+        //setup some things for the next round
+        //make table the highest bidder
+        //reset the bets:
+        for(Player onePlayer : players){
+            onePlayer.resetRoundBet();
+        }
         System.out.println("ROUND OVER!");
         setHighestBidder(findTable());
 
@@ -280,7 +294,8 @@ public class Game {
     }
 
     public void dealRiver() {
-        for (int i = 0; i < 3; i++) {
+        //johan har meckat här, fungerar ej.
+        for (int i = 0; i < 5; i++) {
             for (Player onePlayer : players) {
                 if (onePlayer instanceof HumanPlayer) {
                     continue;
@@ -331,7 +346,7 @@ public class Game {
         //rotate players will be used for making the bets go around all players.
         System.out.println("\nBEFORE ROTATE");
 
-        for(Player onePlayer: players){
+        for (Player onePlayer: players){
             System.out.println(onePlayer.toString());
         }
 
@@ -368,7 +383,10 @@ public class Game {
         //Move players(blinds) so tha the blinds are last.
         //playerBettingOrder = rotatePlayers(players);
         //lets bet!
-        betRound();
+        //betRound();
+        dealRiver();
+        System.out.println("\n\n\n\n");
+        calculateBestHand();
 
         //rotatePlayers();
 

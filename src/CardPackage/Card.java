@@ -1,7 +1,5 @@
 package CardPackage;
 
-import java.util.Comparator;
-
 /**
  * Created by arvidbodin on 14/09/15.
  *
