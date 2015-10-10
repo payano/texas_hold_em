@@ -33,38 +33,9 @@ public class Game {
 
     }
 
-    //NOT USED!!! is betROUND 2 instead!!!
-    private void betRound(){
-        boolean allPlayersChecked = false;
-        while(!allPlayersChecked){
-            for(Player onePlayer : players){
-                //skip TablePlayer betting
-                if(onePlayer instanceof TablePlayer){continue;}
-                if(!onePlayer.getStillInGame()){continue;}
-                if(onePlayer instanceof HumanPlayer){
-                    betCheckFold(onePlayer);
-                }
-            }
 
-            for(Player onePlayer : players){
-                if(onePlayer instanceof TablePlayer){continue;}
-                if(!onePlayer.getStillInGame()){continue;}
-                if(onePlayer.getRoundBet() == findTable().getRoundBet()){
-                    //the player has put in the right amount of money.
-                    System.out.println("All players that are in have bet the same. Lets deal!");
-                    allPlayersChecked = true;
-
-                }else{
-                    //the player has not checked, the round is not over yet.
-                    System.out.println("there?");
-                    allPlayersChecked = false;
-                    break;
-                }
-            }
-        }
-    }
     //new version.
-    private void betRound2(){
+    private void betRound(){
         //go to the person to the left of the highest bidder.
         //getHighestBidder is the current bidder.
         for(int i = getHighestBidder()+1; ;i++){
@@ -348,8 +319,8 @@ public class Game {
         //Move players(blinds) so tha the blinds are last.
         //playerBettingOrder = rotatePlayers(players);
         //lets bet!
-        //betRound2();
-        //betRound2();
+        betRound();
+
         rotatePlayers();
 
         //Deal the river
