@@ -171,8 +171,20 @@ public class Game {
                 //You cant check if someone has bet more than you have put in.
                 if(onePlayer.getRoundBet() < findTable().getRoundBet()){
                     System.out.println("You can't call, someone has placed a bet this round. You need to bet: " + (findTable().getRoundBet()-onePlayer.getRoundBet()));
-                    System.out.println("Do you want to bet or fold? : 2:bet, 4:fold");
+                    System.out.println("Do you want to bet or fold? : 1:call 2:bet, 4:fold");
                     switch (scan.nextInt()){
+                        case 1:
+                            //call
+                            //Table getRoundBet is current amount you have to call.
+                            //player getRoundBet is how much you already betted.
+                            //table.getRoundBet - player.getRoundBet gives the difference you have to call.
+                            double difference = findTable().getRoundBet() - onePlayer.getRoundBet();
+                            //System.out.println("the difference is: " + difference);
+                            //withdraw the amount and give it to the table
+                            findTable().addMoney(onePlayer.withdrawMoney(difference));
+                            //update your getRoundBet
+                            onePlayer.addRoundBet(difference);
+                            break;
                         case 2:
                             //bet
                             bet(onePlayer);
