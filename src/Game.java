@@ -317,7 +317,12 @@ public class Game {
 
         System.out.println("\nROTATING BEEP BOOP");
 
-        Collections.rotate(players, -1);
+        for(int i = 0 ; i < players.size(); i++){
+            if(players.get(i) instanceof TablePlayer){continue;}
+            players.add(players.remove(i));
+            break;
+
+        }
 
         for(Player onePlayer: players){
             System.out.println(onePlayer.toString());
@@ -343,8 +348,8 @@ public class Game {
         //Move players(blinds) so tha the blinds are last.
         //playerBettingOrder = rotatePlayers(players);
         //lets bet!
-        betRound2();
-        betRound2();
+        //betRound2();
+        //betRound2();
         rotatePlayers();
 
         //Deal the river
