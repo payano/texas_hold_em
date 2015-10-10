@@ -306,9 +306,7 @@ public class Game {
         return null;
     }
 
-    public ArrayList<Player> rotatePlayers(ArrayList<Player> players){
-        ArrayList<Player> result = new ArrayList<Player>();
-        result.addAll(players);
+    public void rotatePlayers(){
         //we need one list for the bets and one list for the table seating.
         //rotate players will be used for making the bets go around all players.
         System.out.println("\nBEFORE ROTATE");
@@ -335,7 +333,6 @@ public class Game {
         for(Player onePlayer: result){
             System.out.println(onePlayer.toString());
         }
-        return result;
     }
 
     public void start(){
