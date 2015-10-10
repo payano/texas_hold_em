@@ -241,23 +241,31 @@ public class Game {
     }
 
     public void rotatePlayers(){
+
+
         System.out.println("\nBEFORE ROTATE");
+
         for(Player onePlayer: players){
             System.out.println(onePlayer.toString());
         }
 
         System.out.println("\nROTATING BEEP BOOP");
 
+        ///add the last person in the array to the first position in the array.
+        players.add(0,players.remove(players.size()-1));
+
         //Rotate until the bigblind is last.
-        while (!players.get(players.size()-1).getBigBlind()) {
+        /*while (!players.get(players.size()-1).getBigBlind()) {
             System.out.println("durr");
             Collections.rotate(players, -1);
         }
+        */
 
         System.out.println("\n AFTER TOTATE");
         for(Player onePlayer: players){
             System.out.println(onePlayer.toString());
         }
+
     }
 
     public void start(){
