@@ -12,6 +12,7 @@ import MoneyPackage.Money;
 abstract public class Player {
 
     private String userName;
+    //test
     private Hand playerHand;
     private ChipCollection chips;
     private Money money;
