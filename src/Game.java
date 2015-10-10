@@ -285,9 +285,9 @@ public class Game {
         dealRiver();
 
         //Lets bet again!
-        dealCards(1);
+        betRound();
 
-        System.out.printf("SÖAKGNAFKGNDAFGÖKN");
+        System.out.printf("SLUT");
 
 
         //first step, check who is interested.
