@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class Game {
 
-    private ArrayList<Player> players,playerBettingOrder;
+    private ArrayList<Player> players;
     private final int stake = 50; //this is the minimum bet for all rounds in the game.
     //computer;
     Deck theDeck;

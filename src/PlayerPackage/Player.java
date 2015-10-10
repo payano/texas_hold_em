@@ -60,7 +60,7 @@ abstract public class Player {
             //then we know how many pairs, three of a kind, four of a kind
             //full house we have.
             if(playerHand.getCard(i).getRank() == 14){
-                handArray[1]++; //ACE is both 13 and 0
+                handArray[1]++; //ACE is both 13 and 1
             }
             handArray[playerHand.getCard(i).getRank()]++;
         }
