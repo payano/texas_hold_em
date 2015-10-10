@@ -230,7 +230,7 @@ public class Game {
         }
     }
 
-    public void dealRiver(ArrayList<Player> players) {
+    public void dealRiver() {
         for (int i = 0; i < 3; i++) {
             for (Player onePlayer : players) {
                 if (onePlayer instanceof HumanPlayer) {
@@ -319,12 +319,12 @@ public class Game {
         //Move players(blinds) so tha the blinds are last.
         //playerBettingOrder = rotatePlayers(players);
         //lets bet!
-        betRound();
+        //betRound();
 
-        rotatePlayers();
+        //rotatePlayers();
 
         //Deal the river
-        //dealRiver();
+        dealRiver();
 
         //Lets bet again!
         //betRound();
