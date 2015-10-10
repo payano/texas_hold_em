@@ -1,6 +1,7 @@
 import CardPackage.Deck;
 import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
+import com.sun.org.apache.xpath.internal.SourceTree;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,8 +33,8 @@ public class Game {
 
     }
 
-
-    private void betRound(ArrayList<Player> players){
+    //NOT USED!!! is betROUND 2 instead!!!
+    private void betRound(){
         boolean allPlayersChecked = false;
         while(!allPlayersChecked){
             for(Player onePlayer : players){
@@ -44,7 +45,6 @@ public class Game {
                     betCheckFold(onePlayer);
                 }
             }
-
 
             for(Player onePlayer : players){
                 if(onePlayer instanceof TablePlayer){continue;}
@@ -62,6 +62,50 @@ public class Game {
                 }
             }
         }
+    }
+    //new version.
+    private void betRound2(){
+        //go to the person to the left of the highest bidder.
+        //getHighestBidder is the current bidder.
+        for(int i = getHighestBidder()+1; ;i++){
+
+            //if the counter gets larger than size make it zero.
+            if(i >= players.size()){i = 0;}
+            if(players.get(i) instanceof TablePlayer){
+                if(players.get(i).getHighestBid()){
+                    //if every player checked.
+                    break;
+                }
+                continue;
+            }
+            if(!players.get(i).getStillInGame()){continue;}
+            if(players.get(i) instanceof HumanPlayer){
+                //magic happens here
+                System.out.println("HIHGEST BIDDER: " + getHighestBidder());
+                System.out.println("CURRENT ID: " + i);
+                System.out.println("BIG BLIND: " + players.get(i).getBigBlind());
+                if(players.get(i).getHighestBid() == true &&  players.get(i).getBigBlind()){
+                    //if the player is the current highest bidder and the player has the bigblind
+                    betCheckFold(players.get(i));
+                    players.get(i).setBigBlind(false);
+                    if(players.get(i).getRoundBet() > stake){
+                        //player placed a bet.
+                        continue;
+                    }
+                }
+                if(players.get(i).getHighestBid()){
+                    //if current player is the highest bidder
+                    break;
+                }
+                betCheckFold(players.get(i));
+            }
+            //ROUND x is done and done!
+            //setup some things for the next round
+            //make table the highest bidder
+        }
+        System.out.println("ROUND OVER!");
+        setHighestBidder(findTable());
+
     }
     public void smallAndBigBlind(ArrayList<Player> players){
         //there has to be a check somewhere that the minimum amount of players(computer + human) >= 2.
@@ -117,7 +161,7 @@ public class Game {
 
                 //same as above...
                 setHighestBidder(onePlayer);
-                //onePlayer.setBigBlind(true);
+                onePlayer.setBigBlind(true);
 
                 break;
             }else {
@@ -130,9 +174,17 @@ public class Game {
 
     public void setHighestBidder(Player highestPlayer){
         for(Player onePlayer : players){
-            onePlayer.setHighestBidder(false);
+            onePlayer.setHighestBid(false);
         }
-        highestPlayer.setHighestBidder(true);
+        highestPlayer.setHighestBid(true);
+    }
+    public int getHighestBidder(){
+        for(int i = 0; i < players.size()-1;i++){
+            if(players.get(i).getHighestBid()){
+                return i;
+            }
+        }
+        throw new HighestBidderNotFoundException("Strange, there is no highest bidder..");
     }
 
     public void betCheckFold(Player onePlayer){
@@ -190,7 +242,7 @@ public class Game {
         }
     }
 
-    public void dealCards(ArrayList<Player> players,int numberOfCards) {
+    public void dealCards(int numberOfCards) {
         for (int i = 0; i < numberOfCards; i++) {
             for (Player onePlayer : players) {
                 if (onePlayer instanceof TablePlayer) {
@@ -299,12 +351,13 @@ public class Game {
         //Give the blinds.
         smallAndBigBlind(players);
         //Deal the players 2 cards each. One at a time.
-        dealCards(players,2);
+        dealCards(2);
 
         //Move players(blinds) so tha the blinds are last.
-        playerBettingOrder = rotatePlayers(players);
+        //playerBettingOrder = rotatePlayers(players);
         //lets bet!
-        betRound(playerBettingOrder);
+        betRound2();
+        betRound2();
 
         //Deal the river
         //dealRiver();
