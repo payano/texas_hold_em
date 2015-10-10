@@ -34,6 +34,9 @@ public class Hand {
     public void sortCardsByRank(){
         Collections.sort(theHand, new SortCardsByRank());
     }
+    public void sortCardsBySuit(){
+        Collections.sort(theHand, new SortCardsBySuit());
+    }
     //Returnerar ett kort, om det inte finns något reurneras null.
     public Card getCard(int cardNr){
         if(cardNr >= theHand.size() || cardNr < 0){

@@ -16,8 +16,8 @@ public class SortCardsBySuit implements Comparator<Card> {
     @Override
     public int compare(Card a, Card b){
         //sort the list, the highest card gets listed first
-        if( ((Integer) a.getRank()).compareTo(b.getSuit()) == -1 ){return 1;}
-        else if( ((Integer) a.getRank()).compareTo(b.getSuit()) == 1 ){return -1;}
+        if( ((Integer) a.getSuit()).compareTo(b.getSuit()) == -1 ){return 1;}
+        else if( ((Integer) a.getSuit()).compareTo(b.getSuit()) == 1 ){return -1;}
         else {return 0;}
     }
 }
