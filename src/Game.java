@@ -59,7 +59,11 @@ public class Game {
                     //if the player is the current highest bidder and the player has the bigblind
                     //if there is only one player left. He is the winner.
                     if(!winner(players.get(i))) betCheckFold(players.get(i));
-                    else System.out.printf(players.get(i).getName() + " wins!!");
+                    else {
+                        System.out.printf(players.get(i).getName() + " wins!!");
+                        //Take the money from the table and give it to the winner.
+                        players.get(i).addMoney(findTable().withdrawMoney(findTable().getMoney()));
+                    }
                     players.get(i).setBigBlind(false);
                     if(players.get(i).getRoundBet() > stake){
                         //player placed a bet.
@@ -71,7 +75,11 @@ public class Game {
                     break;
                 }
                 if(!winner(players.get(i))) betCheckFold(players.get(i));
-                else System.out.printf(players.get(i).getName() + " wins!!");
+                else {
+                    System.out.printf(players.get(i).getName() + " wins!!");
+                    //Take the money from the table and give it to the winner.
+                    players.get(i).addMoney(findTable().withdrawMoney(findTable().getMoney()));
+                }
             }
             //ROUND x is done and done!
             //setup some things for the next round
@@ -84,16 +92,17 @@ public class Game {
 
     public boolean winner(Player mightBeWinner){
         int numberOfplayersLeft = 0;
+
+        //add all the players that are still in the game.
         for (Player onePLayer : players) {
             if (onePLayer.getStillInGame()) numberOfplayersLeft++;
         }
 
+        //if there is more than one player and the table left. No one has won yet.
         if (numberOfplayersLeft > 2){
             System.out.println(numberOfplayersLeft);
             return false;
         }
-        //Take the money from the table and give it to the winner.
-        mightBeWinner.addMoney(findTable().withdrawMoney(findTable().getMoney()));
         return true;
     }
 
