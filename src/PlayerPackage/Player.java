@@ -25,6 +25,13 @@ abstract public class Player {
         this.money = new Money();
         this.roundBet = 0;
     }
+    public Player(String userName,double money){
+        this.userName = userName;
+        this.playerHand = new Hand();
+        this.chips = new ChipCollection();
+        this.money = new Money(money);
+        this.roundBet = 0;
+    }
     public void setBigBlind(boolean bigBlind){this.isBigBlind = bigBlind;}
     public boolean getBigBlind(){return isBigBlind;}
     public void setSmallBlind(boolean smallBlind){this.isSmallBlind = smallBlind;}

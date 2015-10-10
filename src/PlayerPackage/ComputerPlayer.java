@@ -7,6 +7,9 @@ public class ComputerPlayer extends Player {
     public ComputerPlayer(String username){
         super(username);
     }
+    public ComputerPlayer(String username,double money){
+        super(username,money);
+    }
     public void playHand(){
         //logic for playing hands...
     }

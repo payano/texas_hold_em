@@ -12,7 +12,7 @@ import java.util.Scanner;
  */
 public class Game {
 
-    private ArrayList<Player> players;
+    private ArrayList<Player> players,playerBettingOrder;
     private final int stake = 50;
     //computer;
     Deck theDeck;
@@ -22,22 +22,18 @@ public class Game {
         players = new ArrayList<Player>();
         //add players temporary:
         players.add(new TablePlayer("TheTable"));
-        players.add(new HumanPlayer("Johan"));
-        players.get(1).addMoney(180);
-
-        players.add(new HumanPlayer("Arvid"));
-        players.get(2).addMoney(550);
-
+        players.add(new HumanPlayer("Arvid",180));
+        players.add(new HumanPlayer("Tratten", 550));
+        players.add(new HumanPlayer("TrattVald", 1337));
+        players.add(new HumanPlayer("Johan", 500));
         //One player that is not a blind holder.
-        players.add(new HumanPlayer("TrattVald"));
-        players.get(3).addMoney(1337);
 //        players.add(new ComputerPlayer("SuperAI"));
 //        players.get(3).addMoney(100);
 
     }
 
 
-    private void betRound(){
+    private void betRound(ArrayList<Player> players){
         boolean allPlayersChecked = false;
         while(!allPlayersChecked){
             for(Player onePlayer : players){
@@ -67,7 +63,7 @@ public class Game {
             }
         }
     }
-    public void smallAndBigBlind(){
+    public void smallAndBigBlind(ArrayList<Player> players){
         //there has to be a check somewhere that the minimum amount of players(computer + human) >= 2.
         //WARNING
         //Potential error: only two players but they dont have enough money to play.
@@ -139,7 +135,7 @@ public class Game {
                 //check
                 //You cant check if someone has bet more than you have put in.
                 if(onePlayer.getRoundBet() < findTable().getRoundBet()){
-                    System.out.println("You cant call, someone bet this round. You need to bet: " + (findTable().getRoundBet()-onePlayer.getRoundBet()));
+                    System.out.println("You can't call, someone has placed a bet this round. You need to bet: " + (findTable().getRoundBet()-onePlayer.getRoundBet()));
                     System.out.println("Do you want to bet or fold? : 2:bet, 4:fold");
                     switch (scan.nextInt()){
                         case 2:
@@ -183,7 +179,7 @@ public class Game {
         }
     }
 
-    public void dealCards(int numberOfCards) {
+    public void dealCards(ArrayList<Player> players,int numberOfCards) {
         for (int i = 0; i < numberOfCards; i++) {
             for (Player onePlayer : players) {
                 if (onePlayer instanceof TablePlayer) {
@@ -192,14 +188,14 @@ public class Game {
                 if (!onePlayer.getStillInGame()) {
                     continue;
                 }
-                //Give eac player one card at a time.
+                //Give each player one card at a time.
                 onePlayer.addCard(theDeck.dealCard());
                 System.out.println(onePlayer.toString());
             }
         }
     }
 
-    public void dealRiver() {
+    public void dealRiver(ArrayList<Player> players) {
         for (int i = 0; i < 3; i++) {
             for (Player onePlayer : players) {
                 if (onePlayer instanceof HumanPlayer) {
@@ -216,10 +212,10 @@ public class Game {
     }
 
     public void bet(Player onePlayer){
-        System.out.println("how much? minimum is: " + stake);
+        System.out.println("how much? minimum is: " + (stake - onePlayer.getRoundBet()));
         double bettedMoney = scan.nextInt();
         //Make sure the user bet at least the steaks.
-        while (bettedMoney < stake){
+        while (bettedMoney < (stake - onePlayer.getRoundBet()) ){
             System.out.println("You need to bet at least: " + stake + "\nTry again, bet: ");
             bettedMoney = scan.nextInt();
         }
@@ -242,10 +238,14 @@ public class Game {
         return null;
     }
 
-    public void rotatePlayers(){
+    public ArrayList<Player> rotatePlayers(ArrayList<Player> players){
+        ArrayList<Player> result = new ArrayList<Player>();
+        result.addAll(players);
+        //we need one list for the bets and one list for the table seating.
+        //rotate players will be used for making the bets go around all players.
         System.out.println("\nBEFORE ROTATE");
 
-        for(Player onePlayer: players){
+        for(Player onePlayer: result){
             System.out.println(onePlayer.toString());
         }
 
@@ -255,17 +255,17 @@ public class Game {
         //players.add(0, players.remove(players.size() - 1));
 
         //Rotate until the bigblind is last.
-        while (!players.get(players.size()-1).getBigBlind()) {
+        while (!result.get(players.size()-1).getBigBlind()) {
             System.out.println("durr");
-            Collections.rotate(players, -1);
+            Collections.rotate(result, -1);
         }
 
 
         System.out.println("\n AFTER TOTATE");
-        for(Player onePlayer: players){
+        for(Player onePlayer: result){
             System.out.println(onePlayer.toString());
         }
-
+        return result;
     }
 
     public void start(){
@@ -280,20 +280,20 @@ public class Game {
 
 
         //Give the blinds.
-        smallAndBigBlind();
+        smallAndBigBlind(players);
         //Deal the players 2 cards each. One at a time.
-        dealCards(2);
+        dealCards(players,2);
 
         //Move players(blinds) so tha the blinds are last.
-        rotatePlayers();
+        playerBettingOrder = rotatePlayers(players);
         //lets bet!
-        betRound();
+        betRound(playerBettingOrder);
 
         //Deal the river
-        dealRiver();
+        //dealRiver();
 
         //Lets bet again!
-        betRound();
+        //betRound();
 
         System.out.printf("SLUT");
 
