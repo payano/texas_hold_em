@@ -189,7 +189,8 @@ public class Game {
 
     public void betCheckFold(Player onePlayer){
         System.out.println("\nyour share in this bettingRound so far: " + onePlayer.getRoundBet());
-        System.out.println("Table has: " + findTable().getMoney() + " money , the roundbet is: "+ findTable().getRoundBet() +"\nYou need to bet at least: " + (findTable().getRoundBet()-onePlayer.getRoundBet()));
+        System.out.println("Table has: " + findTable().getMoney() + " money , the roundbet is: "+ findTable().getRoundBet());
+        System.out.println("You need to bet at least: " + (findTable().getRoundBet()-onePlayer.getRoundBet()));
         System.out.println(findTable().toString());
         System.out.println(onePlayer.toString());
         System.out.println(onePlayer.getName() + " what do you want to do? 0:check, 1:call, 2:bet, 3:all-in, 4:fold");
