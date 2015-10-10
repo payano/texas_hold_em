@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Game {
 
     private ArrayList<Player> players;
-    private final int stake = 50;
+    private int stake = 50;
     //computer;
     Deck theDeck;
     Scanner scan = new Scanner(System.in);
@@ -20,7 +20,7 @@ public class Game {
         theDeck = new Deck();
         players = new ArrayList<Player>();
         //add players temporary:
-        players.add(new TablePlayer("Table"));
+        players.add(new TablePlayer("TheTable"));
         players.add(new HumanPlayer("Johan"));
         players.get(1).addMoney(180);
 
@@ -40,19 +40,17 @@ public class Game {
                 if(onePlayer instanceof TablePlayer){continue;}
                 if(!onePlayer.getStillInGame()){continue;}
                 if(onePlayer instanceof HumanPlayer){
-
                     betCheckFold(onePlayer);
-
                 }
             }
 
-            /*
+
             for(Player onePlayer : players){
                 if(onePlayer instanceof TablePlayer){continue;}
                 if(!onePlayer.getStillInGame()){continue;}
                 if(onePlayer.getRoundBet() == findTable().getRoundBet()){
-                    //the player has checked and its good.
-                    System.out.println("here?");
+                    //the player has put in the right amount of money.
+                    System.out.println("All players that are in have bet the same. Lets deal!");
                     allPlayersChecked = true;
                 }else{
                     //the player has not checked, the round is not over yet.
@@ -60,7 +58,7 @@ public class Game {
                     allPlayersChecked = false;
                     break;
                 }
-            }*/
+            }
         }
     }
     public void smallAndBigBlind(){
@@ -121,11 +119,25 @@ public class Game {
     public void betCheckFold(Player onePlayer){
         System.out.println("\n\nMoney left: " + onePlayer.getMoney());
         System.out.println("your share in this bettingRound so far: " + onePlayer.getRoundBet());
-        System.out.println("Table has: " + findTable().getMoney() + " money and getRoundBet: " + findTable().getRoundBet());
+        System.out.println("Table has: " + findTable().getMoney() + " money and you need to bet: " + (findTable().getRoundBet()-onePlayer.getRoundBet()));
         System.out.println("What do you want to do " + onePlayer.getName() + " : 0:check, 1:call, 2:bet, 3:all-in, 4:fold");
         switch (scan.nextInt()){
             case 0:
                 //check
+                //You cant check if someone has bet more than you have put in.
+                if(onePlayer.getRoundBet() < findTable().getRoundBet()){
+                    System.out.println("You cant call, someone bet this round. You need to bet: " + (findTable().getRoundBet()-onePlayer.getRoundBet()));
+                    System.out.println("Do you want to bet or fold? : 2:bet, 4:fold");
+                    switch (scan.nextInt()){
+                        case 2:
+                            //bet
+                            bet(onePlayer);
+                            break;
+                        case 4:
+                            System.out.println("folded...");
+                            onePlayer.setStillInGame(false);
+                    }
+                }
                 break;
             case 1:
                 //call
@@ -141,14 +153,7 @@ public class Game {
                 break;
             case 2:
                 //bet
-                System.out.println("how much? minimum is: " + stake);
-                //check if is less than 50....
-                double bettedMoney = scan.nextInt();
-                //if you raise before you have paid big blind, you have to pay for that aswell.
-                findTable().addMoney(onePlayer.withdrawMoney(bettedMoney));
-                findTable().addRoundBet(bettedMoney);
-                //update the round bet
-                onePlayer.addRoundBet(bettedMoney);
+                bet(onePlayer);
                 break;
             case 3:
                 //all in
@@ -163,6 +168,52 @@ public class Game {
                 System.out.println("folded...");
                 onePlayer.setStillInGame(false);
         }
+    }
+
+    public void dealCards() {
+        for (int i = 0; i < 2; i++) {
+            for (Player onePlayer : players) {
+                if (onePlayer instanceof TablePlayer) {
+                    continue;
+                }
+                if (!onePlayer.getStillInGame()) {
+                    continue;
+                }
+                    onePlayer.addCard(theDeck.dealCard());
+                    System.out.println(onePlayer.toString());
+            }
+        }
+    }
+
+    public void dealRiver() {
+        for (int i = 0; i < 3; i++) {
+            for (Player onePlayer : players) {
+                if (onePlayer instanceof HumanPlayer) {
+                    continue;
+                }
+                if (!onePlayer.getStillInGame()) {
+                    continue;
+                }
+                    onePlayer.addCard(theDeck.dealCard());
+                    System.out.println(onePlayer.toString());
+            }
+        }
+    }
+
+    public void bet(Player onePlayer){
+        System.out.println("how much? minimum is: " + stake);
+        double bettedMoney = scan.nextInt();
+        //Make sure the user bet at least the steaks.
+        while (bettedMoney < stake){
+            System.out.println("You need to bet at least: " + stake + "\nTry again, bet: ");
+            bettedMoney = scan.nextInt();
+        }
+        //if you raise before you have paid big blind, you have to pay for that aswell.
+        findTable().addMoney(onePlayer.withdrawMoney(bettedMoney));
+        findTable().addRoundBet(bettedMoney);
+        //update the round bet
+        onePlayer.addRoundBet(bettedMoney);
+        stake += bettedMoney;
     }
 
     public Player findTable(){
@@ -182,14 +233,18 @@ public class Game {
         //make all players still in game and enabled to check
         for(Player onePlayer : players){
             onePlayer.setStillInGame(true);
-            onePlayer.setAllowedToCheck(true);
         }
 
 
-
+        //Give the blinds.
         smallAndBigBlind();
+        //Deal the players 2 cards each. One at a time.
+        dealCards();
         //lets bet!
         betRound();
+
+        //Deal the river
+        dealRiver();
 
 
         //first step, check who is interested.
