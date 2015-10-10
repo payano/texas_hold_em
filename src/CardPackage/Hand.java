@@ -1,6 +1,7 @@
 package CardPackage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Arvid on 2015-09-14.
@@ -23,7 +24,16 @@ public class Hand {
     public void addCard(Card card){
         theHand.add(card);
     }
-
+    //add a list of cards.
+    public void addCard(ArrayList<Card> card){
+        theHand.addAll(card);
+    }
+    public ArrayList<Card> getAllCards(){
+        return theHand;
+    }
+    public void sortCardsByRank(){
+        Collections.sort(theHand, new SortCardsByRank());
+    }
     //Returnerar ett kort, om det inte finns något reurneras null.
     public Card getCard(int cardNr){
         if(cardNr >= theHand.size() || cardNr < 0){

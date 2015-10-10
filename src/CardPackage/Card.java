@@ -1,5 +1,7 @@
 package CardPackage;
 
+import java.util.Comparator;
+
 /**
  * Created by arvidbodin on 14/09/15.
  *
@@ -7,7 +9,7 @@ package CardPackage;
  * immutable, i.e. once created its rank or suit cannot be changed.
  */
 
-public class Card{
+public class Card {
 
     /**
      * @param rank 1 = Ace, 2 = 2, ...
