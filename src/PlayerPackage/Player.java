@@ -15,7 +15,7 @@ abstract public class Player {
     private Hand playerHand;
     private ChipCollection chips;
     private Money money;
-    private boolean stillInGame;
+    private boolean stillInGame, isBigBlind, isSmallBlind;
     private double roundBet;
 
     public Player(String userName){
@@ -25,6 +25,10 @@ abstract public class Player {
         this.money = new Money();
         this.roundBet = 0;
     }
+    public void setBigBlind(boolean bigBlind){this.isBigBlind = bigBlind;}
+    public boolean getBigBlind(){return isBigBlind;}
+    public void setSmallBlind(boolean smallBlind){this.isSmallBlind = smallBlind;}
+    public boolean getSmallBlind(){return isSmallBlind;}
     public String getName(){
         return this.userName;
     }

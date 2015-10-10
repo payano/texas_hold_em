@@ -3,6 +3,7 @@ import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 /**
@@ -26,6 +27,10 @@ public class Game {
 
         players.add(new HumanPlayer("Arvid"));
         players.get(2).addMoney(550);
+
+        //One player that is not a blind holder.
+        players.add(new HumanPlayer("TrattVald"));
+        players.get(3).addMoney(1337);
 //        players.add(new ComputerPlayer("SuperAI"));
 //        players.get(3).addMoney(100);
 
@@ -52,6 +57,7 @@ public class Game {
                     //the player has put in the right amount of money.
                     System.out.println("All players that are in have bet the same. Lets deal!");
                     allPlayersChecked = true;
+
                 }else{
                     //the player has not checked, the round is not over yet.
                     System.out.println("there?");
@@ -83,6 +89,7 @@ public class Game {
                 //the player is broke, next person must take the smallblind.
                 onePlayer.setStillInGame(false);
             }else if(onePlayer.getMoney() >= stake/2 && smallBlindPlayer){
+
                 //player has taken small blind and is still in game.
                 //this player must also call the stake or the bet.
                 findTable().addMoney(onePlayer.withdrawMoney(stake / 2));
@@ -93,6 +100,8 @@ public class Game {
 
                 System.out.println("Player: " + onePlayer.getName() + " got small blind, amount: " + stake / 2);
                 //System.out.println("Table has: " + findTable().getMoney() + " money and getRoundBet: " + findTable().getRoundBet());
+
+                onePlayer.setSmallBlind(true);
 
             }else if(onePlayer.getMoney() < stake && bigBlindPlayer){
                 //the player is broke, next person must take the big-blind.
@@ -107,6 +116,9 @@ public class Game {
                 findTable().addRoundBet(stake);
                 System.out.println("Player: " + onePlayer.getName() + " got big blind, amount: " + stake);
                 System.out.println("Table has: " + findTable().getMoney() + " money and getRoundBet: " + findTable().getRoundBet());
+
+                onePlayer.setBigBlind(true);
+
                 break;
             }else {
                 //ghetto solution
@@ -119,8 +131,8 @@ public class Game {
     public void betCheckFold(Player onePlayer){
         System.out.println("\n\nMoney left: " + onePlayer.getMoney());
         System.out.println("your share in this bettingRound so far: " + onePlayer.getRoundBet());
-        System.out.println("Table has: " + findTable().getMoney() + " money and you need to bet: " + (findTable().getRoundBet()-onePlayer.getRoundBet()));
-        System.out.println("What do you want to do " + onePlayer.getName() + " : 0:check, 1:call, 2:bet, 3:all-in, 4:fold");
+        System.out.println("Table has: " + findTable().getMoney() + " money , the roundbet is: "+ findTable().getRoundBet() +"\nYou need to bet at least: " + (findTable().getRoundBet()-onePlayer.getRoundBet()));
+        System.out.println( onePlayer.getName() + " what do you want to do? 0:check, 1:call, 2:bet, 3:all-in, 4:fold");
         switch (scan.nextInt()){
             case 0:
                 //check
@@ -170,8 +182,8 @@ public class Game {
         }
     }
 
-    public void dealCards() {
-        for (int i = 0; i < 2; i++) {
+    public void dealCards(int numberOfCards) {
+        for (int i = 0; i < numberOfCards; i++) {
             for (Player onePlayer : players) {
                 if (onePlayer instanceof TablePlayer) {
                     continue;
@@ -179,8 +191,9 @@ public class Game {
                 if (!onePlayer.getStillInGame()) {
                     continue;
                 }
-                    onePlayer.addCard(theDeck.dealCard());
-                    System.out.println(onePlayer.toString());
+                //Give eac player one card at a time.
+                onePlayer.addCard(theDeck.dealCard());
+                System.out.println(onePlayer.toString());
             }
         }
     }
@@ -194,8 +207,9 @@ public class Game {
                 if (!onePlayer.getStillInGame()) {
                     continue;
                 }
-                    onePlayer.addCard(theDeck.dealCard());
-                    System.out.println(onePlayer.toString());
+                //Give the table its 2 rivercards.
+                onePlayer.addCard(theDeck.dealCard());
+                System.out.println(onePlayer.toString());
             }
         }
     }
@@ -225,6 +239,27 @@ public class Game {
         }
         return null;
     }
+
+    public void rotatePlayers(){
+        System.out.println("\nBEFORE ROTATE");
+        for(Player onePlayer: players){
+            System.out.println(onePlayer.toString());
+        }
+
+        System.out.println("\nROTATING BEEP BOOP");
+
+        //Rotate until the bigblind is last.
+        while (!players.get(players.size()-1).getBigBlind()) {
+            System.out.println("durr");
+            Collections.rotate(players, -1);
+        }
+
+        System.out.println("\n AFTER TOTATE");
+        for(Player onePlayer: players){
+            System.out.println(onePlayer.toString());
+        }
+    }
+
     public void start(){
 
         System.out.println("SHUFFLING CARDS...");
@@ -239,12 +274,20 @@ public class Game {
         //Give the blinds.
         smallAndBigBlind();
         //Deal the players 2 cards each. One at a time.
-        dealCards();
+        dealCards(2);
+
+        //Move players(blinds) so tha the blinds are last.
+        rotatePlayers();
         //lets bet!
         betRound();
 
         //Deal the river
         dealRiver();
+
+        //Lets bet again!
+        dealCards(1);
+
+        System.out.printf("SÖAKGNAFKGNDAFGÖKN");
 
 
         //first step, check who is interested.
