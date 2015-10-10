@@ -116,7 +116,7 @@ abstract public class Player {
             }
 
         }
-        playerHand.sortCardsBySuit();
+        //playerHand.sortCardsBySuit();
         /*
         for(int i=0;i < suitArray.length;i++){
             System.out.println("i: " + i + " nr: " + suitArray[i]);
