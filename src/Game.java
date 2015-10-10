@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class Game {
 
     private ArrayList<Player> players;
-    private int stake = 50;
+    private final int stake = 50;
     //computer;
     Deck theDeck;
     Scanner scan = new Scanner(System.in);
@@ -129,9 +129,10 @@ public class Game {
     }
 
     public void betCheckFold(Player onePlayer){
-        System.out.println("\n\nMoney left: " + onePlayer.getMoney());
-        System.out.println("your share in this bettingRound so far: " + onePlayer.getRoundBet());
+        System.out.println("\nyour share in this bettingRound so far: " + onePlayer.getRoundBet());
         System.out.println("Table has: " + findTable().getMoney() + " money , the roundbet is: "+ findTable().getRoundBet() +"\nYou need to bet at least: " + (findTable().getRoundBet()-onePlayer.getRoundBet()));
+        System.out.println(findTable().toString());
+        System.out.println(onePlayer.toString());
         System.out.println( onePlayer.getName() + " what do you want to do? 0:check, 1:call, 2:bet, 3:all-in, 4:fold");
         switch (scan.nextInt()){
             case 0:
@@ -227,7 +228,8 @@ public class Game {
         findTable().addRoundBet(bettedMoney);
         //update the round bet
         onePlayer.addRoundBet(bettedMoney);
-        stake += bettedMoney;
+        //stake should be the same all the time!
+        //stake += bettedMoney;
     }
 
     public Player findTable(){
@@ -241,8 +243,6 @@ public class Game {
     }
 
     public void rotatePlayers(){
-
-
         System.out.println("\nBEFORE ROTATE");
 
         for(Player onePlayer: players){
@@ -252,14 +252,14 @@ public class Game {
         System.out.println("\nROTATING BEEP BOOP");
 
         ///add the last person in the array to the first position in the array.
-        players.add(0,players.remove(players.size()-1));
+        //players.add(0, players.remove(players.size() - 1));
 
         //Rotate until the bigblind is last.
-        /*while (!players.get(players.size()-1).getBigBlind()) {
+        while (!players.get(players.size()-1).getBigBlind()) {
             System.out.println("durr");
             Collections.rotate(players, -1);
         }
-        */
+
 
         System.out.println("\n AFTER TOTATE");
         for(Player onePlayer: players){

@@ -63,7 +63,7 @@ abstract public class Player {
 
 
     public String toString(){
-        return "Player " + userName + " has " +money.getMoney() + " amount of money." + " and the cards: " + playerHand.toString();
+        return "Player " + userName + " has " +money.toString() + " amount of money." + " and the cards: " + playerHand.toString();
     }
 
 }

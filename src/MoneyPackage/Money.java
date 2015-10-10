@@ -1,5 +1,7 @@
 package MoneyPackage;
 
+import java.util.DoubleSummaryStatistics;
+
 /**
  * Created by Arvid Bodin and Johan Svensson on 2015-09-15.
  *
@@ -30,5 +32,7 @@ public class Money {
         //return how much that has been withdrawn
         return money;
     }
-
+    public String toString(){
+        return Double.toString(moneyValue);
+    }
 }
