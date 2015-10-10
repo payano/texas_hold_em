@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class Game {
 
     private ArrayList<Player> players,playerBettingOrder;
-    private final int stake = 50;
+    private final int stake = 50; //this is the minimum bet for all rounds in the game.
     //computer;
     Deck theDeck;
     Scanner scan = new Scanner(System.in);
@@ -97,7 +97,9 @@ public class Game {
                 System.out.println("Player: " + onePlayer.getName() + " got small blind, amount: " + stake / 2);
                 //System.out.println("Table has: " + findTable().getMoney() + " money and getRoundBet: " + findTable().getRoundBet());
 
-                onePlayer.setSmallBlind(true);
+                //onePlayer.setSmallBlind(true);
+                //muppigt?
+                setHighestBidder(onePlayer);
 
             }else if(onePlayer.getMoney() < stake && bigBlindPlayer){
                 //the player is broke, next person must take the big-blind.
@@ -113,7 +115,9 @@ public class Game {
                 System.out.println("Player: " + onePlayer.getName() + " got big blind, amount: " + stake);
                 System.out.println("Table has: " + findTable().getMoney() + " money and getRoundBet: " + findTable().getRoundBet());
 
-                onePlayer.setBigBlind(true);
+                //same as above...
+                setHighestBidder(onePlayer);
+                //onePlayer.setBigBlind(true);
 
                 break;
             }else {
@@ -124,12 +128,19 @@ public class Game {
 
     }
 
+    public void setHighestBidder(Player highestPlayer){
+        for(Player onePlayer : players){
+            onePlayer.setHighestBidder(false);
+        }
+        highestPlayer.setHighestBidder(true);
+    }
+
     public void betCheckFold(Player onePlayer){
         System.out.println("\nyour share in this bettingRound so far: " + onePlayer.getRoundBet());
         System.out.println("Table has: " + findTable().getMoney() + " money , the roundbet is: "+ findTable().getRoundBet() +"\nYou need to bet at least: " + (findTable().getRoundBet()-onePlayer.getRoundBet()));
         System.out.println(findTable().toString());
         System.out.println(onePlayer.toString());
-        System.out.println( onePlayer.getName() + " what do you want to do? 0:check, 1:call, 2:bet, 3:all-in, 4:fold");
+        System.out.println(onePlayer.getName() + " what do you want to do? 0:check, 1:call, 2:bet, 3:all-in, 4:fold");
         switch (scan.nextInt()){
             case 0:
                 //check
@@ -212,6 +223,8 @@ public class Game {
     }
 
     public void bet(Player onePlayer){
+        //this is beta release or .. alpha? :=)
+
         System.out.println("how much? minimum is: " + (stake - onePlayer.getRoundBet()));
         double bettedMoney = scan.nextInt();
         //Make sure the user bet at least the steaks.
@@ -226,6 +239,8 @@ public class Game {
         onePlayer.addRoundBet(bettedMoney);
         //stake should be the same all the time!
         //stake += bettedMoney;
+        setHighestBidder(onePlayer);
+
     }
 
     public Player findTable(){
@@ -255,11 +270,13 @@ public class Game {
         //players.add(0, players.remove(players.size() - 1));
 
         //Rotate until the bigblind is last.
+        /*
         while (!result.get(players.size()-1).getBigBlind()) {
             System.out.println("durr");
             Collections.rotate(result, -1);
         }
-
+        */
+        System.out.println("johan killed rotatePlayers...");
 
         System.out.println("\n AFTER TOTATE");
         for(Player onePlayer: result){
