@@ -67,14 +67,11 @@ abstract public class Player {
             if(playerHand.getCard(i).getRank() == 14){
                 rankArray[1]++; //ACE is both 13 and 1
             }
+            //populate rankArray
             rankArray[playerHand.getCard(i).getRank()]++;
+            //populate suitArray
+            suitArray[playerHand.getCard(i).getSuit()-1]++;
         }
-        //debug for loop
-        /*
-        for(int i = 0; i < rankArray.length;i++){
-            System.out.println("the card value " + i + " has " + rankArray[i] + " members.");
-        }
-        */
         //count pairs + two pairs + three of a kind + four of a kind
         for(int i = 2; i < rankArray.length;i++){
             if(rankArray[i] == 2){
@@ -105,24 +102,12 @@ abstract public class Player {
         if(straightCount == 5) {
             System.out.println("AWESOME DUDE! STRAIGHT! " + userName);
         }
-        //populate suitArray too see if we have flush.
-        for(int i=0;i < playerHand.getNoOfCards();i++){
-            suitArray[playerHand.getCard(i).getSuit()-1]++;
-        }
-
         for(int i=0;i < suitArray.length;i++){
             if(suitArray[i] == 5){
                 System.out.println("MATE YOU GOT FLUSH: " + userName);
             }
 
         }
-        //playerHand.sortCardsBySuit();
-        /*
-        for(int i=0;i < suitArray.length;i++){
-            System.out.println("i: " + i + " nr: " + suitArray[i]);
-        }
-        */
-        //System.out.println("\n\n\n");
     }
     public CardValueEnum getHandValue(){return handValue;}
     //these are trattiga aswell..!!
