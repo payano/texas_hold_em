@@ -57,7 +57,9 @@ public class Game {
                 System.out.println("BIG BLIND: " + players.get(i).getBigBlind());
                 if(players.get(i).getHighestBid() == true &&  players.get(i).getBigBlind()){
                     //if the player is the current highest bidder and the player has the bigblind
-                    betCheckFold(players.get(i));
+                    //if there is only one player left. He is the winner.
+                    if(!winner(players.get(i))) betCheckFold(players.get(i));
+                    else System.out.printf(players.get(i).getName() + " wins!!");
                     players.get(i).setBigBlind(false);
                     if(players.get(i).getRoundBet() > stake){
                         //player placed a bet.
@@ -68,7 +70,8 @@ public class Game {
                     //if current player is the highest bidder
                     break;
                 }
-                betCheckFold(players.get(i));
+                if(!winner(players.get(i))) betCheckFold(players.get(i));
+                else System.out.printf(players.get(i).getName() + " wins!!");
             }
             //ROUND x is done and done!
             //setup some things for the next round
@@ -78,6 +81,22 @@ public class Game {
         setHighestBidder(findTable());
 
     }
+
+    public boolean winner(Player mightBeWinner){
+        int numberOfplayersLeft = 0;
+        for (Player onePLayer : players) {
+            if (onePLayer.getStillInGame()) numberOfplayersLeft++;
+        }
+
+        if (numberOfplayersLeft > 2){
+            System.out.println(numberOfplayersLeft);
+            return false;
+        }
+        //Take the money from the table and give it to the winner.
+        mightBeWinner.addMoney(findTable().withdrawMoney(findTable().getMoney()));
+        return true;
+    }
+
     public void smallAndBigBlind(ArrayList<Player> players){
         //there has to be a check somewhere that the minimum amount of players(computer + human) >= 2.
         //WARNING
@@ -331,12 +350,16 @@ public class Game {
         //Move players(blinds) so tha the blinds are last.
         //playerBettingOrder = rotatePlayers(players);
         //lets bet!
-        //betRound();
+        betRound();
 
         //rotatePlayers();
 
+        for(Player onePlayer: players){
+            System.out.println(onePlayer.toString());
+        }
+
         //Deal the river
-        dealRiver();
+        //dealRiver();
 
         //Lets bet again!
         //betRound();
