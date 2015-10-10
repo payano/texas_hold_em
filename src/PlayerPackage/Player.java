@@ -16,7 +16,7 @@ abstract public class Player {
     private ChipCollection chips;
     private Money money;
     //use highestBidder instead of isBigBlind and isSmallBlind.
-    private boolean stillInGame, highestBid, isBigBlind, isSmallBlind;
+    private boolean stillInGame, highestBid, isBigBlind;
     private double roundBet;
 
     public Player(String userName){
@@ -43,18 +43,6 @@ abstract public class Player {
     public boolean getBigBlind(){
         return isBigBlind;
     }
-    //THESE IS ABOUT TO BE REPLACED WITH THE TWO FUNCTIONS ABOVE!
-
-    public void setSmallBlind(boolean smallBlind){
-        System.out.println("setSmallBlind will be obsolete, use setHighestBidder instead...");
-        this.isSmallBlind = smallBlind;
-    }
-    public boolean getSmallBlind(){
-        System.out.println("getSmallBlind will be obsolete, use getHighestBidder instead...");
-        return isSmallBlind;
-    }
-    //END //
-
     public String getName(){
         return this.userName;
     }
