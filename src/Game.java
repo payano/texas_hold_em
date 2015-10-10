@@ -179,7 +179,7 @@ public class Game {
         highestPlayer.setHighestBid(true);
     }
     public int getHighestBidder(){
-        for(int i = 0; i < players.size()-1;i++){
+        for(int i = 0; i < players.size();i++){
             if(players.get(i).getHighestBid()){
                 return i;
             }
