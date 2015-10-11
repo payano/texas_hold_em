@@ -398,6 +398,7 @@ public class Game {
             //Lets bet!
             betRound();
 
+            //Deal the river!
             dealTable(1);
 
             //lets bet!
