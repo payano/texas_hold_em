@@ -48,6 +48,8 @@ abstract public class Player {
         boolean threeOfAKind = false;
         boolean fourOfAKind = false;
         boolean flush = false;
+        boolean royal = false;
+        boolean straight = false;
         int straightCount = 0;
         int lastCardValue = 0;
         /*
@@ -77,14 +79,14 @@ abstract public class Player {
             if(rankArray[i] == 2){
                 pairCount++;
                 if(pairCount > 2){pairCount = 2;}
-                System.out.println("PairCount is: " + pairCount);
+                System.out.println("PairCount is: " + pairCount + " " + userName);
             }
             if(rankArray[i] == 3){
-                System.out.println("Three of a kind!!");
+                System.out.println("Three of a kind!! " + userName);
                 threeOfAKind = true;
             }
             if(rankArray[i] == 4){
-                System.out.println("Four of a kind!!");
+                System.out.println("Four of a kind!! " + userName);
                 fourOfAKind = true;
             }
         }
@@ -101,16 +103,32 @@ abstract public class Player {
         //straight found!
         if(straightCount == 5) {
             System.out.println("AWESOME DUDE! STRAIGHT! " + userName);
+            straight = true;
         }
         for(int i=0;i < suitArray.length;i++){
             if(suitArray[i] == 5){
                 System.out.println("MATE YOU GOT FLUSH: " + userName);
+                flush = true;
+                //Hearts(2)
+                if(i == 2){royal = true;}
             }
-
         }
+
+        //mega hardcoded if statements...yeye
+        if(royal){handValue = CardValueEnum.Flush;}
+        else if(flush && straight){handValue = CardValueEnum.StraightFlush;}
+        else if(fourOfAKind){handValue = CardValueEnum.FourOfAKind;}
+        else if(threeOfAKind && pairCount > 0){handValue = CardValueEnum.FullHouse;}
+        else if(flush){handValue = CardValueEnum.Flush;}
+        else if(straight){handValue = CardValueEnum.Straight;}
+        else if(threeOfAKind){handValue = CardValueEnum.ThreeOfAKind;}
+        else if(pairCount >= 2){handValue = CardValueEnum.TwoPair;}
+        else if(pairCount == 1){handValue = CardValueEnum.OnePair;}
+        else { handValue = CardValueEnum.None;}
+
+
     }
     public CardValueEnum getHandValue(){return handValue;}
-    //these are trattiga aswell..!!
     public void setHighestBid(boolean highestBidder){this.highestBid = highestBidder;}
     public boolean getHighestBid(){return highestBid;}
     public void setBigBlind(boolean bigBlind){

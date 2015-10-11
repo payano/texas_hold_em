@@ -33,17 +33,34 @@ public class Game {
 
     }
 
+    private void setWinner(){
+        int currentLeader = 0;
+        boolean firstRun = true;
 
-    private void calculateBestHand(){
+        //check highest handValue.
+        for(int i = 0; i < players.size();i++){
+            //table can not win.
+            if(players.get(i) instanceof TablePlayer){continue;}
+            //player must still be in game to win
+            if(!players.get(i).getStillInGame()){continue;}
+            //get the first time leader
+            System.out.println("player: " + players.get(i).getName() + ", handValue: " + players.get(i).getHandValue().getValue());
+            if(firstRun){currentLeader = i;firstRun=false;continue;}
+            if(players.get(i).getHandValue().getValue() > players.get(currentLeader).getHandValue().getValue()){
+                currentLeader = i;
+            }
+        }
+
+        //check if more players has the same handValue.
+        System.out.println("the winner is..... " + players.get(currentLeader).getName());
+        System.out.println("he/she has: " + players.get(currentLeader).getHandValue().toString());
+    }
+    private void getHandValues(){
         for(Player onePlayer : players){
             if(onePlayer instanceof TablePlayer){continue;}
             //add the Table hand to the player hands.
             onePlayer.addCard(findTable().getCards());
-            //sort them
-            onePlayer.sortCardsByRank();
             onePlayer.setHandValue();
-
-            //System.out.println(onePlayer.toString());
         }
     }
     //new version.
@@ -293,7 +310,7 @@ public class Game {
         }
     }
 
-    public void dealTable(double numberOfCards) {
+    public void dealTable(int numberOfCards) {
         //johan har meckat här, fungerar ej.
         for (int i = 0; i < numberOfCards; i++) {
             for (Player onePlayer : players) {
@@ -369,14 +386,15 @@ public class Game {
         System.out.println("SHUFFLING CARDS...");
         theDeck.shuffleCards();
 
+
         System.out.println("Press :1 to start.");
 
-        while (scan.nextInt() == 1) {
+//        while (scan.nextInt() == 1) {
             //make all players still in game and enabled to check
+
             for (Player onePlayer : players) {
                 onePlayer.setStillInGame(true);
             }
-
 
             //Give the blinds.
             smallAndBigBlind(players);
@@ -384,38 +402,40 @@ public class Game {
             dealCards(2);
 
             //lets bet!
-            betRound();
+            //betRound();
 
             //Deal the flop
             dealTable(3);
 
             //lets bet!
-            betRound();
+            //betRound();
 
             //Deal one more card to the table
             dealTable(1);
 
             //Lets bet!
-            betRound();
+            //betRound();
 
             //Deal the river!
             dealTable(1);
 
             //lets bet!
-            betRound();
+            //betRound();
 
 
             System.out.println("\n\n\n\n");
-            calculateBestHand();
+            getHandValues();
+            setWinner();
 
             //rotatePlayers();
 
             for (Player onePlayer : players) {
                 System.out.println(onePlayer.toString());
             }
-
+/*
             System.out.println("Want to play another round? 1:yes ");
         }
+    */
 
         //Deal the river
         //dealRiver();
