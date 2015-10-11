@@ -46,12 +46,12 @@ public class Game {
             //get the first time leader
             //System.out.println("player: " + players.get(i).getName() + ", handValue: " + players.get(i).getHandValue().getValue());
 
-            //sort cards by rank
-            players.get(i).sortCardsByRank();
             System.out.println("player: " + players.get(i).getName() + ", handPoints: " + players.get(i).getHandPoints());
             if(firstRun){currentLeader = i;firstRun=false;continue;}
             if(players.get(i).getHandPoints() > players.get(currentLeader).getHandPoints()){
                 currentLeader = i;
+            }else if(players.get(i).getHandPoints() == players.get(currentLeader).getHandPoints()){
+                System.out.println("HEY MAN THIS IS A SPLIT!!");
             }
         }
 
@@ -64,6 +64,7 @@ public class Game {
             if(onePlayer instanceof TablePlayer){continue;}
             //add the Table hand to the player hands.
             onePlayer.addCard(findTable().getCards());
+            onePlayer.sortCardsByRank();
             onePlayer.setHandValue();
         }
     }

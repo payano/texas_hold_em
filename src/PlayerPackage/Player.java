@@ -167,6 +167,21 @@ abstract public class Player {
         }
         else if(flush){
             handPoints += 527000;
+            int theSuit = 0;
+            for(int i = 0;i < suitArray.length;i++){
+                if(suitArray[i] == 5){
+                    theSuit = i+1;
+                    break;
+                }
+            }
+            for(int countSingle = 0, i = 0; i < playerHand.getNoOfCards();i++){
+                System.out.println("getSuit: " + playerHand.getCard(i).getSuit());
+                if(playerHand.getCard(i).getSuit() == theSuit){
+                    handPoints += i;
+                    countSingle++;
+                    if(countSingle == 5){break;}
+                }
+            }
             //måste ta reda på vilka kort som finns i flush för att sedan addera dessa till handpoints
             handValue = CardValueEnum.Flush;
         }
