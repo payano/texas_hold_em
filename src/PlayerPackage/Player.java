@@ -66,6 +66,11 @@ abstract public class Player {
         //sort the hand
         //playerHand.sortCardsByRank();
 
+        /*
+        BUG: YOU CAN GET A STRAIGHT AND A FLUSH. != STRAIGHTFLUSH
+        AND THE PROGRAM SEES IT AS A STRAIGHTFLUSH!!
+         */
+
         for(int i = 0; i < playerHand.getNoOfCards();i++){
             //example:
             //getRank() = 2, then pairArray[2] adds one.
@@ -175,7 +180,6 @@ abstract public class Player {
                 }
             }
             for(int countSingle = 0, i = 0; i < playerHand.getNoOfCards();i++){
-                System.out.println("getSuit: " + playerHand.getCard(i).getSuit());
                 if(playerHand.getCard(i).getSuit() == theSuit){
                     handPoints += i;
                     countSingle++;
