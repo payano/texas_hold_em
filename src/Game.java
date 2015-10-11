@@ -72,7 +72,7 @@ public class Game {
                     //if there is only one player left. He is the winner.
                     if(!winner(players.get(i))) betCheckFold(players.get(i));
                     else {
-                        System.out.printf(players.get(i).getName() + " wins!!");
+                        System.out.printf(players.get(getHighestBidder()) + " wins!!");
                         //Take the money from the table and give it to the winner.
                         players.get(i).addMoney(findTable().withdrawMoney(findTable().getMoney()));
                     }
@@ -88,7 +88,7 @@ public class Game {
                 }
                 if(!winner(players.get(i))) betCheckFold(players.get(i));
                 else {
-                    System.out.printf(players.get(i).getName() + " wins!!");
+                    System.out.printf(players.get(getHighestBidder()) + " wins!!");
                     //Take the money from the table and give it to the winner.
                     players.get(i).addMoney(findTable().withdrawMoney(findTable().getMoney()));
                 }
@@ -293,9 +293,9 @@ public class Game {
         }
     }
 
-    public void dealRiver() {
+    public void dealTable(double numberOfCards) {
         //johan har meckat här, fungerar ej.
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < numberOfCards; i++) {
             for (Player onePlayer : players) {
                 if (onePlayer instanceof HumanPlayer) {
                     continue;
@@ -369,29 +369,51 @@ public class Game {
         System.out.println("SHUFFLING CARDS...");
         theDeck.shuffleCards();
 
-        //make all players still in game and enabled to check
-        for(Player onePlayer : players){
-            onePlayer.setStillInGame(true);
-        }
+        System.out.println("Press :1 to start.");
+
+        while (scan.nextInt() == 1) {
+            //make all players still in game and enabled to check
+            for (Player onePlayer : players) {
+                onePlayer.setStillInGame(true);
+            }
 
 
-        //Give the blinds.
-        smallAndBigBlind(players);
-        //Deal the players 2 cards each. One at a time.
-        dealCards(2);
+            //Give the blinds.
+            smallAndBigBlind(players);
+            //Deal the players 2 cards each. One at a time.
+            dealCards(2);
 
-        //Move players(blinds) so tha the blinds are last.
-        //playerBettingOrder = rotatePlayers(players);
-        //lets bet!
-        //betRound();
-        dealRiver();
-        System.out.println("\n\n\n\n");
-        calculateBestHand();
+            //lets bet!
+            betRound();
 
-        //rotatePlayers();
+            //Deal the flop
+            dealTable(3);
 
-        for(Player onePlayer: players){
-            System.out.println(onePlayer.toString());
+            //lets bet!
+            betRound();
+
+            //Deal one more card to the table
+            dealTable(1);
+
+            //Lets bet!
+            betRound();
+
+            dealTable(1);
+
+            //lets bet!
+            betRound();
+
+
+            System.out.println("\n\n\n\n");
+            calculateBestHand();
+
+            //rotatePlayers();
+
+            for (Player onePlayer : players) {
+                System.out.println(onePlayer.toString());
+            }
+
+            System.out.println("Want to play another round? 1:yes ");
         }
 
         //Deal the river
@@ -402,47 +424,5 @@ public class Game {
 
         System.out.printf("SLUT");
 
-
-        //first step, check who is interested.
-        //first player in arraylist must pay smallblind: 25, the rest must pay bigblind, raise or fold.
-        //the first player must also make a choice, fold, call or raise.
-
-        //first time is special:
-        /*
-
-
-
-        Start of betting round = betCheckFold();
-
-        Den som �r SIST!!!! i v�ran arraylista av spelare har "knappen".
-        N�r varje runda �r slut s� roterar man listan en g�ng
-        Man borde inte rotera p� tableplayer?
-        eller s� f�r man rotera tv� g�nger, tableplayer och en computer/human player.
-         */
-        //NON WORKIN:
-
-
-
-        //lets check,raise or fold:
-        //betCheckFold();
-
-        //lets deal the flop.
-
-        //lets check,raise or fold:
-        //betCheckFold();
-        //lets deal the fourth card.
-
-        //lets check,raise or fold:
-        //betCheckFold();
-        //lets deal the fourth card.
-
-        //lets check,raise or fold:
-        //betCheckFold();
-        //round over!
-
-/*        p1.addMoney(200);
-        p1.addCard(theDeck.dealCard());
-        System.out.println(p1.toString());
-        */
     }
 }
