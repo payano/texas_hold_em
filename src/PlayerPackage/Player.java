@@ -40,6 +40,7 @@ abstract public class Player {
     }
 
 
+    public int getHandPoints(){return this.handPoints;}
     //this is texas specific...
     public void setHandValue(){
         int rankArray[] = new int[15];
@@ -157,7 +158,7 @@ abstract public class Player {
             }
             //get highest pair
             for(int i = rankArray.length-1; i > 1 ; i--){
-                if(rankArray[i] == 1){
+                if(rankArray[i] == 2){
                     handPoints += 10 * i;
                     break;
                 }
@@ -194,14 +195,12 @@ abstract public class Player {
             //mega if statement to get the highest pairs.
             for(int countSingle = 0,i = rankArray.length-1; i > 1 ; i--){
                 if(rankArray[i] == 2){
-                    if(rankArray[i] == 1){
-                        if(countSingle == 0){
-                            handPoints += 1000 * i;
-                            countSingle++;
-                        }else if(countSingle == 1){
-                            handPoints += 10 * i;
-                            break;
-                        }
+                    if(countSingle == 0){
+                        handPoints += 1000 * i;
+                        countSingle++;
+                    }else if(countSingle == 1){
+                        handPoints += 10 * i;
+                        break;
                     }
                 }
             }

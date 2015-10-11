@@ -44,9 +44,13 @@ public class Game {
             //player must still be in game to win
             if(!players.get(i).getStillInGame()){continue;}
             //get the first time leader
-            System.out.println("player: " + players.get(i).getName() + ", handValue: " + players.get(i).getHandValue().getValue());
+            //System.out.println("player: " + players.get(i).getName() + ", handValue: " + players.get(i).getHandValue().getValue());
+
+            //sort cards by rank
+            players.get(i).sortCardsByRank();
+            System.out.println("player: " + players.get(i).getName() + ", handPoints: " + players.get(i).getHandPoints());
             if(firstRun){currentLeader = i;firstRun=false;continue;}
-            if(players.get(i).getHandValue().getValue() > players.get(currentLeader).getHandValue().getValue()){
+            if(players.get(i).getHandPoints() > players.get(currentLeader).getHandPoints()){
                 currentLeader = i;
             }
         }
