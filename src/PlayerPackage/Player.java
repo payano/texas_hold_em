@@ -40,36 +40,40 @@ abstract public class Player {
     }
 
 
-    public void setHandValue2(Hand oneHand){
-        int rankArray[] = new int[15];
+    public SuitEnum checkFlush(Hand oneHand){
         int suitArray[] = new int[4];
-        int pairCount = 0;
-        boolean threeOfAKind = false;
-        boolean fourOfAKind = false;
-        boolean flush = false;
-        boolean royal = false;
-        boolean straight = false;
+        //populate rank and suit arrays:
+        for(int i = 0; i < oneHand.getNoOfCards();i++){
+            //add ace to first slot in the array aswell.
+            suitArray[oneHand.getCard(i).getSuit()]++;
+        }
+        for(int i = 0 ; i < suitArray.length;i++){
+            if(suitArray[i] == 5){
+                for(SuitEnum s : SuitEnum.values()){
+                    if(s.getValue() == i) {
+                        return s;
+                    }
+                }
+
+            }
+        }
+        //elakt att returnera null.. men det är ingen flush..
+        return null;
+    }
+
+    public CardValueEnum checkCardValue(Hand oneHand){
         int straightCount = 0;
         int lastCardValue = 0;
         int lowestStraight = 0;
-
-        //CardValueEnum handValue;
-        //int handPoints = 0;
-
-        //populate rank and suit:
-        for(int i = 0; i < playerHand.getNoOfCards();i++){
+        int pairCount = 0;
+        boolean threeOfAKind = false;
+        int rankArray[] = new int[15];
+        for(int i = 0; i < oneHand.getNoOfCards();i++){
             //add ace to first slot in the array aswell.
-            if(playerHand.getCard(i).getRank() == 14){rankArray[1]++;}
-            rankArray[playerHand.getCard(i).getRank()]++;
-            suitArray[playerHand.getCard(i).getSuit()]++;
+            if(oneHand.getCard(i).getRank() == 14){rankArray[1]++;}
+            rankArray[oneHand.getCard(i).getRank()]++;
         }
-        //check for flush:
-        //skip ace as 1
-        for(int i = 2 ; i < suitArray.length;i++){
-            if(suitArray[i] == 4){
-                flush = true;
-            }
-        }
+
         for(int i = 1;i < rankArray.length;i++){
             //check for straight here
             //check with ace=1 aswell
@@ -79,10 +83,16 @@ abstract public class Player {
                     lowestStraight = i;
                 }
                 if (straightCount == 5) {
-                    straight = true;
+                    //this is redundant....
+                    //CHECK THIS WARNING!
+                    return CardValueEnum.Straight;
+                    //straight = true;
                 }
+            }else {
+                straightCount = 0;
             }
             lastCardValue = i;
+
             //end check for straight
             if(i == 1){continue;}
             //check for pair, twopair, three of a kind, four of a kind
@@ -91,147 +101,122 @@ abstract public class Player {
             }else if(rankArray[i] == 3){
                 threeOfAKind = true;
             }else if(rankArray[i] == 4){
-                fourOfAKind = true;
+                return CardValueEnum.FourOfAKind;
+                //fourOfAKind = true;
+            }
+            if(threeOfAKind && pairCount == 1){
+                return CardValueEnum.FullHouse;
+            }else if(pairCount == 2){
+                return CardValueEnum.TwoPair;
+            }else if(pairCount == 1)
+                return CardValueEnum.OnePair;
+        }
+        return CardValueEnum.None;
+    }
+    //uber fresh function
+    public RankEnum getLowestCardInStraight(Hand oneHand){
+        //lets first check if there is a straight here:
+        //check for straight here
+        //check with ace=1 aswell
+        int lastCardValue = 0;
+        int straightCount = 0;
+        int lowestStraight = 0;
+        int rankArray[] = new int[15];
+        for(int i = 0; i < oneHand.getNoOfCards();i++){
+            //add ace to first slot in the array aswell.
+            if(oneHand.getCard(i).getRank() == 14){rankArray[1]++;}
+            rankArray[oneHand.getCard(i).getRank()]++;
+        }
+
+        for(int i = 0 ;i > rankArray.length;i++){
+            if(lastCardValue == i-1 && rankArray[i] > 0) {
+                straightCount++;
+                if (lowestStraight == 0) {
+                    lowestStraight = i;
+                }
+            }else {
+                straightCount=0;
+                lowestStraight=0;
             }
         }
-        //mega hardcoded if statements...yeye
-        if(royal){
-            //royal straight flush
-            handPoints += 4000000;
-            handValue = CardValueEnum.Flush;
-        }else if(flush && straight){
-            //straight flush
-            handPoints += 371000 * lowestStraight;
-            handValue = CardValueEnum.StraightFlush;
-        }else if(fourOfAKind){
-            //find the fourofAKind
-            //dont count ACE as one (i = 1)
-            for(int i = 2; i < rankArray.length;i++){
-                if(rankArray[i] == 4){
-                    handPoints += i * 264500;
-                    break;
-                }
-            }
-            //get the highest single card.
-            for(int i = rankArray.length-1; i > 1;i--){
-                if(rankArray[i] == 1){
-                    handPoints += i;
-                }
-            }
-            handValue = CardValueEnum.FourOfAKind;
+        if(straightCount != 5){
+            throw new NoCardValueStraightException("There is no straight in the list.");
         }
-        else if(threeOfAKind && pairCount > 0){
-            //three of a kind
-            //get three of a kind
-            for(int i = rankArray.length-1; i > 1 ; i--){
-                if(rankArray[i] == 3){
-                    handPoints += 264000 * i;
-                    break;
-                }
+        //dunno if this is working...
+        for(RankEnum s : RankEnum.values()){
+            if(s.getValue() == lowestStraight){
+                return s;
             }
-            //get highest pair
-            for(int i = rankArray.length-1; i > 1 ; i--){
-                if(rankArray[i] == 2){
-                    handPoints += 10 * i;
-                    break;
-                }
-            }
-            handValue = CardValueEnum.FullHouse;
         }
-        else if(flush){
-            handPoints += 527000;
-            int theSuit = 0;
-            for(int i = 0;i < suitArray.length;i++){
-                if(suitArray[i] == 5){
-                    theSuit = i+1;
-                    break;
-                }
+        throw new NoSuchCardException("There is no such card");
+
+    }
+    public CardValueEnum checkRankAndSuitValue(Hand oneHand){
+        int rankArray[] = new int[15];
+        CardValueEnum cardRank;
+        SuitEnum flush;
+
+        //check if flush is set:
+        flush = checkFlush(oneHand);
+        cardRank = checkCardValue(oneHand);
+
+        if(cardRank == CardValueEnum.Straight && flush != null){
+            //Jackpot! both straight and flush!
+            cardRank = CardValueEnum.StraightFlush;
+            //hardcoded royal here:
+            if(flush == SuitEnum.Hearts && getLowestCardInStraight(oneHand) == RankEnum.Ten){
+                //sweet jesus, you are a lucky soul.
+                cardRank = CardValueEnum.RoyalFlush;
             }
-            for(int countSingle = 0, i = 0; i < playerHand.getNoOfCards();i++){
-                if(playerHand.getCard(i).getSuit() == theSuit){
-                    handPoints += i;
-                    countSingle++;
-                    if(countSingle == 5){break;}
-                }
-            }
-            //måste ta reda på vilka kort som finns i flush för att sedan addera dessa till handpoints
-            handValue = CardValueEnum.Flush;
+        }else if(flush != null){
+            cardRank = CardValueEnum.Flush;
         }
-        else if(straight){
-            handPoints += 52600 * lowestStraight;
-            handValue = CardValueEnum.Straight;
+        return cardRank;
+    }
+
+    public void setHandValue2(Hand oneHand){
+        int handPoints = 0;
+        switch (checkRankAndSuitValue(oneHand)){
+            case RoyalFlush:
+                handPoints += 4000000;
+                //TBD
+                break;
+            case StraightFlush:
+                handPoints += 371000 * getLowestCardInStraight(oneHand).getValue();
+                break;
+            case FourOfAKind:
+                //handPoints += i * 264500; //four of a kind
+                //handPoints += i; //fifth cared
+                break;
+            case FullHouse:
+                //handPoints += 264000 * i; //three of a kind
+                //handPoints += 10 * i; //highest pair
+                break;
+            case Flush:
+                //handPoints += 527000; //for flush
+                //handPoints += i; //add the 5 cards together
+                break;
+            case Straight:
+                //handPoints += 52600 * lowestStraight;
+                break;
+            case ThreeOfAKind:
+                //handPoints += 7500 * i; //for three of a kind
+                //handPoints += i; //add the two other cards
+                break;
+            case TwoPair:
+                //handPoints += 1000 * i; //highest pair
+                //handPoints += 10 * i; //lowest pair
+                //handPoints += i //last card
+                break;
+            case OnePair:
+                //handPoints += 40*i; //for the pair
+                //handPoints += i //for the rest of the cards
+                break;
+            case None:
+                //handPoints += i //for all five cards
+                break;
         }
-        else if(threeOfAKind){
-            //get three of a kind
-            for(int i = rankArray.length-1; i > 1 ; i--){
-                if(rankArray[i] == 3){
-                    handPoints += 7500 * i;
-                    break;
-                }
-            }
-            //get the two highest single cards
-            for(int countSingle=0, i = rankArray.length-1; i > 1 ; i--){
-                if(rankArray[i] == 1){
-                    handPoints += i;
-                    countSingle++;
-                    if(countSingle == 2){break;}
-                }
-            }
-            handValue = CardValueEnum.ThreeOfAKind;
-        }else if(pairCount >= 2){
-            //mega if statement to get the highest pairs.
-            for(int countSingle = 0,i = rankArray.length-1; i > 1 ; i--){
-                if(rankArray[i] == 2){
-                    if(countSingle == 0){
-                        handPoints += 1000 * i;
-                        countSingle++;
-                    }else if(countSingle == 1){
-                        handPoints += 10 * i;
-                        break;
-                    }
-                }
-            }
-            //get the highest single card
-            for(int i = rankArray.length-1; i > 1 ; i--){
-                if(rankArray[i] == 1){
-                    handPoints += i;
-                    break;
-                }
-            }
-            handValue = CardValueEnum.TwoPair;
-        }else if(pairCount == 1){
-            //get highest pair
-            for(int i = rankArray.length-1; i > 1 ; i--){
-                if(rankArray[i] == 2){
-                    handPoints += 40*i;
-                    break;
-                }
-            }
-            //get three highest cards
-            for(int countSingle = 0,i = rankArray.length-1; i > 1 ; i--){
-                if(rankArray[i] == 1){
-                    handPoints += i;
-                    countSingle++;
-                    if(countSingle == 3){
-                        break;
-                    }
-                }
-            }
-            handValue = CardValueEnum.OnePair;
-        }else{
-            //get five highest cards
-            for(int countSingle = 0,i = rankArray.length-1; i > 1 ; i--){
-                if(rankArray[i] == 1){
-                    handPoints += i;
-                    countSingle++;
-                    if(countSingle == 5){
-                        break;
-                    }
-                }
-            }
-            handValue = CardValueEnum.None;
-        }
-        System.out.println("HandValue: " + handValue + " HandPoints: " + handPoints);
+//        System.out.println("HandValue: " + handValue + " HandPoints: " + handPoints);
 
     }
     public void getBestHand(){
@@ -241,7 +226,7 @@ abstract public class Player {
 
         for( Hand oneHand: allPossibleHands){
             System.out.println("GIVE ME YOUR INFO: " + oneHand.toString());
-            //setHandValue2(oneHand);
+            setHandValue2(oneHand);
         }
 
 
