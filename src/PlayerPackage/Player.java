@@ -21,6 +21,7 @@ abstract public class Player {
     private boolean stillInGame, highestBid, isBigBlind;
     private CardValueEnum handValue; //eller bara en int, får se vad som blir schysstast.
     private double roundBet;
+    private int handPoints;
 
     public Player(String userName){
         this.handValue = CardValueEnum.None;
@@ -52,6 +53,9 @@ abstract public class Player {
         boolean straight = false;
         int straightCount = 0;
         int lastCardValue = 0;
+        int lowestStraight = 0;
+
+        this.handPoints = 0;
         /*
          1 = Ace
          2 = 2
@@ -94,8 +98,10 @@ abstract public class Player {
         for(int i=0; i < rankArray.length;i++){
             if(lastCardValue == i-1 && rankArray[i] > 0){
                 straightCount++;
+                if(lowestStraight == 0){lowestStraight = i;}
                 if(straightCount == 5){break;}
             }else{
+                lowestStraight = 0;
                 straightCount = 0;
             }
             lastCardValue = i;
@@ -115,16 +121,132 @@ abstract public class Player {
         }
 
         //mega hardcoded if statements...yeye
-        if(royal){handValue = CardValueEnum.Flush;}
-        else if(flush && straight){handValue = CardValueEnum.StraightFlush;}
-        else if(fourOfAKind){handValue = CardValueEnum.FourOfAKind;}
-        else if(threeOfAKind && pairCount > 0){handValue = CardValueEnum.FullHouse;}
-        else if(flush){handValue = CardValueEnum.Flush;}
-        else if(straight){handValue = CardValueEnum.Straight;}
-        else if(threeOfAKind){handValue = CardValueEnum.ThreeOfAKind;}
-        else if(pairCount >= 2){handValue = CardValueEnum.TwoPair;}
-        else if(pairCount == 1){handValue = CardValueEnum.OnePair;}
-        else { handValue = CardValueEnum.None;}
+        if(royal){
+            //royal straight flush
+            handPoints += 4000000;
+            handValue = CardValueEnum.Flush;
+        }else if(flush && straight){
+            //straight flush
+            handPoints += 371000 * lowestStraight;
+            handValue = CardValueEnum.StraightFlush;
+        }else if(fourOfAKind){
+            //find the fourofAKind
+            //dont count ACE as one (i = 1)
+            for(int i = 2; i < rankArray.length;i++){
+                if(rankArray[i] == 4){
+                    handPoints += i * 264500;
+                    break;
+                }
+            }
+            //get the highest single card.
+            for(int i = rankArray.length-1; i > 1;i--){
+                if(rankArray[i] == 1){
+                    handPoints += i;
+                }
+            }
+            handValue = CardValueEnum.FourOfAKind;
+        }
+        else if(threeOfAKind && pairCount > 0){
+            //three of a kind
+            //get three of a kind
+            for(int i = rankArray.length-1; i > 1 ; i--){
+                if(rankArray[i] == 3){
+                    handPoints += 264000 * i;
+                    break;
+                }
+            }
+            //get highest pair
+            for(int i = rankArray.length-1; i > 1 ; i--){
+                if(rankArray[i] == 1){
+                    handPoints += 10 * i;
+                    break;
+                }
+            }
+            handValue = CardValueEnum.FullHouse;
+        }
+        else if(flush){
+            handPoints += 527000;
+            //måste ta reda på vilka kort som finns i flush för att sedan addera dessa till handpoints
+            handValue = CardValueEnum.Flush;
+        }
+        else if(straight){
+            handPoints += 52600 * lowestStraight;
+            handValue = CardValueEnum.Straight;
+        }
+        else if(threeOfAKind){
+            //get three of a kind
+            for(int i = rankArray.length-1; i > 1 ; i--){
+                if(rankArray[i] == 3){
+                    handPoints += 7500 * i;
+                    break;
+                }
+            }
+            //get the two highest single cards
+            for(int countSingle=0, i = rankArray.length-1; i > 1 ; i--){
+                if(rankArray[i] == 1){
+                    handPoints += i;
+                    countSingle++;
+                    if(countSingle == 2){break;}
+                }
+            }
+            handValue = CardValueEnum.ThreeOfAKind;
+        }else if(pairCount >= 2){
+            //mega if statement to get the highest pairs.
+            for(int countSingle = 0,i = rankArray.length-1; i > 1 ; i--){
+                if(rankArray[i] == 2){
+                    if(rankArray[i] == 1){
+                        if(countSingle == 0){
+                            handPoints += 1000 * i;
+                            countSingle++;
+                        }else if(countSingle == 1){
+                            handPoints += 10 * i;
+                            break;
+                        }
+                    }
+                }
+            }
+            //get the highest single card
+            for(int i = rankArray.length-1; i > 1 ; i--){
+                if(rankArray[i] == 1){
+                    handPoints += i;
+                    break;
+                }
+            }
+            handValue = CardValueEnum.TwoPair;
+        }else if(pairCount == 1){
+            //get highest pair
+            for(int i = rankArray.length-1; i > 1 ; i--){
+                if(rankArray[i] == 2){
+                    handPoints += 40*i;
+                    break;
+                }
+            }
+            //get three highest cards
+            for(int countSingle = 0,i = rankArray.length-1; i > 1 ; i--){
+                if(rankArray[i] == 1){
+                    handPoints += i;
+                    countSingle++;
+                    if(countSingle == 3){
+                        break;
+                    }
+                }
+            }
+            handValue = CardValueEnum.OnePair;
+        }else{
+            //get five highest cards
+            for(int countSingle = 0,i = rankArray.length-1; i > 1 ; i--){
+                if(rankArray[i] == 1){
+                    handPoints += i;
+                    countSingle++;
+                    if(countSingle == 5){
+                        break;
+                    }
+                }
+            }
+            handValue = CardValueEnum.None;
+        }
+
+
 
 
     }
