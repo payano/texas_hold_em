@@ -19,7 +19,6 @@ public class Hand {
     public int getNoOfCards(){
         return theHand.size();
     }
-
     //Lägger till kortet som skickas till metodet.
     public void addCard(Card card){
         theHand.add(card);

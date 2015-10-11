@@ -448,7 +448,11 @@ public class Game {
         //Lets bet again!
         //betRound();
 
-        System.out.printf("SLUT");
+        System.out.println("SLUT");
+
+
+        //this is le beta
+        players.get(1).getBestHand();
 
     }
 }

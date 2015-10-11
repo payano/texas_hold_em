@@ -5,7 +5,7 @@ package CardPackage;
  *
  */
 public enum SuitEnum {
-    Spades(1), Hearts(2), Clubs(3), Diamonds(4);
+    Spades(0), Hearts(1), Clubs(2), Diamonds(3);
 
     private int cardValue;
 
