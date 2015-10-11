@@ -90,6 +90,7 @@ abstract public class Player {
                 }
             }else {
                 straightCount = 0;
+                lowestStraight = 0;
             }
             lastCardValue = i;
 
@@ -104,12 +105,16 @@ abstract public class Player {
                 return CardValueEnum.FourOfAKind;
                 //fourOfAKind = true;
             }
-            if(threeOfAKind && pairCount == 1){
-                return CardValueEnum.FullHouse;
-            }else if(pairCount == 2){
-                return CardValueEnum.TwoPair;
-            }else if(pairCount == 1)
-                return CardValueEnum.OnePair;
+        }
+
+        if(threeOfAKind && pairCount == 1) {
+            return CardValueEnum.FullHouse;
+        }else if(threeOfAKind){
+            return CardValueEnum.ThreeOfAKind;
+        }else if(pairCount == 1){
+            return CardValueEnum.OnePair;
+        }else if(pairCount == 2){
+            return CardValueEnum.TwoPair;
         }
         return CardValueEnum.None;
     }
@@ -139,9 +144,9 @@ abstract public class Player {
                 lowestStraight=0;
             }
         }
-        if(straightCount != 5){
+/*        if(straightCount != 5){
             throw new NoCardValueStraightException("There is no straight in the list.");
-        }
+        }*/
         //dunno if this is working...
         for(RankEnum s : RankEnum.values()){
             if(s.getValue() == lowestStraight){
@@ -152,7 +157,6 @@ abstract public class Player {
 
     }
     public CardValueEnum checkRankAndSuitValue(Hand oneHand){
-        int rankArray[] = new int[15];
         CardValueEnum cardRank;
         SuitEnum flush;
 
@@ -171,7 +175,29 @@ abstract public class Player {
         }else if(flush != null){
             cardRank = CardValueEnum.Flush;
         }
+        System.out.println(cardRank.toString());
         return cardRank;
+    }
+    public RankEnum getMatchingCard(Hand oneHand,int numberOfMCards){
+        //returns the highest matching pair, three of a kind or four of a kind
+        int rankArray[] = new int[15];
+        int match = 0;
+        //populate arraylist
+        for(int i = 0; i < oneHand.getNoOfCards();i++){
+            rankArray[i]++;
+        }
+        for(int i = rankArray.length-1 ; i > 0;i--){
+            if(rankArray[i] == numberOfMCards){
+                match = i;
+            }
+        }
+        for(RankEnum s : RankEnum.values()){
+            if(s.getValue() == match){
+                return s;
+            }
+        }
+        throw new NoMatchingCardException("The number of matching cards does not exist");
+
     }
 
     public void setHandValue2(Hand oneHand){
@@ -187,10 +213,13 @@ abstract public class Player {
             case FourOfAKind:
                 //handPoints += i * 264500; //four of a kind
                 //handPoints += i; //fifth cared
+                handPoints += 264500 * getMatchingCard(oneHand,4).getValue();
                 break;
             case FullHouse:
                 //handPoints += 264000 * i; //three of a kind
                 //handPoints += 10 * i; //highest pair
+                handPoints += 264000 * getMatchingCard(oneHand,3).getValue();
+                handPoints += 10 * getMatchingCard(oneHand,1).getValue();
                 break;
             case Flush:
                 //handPoints += 527000; //for flush
@@ -198,6 +227,7 @@ abstract public class Player {
                 break;
             case Straight:
                 //handPoints += 52600 * lowestStraight;
+                handPoints += 52600 * getLowestCardInStraight(oneHand).getValue();
                 break;
             case ThreeOfAKind:
                 //handPoints += 7500 * i; //for three of a kind
