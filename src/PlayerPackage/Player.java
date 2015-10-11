@@ -133,16 +133,17 @@ abstract public class Player {
             rankArray[oneHand.getCard(i).getRank()]++;
         }
 
-        for(int i = 0 ;i > rankArray.length;i++){
-            if(lastCardValue == i-1 && rankArray[i] > 0) {
+
+        for(int i=0; i < rankArray.length;i++){
+            if(lastCardValue == i-1 && rankArray[i] > 0){
                 straightCount++;
-                if (lowestStraight == 0) {
-                    lowestStraight = i;
-                }
-            }else {
-                straightCount=0;
-                lowestStraight=0;
+                if(lowestStraight == 0){lowestStraight = i;}
+                if(straightCount == 5){break;}
+            }else{
+                lowestStraight = 0;
+                straightCount = 0;
             }
+            lastCardValue = i;
         }
 /*        if(straightCount != 5){
             throw new NoCardValueStraightException("There is no straight in the list.");
@@ -150,13 +151,14 @@ abstract public class Player {
         //dunno if this is working...
 
         //NO WORKING!!!!!!!!
-        throw new NoSuchCardException("come come");
+        //throw new NoSuchCardException("come come");
         for(RankEnum s : RankEnum.values()){
+            //System.out.println("loweststraight: " + lowestStraight + " s.getvalue: " + s.getValue());
             if(s.getValue() == lowestStraight){
                 return s;
             }
         }
-        throw new NoSuchCardException("There is no such card");
+        throw new NoCardValueStraightException("There is no straight in the list.");
 
     }
     public CardValueEnum checkRankAndSuitValue(Hand oneHand){
@@ -187,17 +189,20 @@ abstract public class Player {
         int match = 0;
         //populate arraylist
         for(int i = 0; i < oneHand.getNoOfCards();i++){
-            rankArray[i]++;
+            rankArray[oneHand.getCard(i).getRank()]++;
         }
         for(int i = rankArray.length-1 ; i > 0;i--){
+            //System.out.println("i: " + i + " numberOfMCards: " + numberOfMCards + " rankArray[i]:" + rankArray[i]);
             if(rankArray[i] == numberOfMCards){
+                //System.out.println("WTF DUDE");
                 match = i;
                 break;
             }
         }
-        throw new NoSuchCardException("come come");
+     //   throw new NoSuchCardException("come come");
         //NO WORKING!!!!!!!!
         for(RankEnum s : RankEnum.values()){
+            //System.out.println("match: " + match + " s.getvalue: " + s.getValue());
             if(s.getValue() == match){
                 return s;
             }
@@ -225,7 +230,7 @@ abstract public class Player {
                 //handPoints += 264000 * i; //three of a kind
                 //handPoints += 10 * i; //highest pair
                 handPoints += 264000 * getMatchingCard(oneHand,3).getValue();
-                handPoints += 10 * getMatchingCard(oneHand,1).getValue();
+                handPoints += 10 * getMatchingCard(oneHand,2).getValue();
                 break;
             case Flush:
                 //handPoints += 527000; //for flush
