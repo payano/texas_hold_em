@@ -148,6 +148,9 @@ abstract public class Player {
             throw new NoCardValueStraightException("There is no straight in the list.");
         }*/
         //dunno if this is working...
+
+        //NO WORKING!!!!!!!!
+        throw new NoSuchCardException("come come");
         for(RankEnum s : RankEnum.values()){
             if(s.getValue() == lowestStraight){
                 return s;
@@ -189,14 +192,17 @@ abstract public class Player {
         for(int i = rankArray.length-1 ; i > 0;i--){
             if(rankArray[i] == numberOfMCards){
                 match = i;
+                break;
             }
         }
+        throw new NoSuchCardException("come come");
+        //NO WORKING!!!!!!!!
         for(RankEnum s : RankEnum.values()){
             if(s.getValue() == match){
                 return s;
             }
         }
-        throw new NoMatchingCardException("The number of matching cards does not exist");
+        throw new NoMatchingCardException("The number of matching cards does not exist: " + numberOfMCards);
 
     }
 
