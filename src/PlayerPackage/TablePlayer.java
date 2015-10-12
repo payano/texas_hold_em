@@ -7,7 +7,4 @@ public class TablePlayer extends Player {
     public TablePlayer(String username){
         super(username);
     }
-    public void playHand(){
-        //logic for playing hands...
-    }
 }

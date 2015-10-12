@@ -17,10 +17,12 @@ abstract public class Player {
     private Hand playerHand;
     private ChipCollection chips;
     private Money money;
+    //GAME SPECIFIC, WILL MOVE TO GAME.JAVA:
     private boolean stillInGame, highestBid, isBigBlind;
     private CardValueEnum handValue; //eller bara en int, får se vad som blir schysstast.
     private double roundBet;
     private int handPoints;
+    //END GAME SPECIFIC
 
     public Player(String userName){
         this.handValue = CardValueEnum.None;
@@ -39,6 +41,7 @@ abstract public class Player {
     }
 
 
+    //GAME SPECIFIC
     public Suit_ checkFlush(Hand oneHand){
         int suitArray[] = new int[4];
         //populate rank and suit arrays:
@@ -56,10 +59,10 @@ abstract public class Player {
 
             }
         }
-        //elakt att returnera null.. men det är ingen flush..
         return null;
     }
 
+    //GAME SPECIFIC
     public CardValueEnum checkCardValue(Hand oneHand){
         int straightCount = 0;
         int lastCardValue = 0;
@@ -117,7 +120,7 @@ abstract public class Player {
         }
         return CardValueEnum.None;
     }
-    //uber fresh function
+    //GAME SPECIFIC
     public Rank_ getLowestCardInStraight(Hand oneHand){
         //lets first check if there is a straight here:
         //check for straight here
@@ -131,9 +134,8 @@ abstract public class Player {
             if(oneHand.getCard(i).getRank() == 14){rankArray[1]++;}
             rankArray[oneHand.getCard(i).getRank()]++;
         }
-
-
         for(int i=0; i < rankArray.length;i++){
+            //check if there is a straight in the hand.
             if(lastCardValue == i-1 && rankArray[i] > 0){
                 straightCount++;
                 if(lowestStraight == 0){lowestStraight = i;}
@@ -144,15 +146,9 @@ abstract public class Player {
             }
             lastCardValue = i;
         }
-/*        if(straightCount != 5){
-            throw new NoCardValueStraightException("There is no straight in the list.");
-        }*/
-        //dunno if this is working...
-
-        //NO WORKING!!!!!!!!
-        //throw new NoSuchCardException("come come");
+        //search for the lowest card.
+        //and return a rank_
         for(Rank_ s : Rank_.values()){
-            //System.out.println("loweststraight: " + lowestStraight + " s.getvalue: " + s.getValue());
             if(s.getValue() == lowestStraight){
                 return s;
             }
@@ -160,10 +156,10 @@ abstract public class Player {
         throw new NoCardValueStraightException("There is no straight in the list.");
 
     }
+    //GAME SPECIFIC
     public CardValueEnum checkRankAndSuitValue(Hand oneHand){
         CardValueEnum cardRank;
         Suit_ flush;
-
         //check if flush is set:
         flush = checkFlush(oneHand);
         cardRank = checkCardValue(oneHand);
@@ -179,40 +175,9 @@ abstract public class Player {
         }else if(flush != null){
             cardRank = CardValueEnum.Flush;
         }
-        //System.out.println(cardRank.toString());
         return cardRank;
     }
-    /*
-        //old getMatchingCard
-        public Rank_ getMatchingCard(Hand oneHand,int numberOfMCards){
-        //returns the highest matching pair, three of a kind or four of a kind
-        int rankArray[] = new int[15];
-        int match = 0;
-        //populate arraylist
-        for(int i = 0; i < oneHand.getNoOfCards();i++){
-            rankArray[oneHand.getCard(i).getRank()]++;
-        }
-        for(int i = rankArray.length-1 ; i > 0;i--){
-            //System.out.println("i: " + i + " numberOfMCards: " + numberOfMCards + " rankArray[i]:" + rankArray[i]);
-            if(rankArray[i] == numberOfMCards){
-                //System.out.println("WTF DUDE");
-                match = i;
-                break;
-            }
-        }
-     //   throw new NoSuchCardException("come come");
-        //NO WORKING!!!!!!!!
-        for(Rank_ s : Rank_.values()){
-            //System.out.println("match: " + match + " s.getvalue: " + s.getValue());
-            if(s.getValue() == match){
-                return s;
-            }
-        }
-        throw new NoMatchingCardException("The number of matching cards does not exist: " + numberOfMCards);
-
-    }
-
-     */
+    //GAME SPECIFIC
     public ArrayList<Rank_> getMatchingCards(Hand oneHand,int numberOfMCards,int occurrences){
         //returns the highest matching pair, three of a kind or four of a kind
         ArrayList<Rank_> result = new ArrayList<Rank_>();
@@ -224,12 +189,9 @@ abstract public class Player {
             rankArray[oneHand.getCard(i).getRank()]++;
         }
         for(int i = rankArray.length-1 ; i > 0;i--){
-            //System.out.println("i: " + i + " numberOfMCards: " + numberOfMCards + " rankArray[i]:" + rankArray[i]);
             if(rankArray[i] == numberOfMCards){
-                //System.out.println("WTF DUDE");
                 match = i;
                 for(Rank_ s : Rank_.values()){
-                    //System.out.println("match: " + match + " s.getvalue: " + s.getValue());
                     if(s.getValue() == match){
                         result.add(s);
                     }
@@ -247,13 +209,11 @@ abstract public class Player {
             //redundant, just for testing.
             throw new NoMatchingCardException("Occurences: " + occurrences + " did not match checkOccurences:" + checkOccurences);
         }
-     //   throw new NoSuchCardException("come come");
-        //NO WORKING!!!!!!!!
-        //throw new NoMatchingCardException("The number of matching cards does not exist: " + numberOfMCards);
         return result;
     }
 
-    public void setHandValue2(Hand oneHand){
+    //GAME SPECIFIC
+    public void setHandValue(Hand oneHand){
         int handPoints = 0;
         ArrayList<Rank_> tempCardRanks = new ArrayList<Rank_>();
         CardValueEnum tempCardValueEnum;
@@ -331,21 +291,20 @@ abstract public class Player {
             this.handPoints = handPoints;
             this.handValue = tempCardValueEnum;
         }
-        //System.out.println("HandPoints: " + handPoints + " CardValue:" +  handValue);
-
     }
+    //GAME SPECIFIC
     public void getBestHand(){
         ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
         //get all possible hands from generateHands.
         allPossibleHands.addAll(generateHands());
 
         for( Hand oneHand: allPossibleHands){
-            //System.out.println("GIVE ME YOUR INFO: " + oneHand.toString());
-            setHandValue2(oneHand);
+            setHandValue(oneHand);
         }
 
 
     }
+    //GAME SPECIFIC
     private ArrayList<Hand> generateHands(){
         //this generates 21 hands.
         //http://stackoverflow.com/questions/8375452/how-to-loop-through-all-the-combinations-of-e-g-48-choose-5
@@ -381,10 +340,11 @@ abstract public class Player {
         return allPossibleHands;
     }
 
-
     public int getHandPoints(){return this.handPoints;}
+
     //this is texas specific...
-    public void setHandValue(){
+    /*
+    public void setHandValue_old(){
         int rankArray[] = new int[15];
         int suitArray[] = new int[4];
         
@@ -399,19 +359,9 @@ abstract public class Player {
         int lowestStraight = 0;
 
         this.handPoints = 0;
-        /*
-         1 = Ace
-         2 = 2
-         ....
-         14 = Ace
-         */
+
         //sort the hand
         //playerHand.sortCardsByRank();
-
-        /*
-        BUG: YOU CAN GET A STRAIGHT AND A FLUSH. != STRAIGHTFLUSH
-        AND THE PROGRAM SEES IT AS A STRAIGHTFLUSH!!
-         */
 
         for(int i = 0; i < playerHand.getNoOfCards();i++){
             //example:
@@ -605,11 +555,9 @@ abstract public class Player {
             }
             handValue = CardValueEnum.None;
         }
-
-
-
-
     }
+    */
+
     public CardValueEnum getHandValue(){return handValue;}
     public void setHighestBid(boolean highestBidder){this.highestBid = highestBidder;}
     public boolean getHighestBid(){return highestBid;}
@@ -649,9 +597,6 @@ abstract public class Player {
     public void convertMoneyToChips(double amount){
 
     }
-
-    abstract void playHand();
-
     public double getMoney(){
         return money.getMoney();
     }
