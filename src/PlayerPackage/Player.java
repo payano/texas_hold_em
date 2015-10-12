@@ -3,7 +3,6 @@ package PlayerPackage;
 import CardPackage.*;
 import ChipPackage.ChipCollection;
 import MoneyPackage.Money;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
 import java.util.ArrayList;
 
@@ -40,7 +39,7 @@ abstract public class Player {
     }
 
 
-    public SuitEnum checkFlush(Hand oneHand){
+    public Suit_ checkFlush(Hand oneHand){
         int suitArray[] = new int[4];
         //populate rank and suit arrays:
         for(int i = 0; i < oneHand.getNoOfCards();i++){
@@ -49,7 +48,7 @@ abstract public class Player {
         }
         for(int i = 0 ; i < suitArray.length;i++){
             if(suitArray[i] == 5){
-                for(SuitEnum s : SuitEnum.values()){
+                for(Suit_ s : Suit_.values()){
                     if(s.getValue() == i) {
                         return s;
                     }
@@ -119,7 +118,7 @@ abstract public class Player {
         return CardValueEnum.None;
     }
     //uber fresh function
-    public RankEnum getLowestCardInStraight(Hand oneHand){
+    public Rank_ getLowestCardInStraight(Hand oneHand){
         //lets first check if there is a straight here:
         //check for straight here
         //check with ace=1 aswell
@@ -152,7 +151,7 @@ abstract public class Player {
 
         //NO WORKING!!!!!!!!
         //throw new NoSuchCardException("come come");
-        for(RankEnum s : RankEnum.values()){
+        for(Rank_ s : Rank_.values()){
             //System.out.println("loweststraight: " + lowestStraight + " s.getvalue: " + s.getValue());
             if(s.getValue() == lowestStraight){
                 return s;
@@ -163,7 +162,7 @@ abstract public class Player {
     }
     public CardValueEnum checkRankAndSuitValue(Hand oneHand){
         CardValueEnum cardRank;
-        SuitEnum flush;
+        Suit_ flush;
 
         //check if flush is set:
         flush = checkFlush(oneHand);
@@ -173,7 +172,7 @@ abstract public class Player {
             //Jackpot! both straight and flush!
             cardRank = CardValueEnum.StraightFlush;
             //hardcoded royal here:
-            if(flush == SuitEnum.Hearts && getLowestCardInStraight(oneHand) == RankEnum.Ten){
+            if(flush == Suit_.Hearts && getLowestCardInStraight(oneHand) == Rank_.Ten){
                 //sweet jesus, you are a lucky soul.
                 cardRank = CardValueEnum.RoyalFlush;
             }
@@ -183,7 +182,9 @@ abstract public class Player {
         System.out.println(cardRank.toString());
         return cardRank;
     }
-    public RankEnum getMatchingCard(Hand oneHand,int numberOfMCards){
+    /*
+        //old getMatchingCard
+        public Rank_ getMatchingCard(Hand oneHand,int numberOfMCards){
         //returns the highest matching pair, three of a kind or four of a kind
         int rankArray[] = new int[15];
         int match = 0;
@@ -201,7 +202,7 @@ abstract public class Player {
         }
      //   throw new NoSuchCardException("come come");
         //NO WORKING!!!!!!!!
-        for(RankEnum s : RankEnum.values()){
+        for(Rank_ s : Rank_.values()){
             //System.out.println("match: " + match + " s.getvalue: " + s.getValue());
             if(s.getValue() == match){
                 return s;
@@ -211,13 +212,56 @@ abstract public class Player {
 
     }
 
+     */
+    public ArrayList<Rank_> getMatchingCards(Hand oneHand,int numberOfMCards,int occurrences){
+        //returns the highest matching pair, three of a kind or four of a kind
+        ArrayList<Rank_> result = new ArrayList<Rank_>();
+        int rankArray[] = new int[15];
+        int match = 0;
+        int checkOccurences=0;
+        //populate arraylist
+        for(int i = 0; i < oneHand.getNoOfCards();i++){
+            rankArray[oneHand.getCard(i).getRank()]++;
+        }
+        for(int i = rankArray.length-1 ; i > 0;i--){
+            //System.out.println("i: " + i + " numberOfMCards: " + numberOfMCards + " rankArray[i]:" + rankArray[i]);
+            if(rankArray[i] == numberOfMCards){
+                //System.out.println("WTF DUDE");
+                match = i;
+                for(Rank_ s : Rank_.values()){
+                    //System.out.println("match: " + match + " s.getvalue: " + s.getValue());
+                    if(s.getValue() == match){
+                        result.add(s);
+                    }
+                }
+                checkOccurences++;
+                if(checkOccurences == occurrences){
+                    break;
+                }
+            }
+        }
+        if(checkOccurences != occurrences){
+            throw new NoMatchingCardException("Occurences: " + occurrences + " did not match checkOccurences:" + checkOccurences);
+        }
+        if(result.size() != occurrences){
+            //redundant, just for testing.
+            throw new NoMatchingCardException("Occurences: " + occurrences + " did not match checkOccurences:" + checkOccurences);
+        }
+     //   throw new NoSuchCardException("come come");
+        //NO WORKING!!!!!!!!
+        //throw new NoMatchingCardException("The number of matching cards does not exist: " + numberOfMCards);
+        return result;
+    }
+
     public void setHandValue2(Hand oneHand){
         int handPoints = 0;
-        switch (checkRankAndSuitValue(oneHand)){
+        ArrayList<Rank_> tempCardRanks = new ArrayList<Rank_>();
+        CardValueEnum temp = checkRankAndSuitValue(oneHand);
+
+        switch (temp){
             case RoyalFlush:
                 handPoints += 230000000;
                 //TBD
-                //daskdjak
                 break;
             case StraightFlush:
                 handPoints += 15000000 * getLowestCardInStraight(oneHand).getValue();
@@ -225,17 +269,23 @@ abstract public class Player {
             case FourOfAKind:
                 //handPoints += i * 264500; //four of a kind
                 //handPoints += i; //fifth cared
-                handPoints += 2000000 * getMatchingCard(oneHand,4).getValue();
+                handPoints += 2000000 * getMatchingCards(oneHand,4,1).get(0).getValue();
+                handPoints += getMatchingCards(oneHand,1,1).get(0).getValue();
                 break;
             case FullHouse:
                 //handPoints += 264000 * i; //three of a kind
                 //handPoints += 10 * i; //highest pair
-                handPoints += 264000 * getMatchingCard(oneHand,3).getValue();
-                handPoints += 10 * getMatchingCard(oneHand,2).getValue();
+                handPoints += 264000 * getMatchingCards(oneHand,3,1).get(0).getValue();
+                handPoints += 10 * getMatchingCards(oneHand,2,1).get(0).getValue();
                 break;
             case Flush:
                 //handPoints += 527000; //for flush
                 //handPoints += i; //add the 5 cards together
+                handPoints += 527000;
+                //add the values for each card to handpoints
+                for(int i = 0; i < oneHand.getNoOfCards();i++){
+                    handPoints += oneHand.getCard(i).getRank();
+                }
                 break;
             case Straight:
                 //handPoints += 52600 * lowestStraight;
@@ -244,21 +294,38 @@ abstract public class Player {
             case ThreeOfAKind:
                 //handPoints += 7500 * i; //for three of a kind
                 //handPoints += i; //add the two other cards
+                handPoints += 7500 * getMatchingCards(oneHand,3,1).get(0).getValue();
+                tempCardRanks.addAll(getMatchingCards(oneHand,1,3));
+                for(int i = 0; i < oneHand.getNoOfCards();i++){
+                    handPoints += oneHand.getCard(i).getRank();
+                }
                 break;
             case TwoPair:
                 //handPoints += 1000 * i; //highest pair
                 //handPoints += 10 * i; //lowest pair
                 //handPoints += i //last card
+                tempCardRanks.addAll(getMatchingCards(oneHand,2,2));
+                handPoints += 1000 * tempCardRanks.get(0).getValue();
+                handPoints += 10 * tempCardRanks.get(1).getValue();
                 break;
             case OnePair:
                 //handPoints += 40*i; //for the pair
                 //handPoints += i //for the rest of the cards
+                handPoints += 40 * getMatchingCards(oneHand,2,1).get(0).getValue();
+                tempCardRanks.addAll(getMatchingCards(oneHand,1,3));
+                for(int i = 0; i < oneHand.getNoOfCards();i++){
+                    handPoints += oneHand.getCard(i).getRank();
+                }
                 break;
             case None:
                 //handPoints += i //for all five cards
+                tempCardRanks.addAll(getMatchingCards(oneHand,1,5));
+                for(int i = 0; i < oneHand.getNoOfCards();i++){
+                    handPoints += oneHand.getCard(i).getRank();
+                }
                 break;
         }
-//        System.out.println("HandValue: " + handValue + " HandPoints: " + handPoints);
+        System.out.println("HandPoints: " + handPoints + " CardValue:" +  temp);
 
     }
     public void getBestHand(){

@@ -13,10 +13,10 @@ public class Card {
      * @param rank 1 = Ace, 2 = 2, ...
      * @param suit 1 = spades, 2 = hearts, 3 = diamonds, 4 = clubs
      */
-    private final RankEnum rank;
-    private final SuitEnum suit;
+    private final Rank_ rank;
+    private final Suit_ suit;
 
-    public Card(RankEnum rank, SuitEnum suit) throws java.lang.IllegalArgumentException{
+    public Card(Rank_ rank, Suit_ suit) throws java.lang.IllegalArgumentException{
             this.rank = rank;
             this.suit = suit;
     }
