@@ -20,12 +20,10 @@ public class Game {
     Scanner scan = new Scanner(System.in);
 
     //GAME SPECIFIC, WILL MOVE TO GAME.JAVA:
-    /*
-    private boolean stillInGame, highestBid, isBigBlind;
-    private CardValueEnum handValue; //eller bara en int, får se vad som blir schysstast.
-    private double roundBet;
-    private int handPoints;
-    */
+    private ArrayList<Boolean> stillInGame,highestBid,isBigBlind;
+    private ArrayList<CardValueEnum> handValue;
+    private ArrayList<Double> roundBet; //change to gameeBet later...
+    private ArrayList<Integer> handPoints;
     //END GAME SPECIFIC
 
 
@@ -38,12 +36,23 @@ public class Game {
         players.add(new HumanPlayer("Tratten", 550));
         players.add(new HumanPlayer("TrattVald", 1337));
         players.add(new HumanPlayer("Johan", 500));
-        //One player that is not a blind holder.
-//        players.add(new ComputerPlayer("SuperAI"));
-//        players.get(3).addMoney(100);
+
+        //initiate arraylists for users
+        for (int i = 0; i < players.size() ; i++) {
+            //creating seperate lists for each player to keep track of them.
+            stillInGame.add(false);
+            highestBid.add(false);
+            isBigBlind.add(false);
+            handValue.add(CardValueEnum.None);
+            roundBet.add(0.0);
+            handPoints.add(0);
+        }
 
     }
 
+    private boolean getStillInGame(int i){return stillInGame.get(i);}
+    private int getHandPoints(int i){return handPoints.get(i);}
+    private CardValueEnum getHandValue(int i){return handValue.get(i);}
     private void setWinner(){
         int currentLeader = 0;
         boolean firstRun = true;
@@ -53,30 +62,32 @@ public class Game {
             //table can not win.
             if(players.get(i) instanceof TablePlayer){continue;}
             //player must still be in game to win
-            if(!players.get(i).getStillInGame()){continue;}
+            if(!getStillInGame(i)){continue;}
+            //if(!players.get(i).getStillInGame()){continue;}
             //get the first time leader
             //System.out.println("player: " + players.get(i).getName() + ", handValue: " + players.get(i).getHandValue().getValue());
 
-            System.out.println("player: " + players.get(i).getName() + ", handPoints: " + players.get(i).getHandPoints() + " CardValue: " + players.get(i).getHandValue());
+            System.out.println("player: " + players.get(i).getName() + ", handPoints: " + getHandPoints(i) + " CardValue: " + getHandValue(i));
             if(firstRun){currentLeader = i;firstRun=false;continue;}
-            if(players.get(i).getHandPoints() > players.get(currentLeader).getHandPoints()){
+            if(getHandPoints(i) > getHandPoints(currentLeader)){
                 currentLeader = i;
-            }else if(players.get(i).getHandPoints() == players.get(currentLeader).getHandPoints()){
+            }else if(getHandPoints(i) == getHandPoints(currentLeader)){
                 System.out.println("HEY MAN THIS IS A SPLIT!!");
             }
         }
 
         //check if more players has the same handValue.
         System.out.println("the winner is..... " + players.get(currentLeader).getName());
-        System.out.println("he/she has: " + players.get(currentLeader).getHandValue().toString());
+        System.out.println("he/she has: " + getHandValue(currentLeader).toString());
     }
     private void getHandValues(){
-        for(Player onePlayer : players){
-            if(onePlayer instanceof TablePlayer){continue;}
+        for(int i = 0; i < players.size();i++){
+            if(players.get(i) instanceof TablePlayer){continue;}
             //add the Table hand to the player hands.
-            onePlayer.addCard(findTable().getCards());
-            onePlayer.sortCardsByRank();
+            players.get(i).addCard(findTable().getCards());
+            players.get(i).sortCardsByRank();
             //onePlayer.setHandValue();
+            setBestHand(players.get(i).getCards());
             onePlayer.getBestHand();
         }
     }
@@ -228,15 +239,15 @@ public class Game {
 
     }
 
-    public void setHighestBidder(Player highestPlayer){
-        for(Player onePlayer : players){
-            onePlayer.setHighestBid(false);
+    public void setHighestBidder(int highestPlayer){
+        for(int i = 0 ; i < players.size();i++){
+            highestBid.set(i,false);
         }
-        highestPlayer.setHighestBid(true);
+        highestBid.set(highestPlayer,true);
     }
     public int getHighestBidder(){
         for(int i = 0; i < players.size();i++){
-            if(players.get(i).getHighestBid()){
+            if(highestBid.get(i)){
                 return i;
             }
         }
