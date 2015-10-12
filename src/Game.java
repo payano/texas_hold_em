@@ -1,4 +1,4 @@
-import CardPackage.Deck;
+import CardPackage.*;
 import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
 import com.sun.org.apache.xpath.internal.SourceTree;
@@ -18,6 +18,15 @@ public class Game {
     //computer;
     Deck theDeck;
     Scanner scan = new Scanner(System.in);
+
+    //GAME SPECIFIC, WILL MOVE TO GAME.JAVA:
+    private boolean stillInGame, highestBid, isBigBlind;
+    private CardValueEnum handValue; //eller bara en int, får se vad som blir schysstast.
+    private double roundBet;
+    private int handPoints;
+    //END GAME SPECIFIC
+
+
     public Game() {
         theDeck = new Deck();
         players = new ArrayList<Player>();
@@ -235,7 +244,7 @@ public class Game {
     public void betCheckFold(Player onePlayer){
         System.out.println("\nyour share in this bettingRound so far: " + onePlayer.getRoundBet());
         System.out.println("Table has: " + findTable().getMoney() + " money , the roundbet is: "+ findTable().getRoundBet());
-        System.out.println("You need to bet at least: " + (findTable().getRoundBet()-onePlayer.getRoundBet()));
+        System.out.println("You need to bet at least: " + (findTable().getRoundBet() - onePlayer.getRoundBet()));
         System.out.println(findTable().toString());
         System.out.println(onePlayer.toString());
         System.out.println(onePlayer.getName() + " what do you want to do? 0:check, 1:call, 2:bet, 3:all-in, 4:fold");
@@ -456,4 +465,309 @@ public class Game {
         //players.get(1).getBestHand();
 
     }
+    //FIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXX THIIIIIIIIIS SHIIIIIIIIIIIIIT
+
+    //GAME SPECIFIC
+    public Suit_ checkFlush(Hand oneHand){
+        int suitArray[] = new int[4];
+        //populate rank and suit arrays:
+        for(int i = 0; i < oneHand.getNoOfCards();i++){
+            //add ace to first slot in the array aswell.
+            suitArray[oneHand.getCard(i).getSuit()]++;
+        }
+        for(int i = 0 ; i < suitArray.length;i++){
+            if(suitArray[i] == 5){
+                for(Suit_ s : Suit_.values()){
+                    if(s.getValue() == i) {
+                        return s;
+                    }
+                }
+
+            }
+        }
+        return null;
+    }
+
+    //GAME SPECIFIC
+    public CardValueEnum checkCardValue(Hand oneHand){
+        int straightCount = 0;
+        int lastCardValue = 0;
+        int lowestStraight = 0;
+        int pairCount = 0;
+        boolean threeOfAKind = false;
+        int rankArray[] = new int[15];
+        for(int i = 0; i < oneHand.getNoOfCards();i++){
+            //add ace to first slot in the array aswell.
+            if(oneHand.getCard(i).getRank() == 14){rankArray[1]++;}
+            rankArray[oneHand.getCard(i).getRank()]++;
+        }
+
+        for(int i = 1;i < rankArray.length;i++){
+            //check for straight here
+            //check with ace=1 aswell
+            if(lastCardValue == i-1 && rankArray[i] > 0) {
+                straightCount++;
+                if (lowestStraight == 0) {
+                    lowestStraight = i;
+                }
+                if (straightCount == 5) {
+                    //this is redundant....
+                    //CHECK THIS WARNING!
+                    return CardValueEnum.Straight;
+                    //straight = true;
+                }
+            }else {
+                straightCount = 0;
+                lowestStraight = 0;
+            }
+            lastCardValue = i;
+
+            //end check for straight
+            if(i == 1){continue;}
+            //check for pair, twopair, three of a kind, four of a kind
+            if(rankArray[i] == 2){
+                pairCount++;
+            }else if(rankArray[i] == 3){
+                threeOfAKind = true;
+            }else if(rankArray[i] == 4){
+                return CardValueEnum.FourOfAKind;
+                //fourOfAKind = true;
+            }
+        }
+
+        if(threeOfAKind && pairCount == 1) {
+            return CardValueEnum.FullHouse;
+        }else if(threeOfAKind){
+            return CardValueEnum.ThreeOfAKind;
+        }else if(pairCount == 1){
+            return CardValueEnum.OnePair;
+        }else if(pairCount == 2){
+            return CardValueEnum.TwoPair;
+        }
+        return CardValueEnum.None;
+    }
+    //GAME SPECIFIC
+    public Rank_ getLowestCardInStraight(Hand oneHand){
+        //lets first check if there is a straight here:
+        //check for straight here
+        //check with ace=1 aswell
+        int lastCardValue = 0;
+        int straightCount = 0;
+        int lowestStraight = 0;
+        int rankArray[] = new int[15];
+        for(int i = 0; i < oneHand.getNoOfCards();i++){
+            //add ace to first slot in the array aswell.
+            if(oneHand.getCard(i).getRank() == 14){rankArray[1]++;}
+            rankArray[oneHand.getCard(i).getRank()]++;
+        }
+        for(int i=0; i < rankArray.length;i++){
+            //check if there is a straight in the hand.
+            if(lastCardValue == i-1 && rankArray[i] > 0){
+                straightCount++;
+                if(lowestStraight == 0){lowestStraight = i;}
+                if(straightCount == 5){break;}
+            }else{
+                lowestStraight = 0;
+                straightCount = 0;
+            }
+            lastCardValue = i;
+        }
+        //search for the lowest card.
+        //and return a rank_
+        for(Rank_ s : Rank_.values()){
+            if(s.getValue() == lowestStraight){
+                return s;
+            }
+        }
+        throw new NoCardValueStraightException("There is no straight in the list.");
+
+    }
+    //GAME SPECIFIC
+    public CardValueEnum checkRankAndSuitValue(Hand oneHand){
+        CardValueEnum cardRank;
+        Suit_ flush;
+        //check if flush is set:
+        flush = checkFlush(oneHand);
+        cardRank = checkCardValue(oneHand);
+
+        if(cardRank == CardValueEnum.Straight && flush != null){
+            //Jackpot! both straight and flush!
+            cardRank = CardValueEnum.StraightFlush;
+            //hardcoded royal here:
+            if(flush == Suit_.Hearts && getLowestCardInStraight(oneHand) == Rank_.Ten){
+                //sweet jesus, you are a lucky soul.
+                cardRank = CardValueEnum.RoyalFlush;
+            }
+        }else if(flush != null){
+            cardRank = CardValueEnum.Flush;
+        }
+        return cardRank;
+    }
+    //GAME SPECIFIC
+    public ArrayList<Rank_> getMatchingCards(Hand oneHand,int numberOfMCards,int occurrences){
+        //returns the highest matching pair, three of a kind or four of a kind
+        ArrayList<Rank_> result = new ArrayList<Rank_>();
+        int rankArray[] = new int[15];
+        int match = 0;
+        int checkOccurences=0;
+        //populate arraylist
+        for(int i = 0; i < oneHand.getNoOfCards();i++){
+            rankArray[oneHand.getCard(i).getRank()]++;
+        }
+        for(int i = rankArray.length-1 ; i > 0;i--){
+            if(rankArray[i] == numberOfMCards){
+                match = i;
+                for(Rank_ s : Rank_.values()){
+                    if(s.getValue() == match){
+                        result.add(s);
+                    }
+                }
+                checkOccurences++;
+                if(checkOccurences == occurrences){
+                    break;
+                }
+            }
+        }
+        if(checkOccurences != occurrences){
+            throw new NoMatchingCardException("Occurences: " + occurrences + " did not match checkOccurences:" + checkOccurences);
+        }
+        if(result.size() != occurrences){
+            //redundant, just for testing.
+            throw new NoMatchingCardException("Occurences: " + occurrences + " did not match checkOccurences:" + checkOccurences);
+        }
+        return result;
+    }
+
+    //GAME SPECIFIC
+    public void setHandValue(Hand oneHand){
+        int handPoints = 0;
+        ArrayList<Rank_> tempCardRanks = new ArrayList<Rank_>();
+        CardValueEnum tempCardValueEnum;
+        tempCardValueEnum = checkRankAndSuitValue(oneHand);
+
+        switch (tempCardValueEnum){
+            case RoyalFlush:
+                handPoints += 230000000;
+                //TBD
+                break;
+            case StraightFlush:
+                handPoints += 15000000 * getLowestCardInStraight(oneHand).getValue();
+                break;
+            case FourOfAKind:
+                //handPoints += i * 264500; //four of a kind
+                //handPoints += i; //fifth cared
+                handPoints += 2000000 * getMatchingCards(oneHand,4,1).get(0).getValue();
+                handPoints += getMatchingCards(oneHand,1,1).get(0).getValue();
+                break;
+            case FullHouse:
+                //handPoints += 264000 * i; //three of a kind
+                //handPoints += 10 * i; //highest pair
+                handPoints += 264000 * getMatchingCards(oneHand,3,1).get(0).getValue();
+                handPoints += 10 * getMatchingCards(oneHand,2,1).get(0).getValue();
+                break;
+            case Flush:
+                //handPoints += 527000; //for flush
+                //handPoints += i; //add the 5 cards together
+                handPoints += 527000;
+                //add the values for each card to handpoints
+                for(int i = 0; i < oneHand.getNoOfCards();i++){
+                    handPoints += oneHand.getCard(i).getRank();
+                }
+                break;
+            case Straight:
+                //handPoints += 52600 * lowestStraight;
+                handPoints += 52600 * getLowestCardInStraight(oneHand).getValue();
+                break;
+            case ThreeOfAKind:
+                //handPoints += 7500 * i; //for three of a kind
+                //handPoints += i; //add the two other cards
+                handPoints += 7500 * getMatchingCards(oneHand,3,1).get(0).getValue();
+                tempCardRanks.addAll(getMatchingCards(oneHand,1,2));
+                for(int i = 0; i < oneHand.getNoOfCards();i++){
+                    handPoints += oneHand.getCard(i).getRank();
+                }
+                break;
+            case TwoPair:
+                //handPoints += 1000 * i; //highest pair
+                //handPoints += 10 * i; //lowest pair
+                //handPoints += i //last card
+                tempCardRanks.addAll(getMatchingCards(oneHand,2,2));
+                handPoints += 1000 * tempCardRanks.get(0).getValue();
+                handPoints += 10 * tempCardRanks.get(1).getValue();
+                handPoints += getMatchingCards(oneHand,1,1).get(0).getValue();
+                break;
+            case OnePair:
+                //handPoints += 40*i; //for the pair
+                //handPoints += i //for the rest of the cards
+                handPoints += 40 * getMatchingCards(oneHand,2,1).get(0).getValue();
+                tempCardRanks.addAll(getMatchingCards(oneHand,1,3));
+                for(int i = 0; i < oneHand.getNoOfCards();i++){
+                    handPoints += oneHand.getCard(i).getRank();
+                }
+                break;
+            case None:
+                //handPoints += i //for all five cards
+                tempCardRanks.addAll(getMatchingCards(oneHand,1,5));
+                for(int i = 0; i < oneHand.getNoOfCards();i++){
+                    handPoints += oneHand.getCard(i).getRank();
+                }
+                break;
+        }
+        if(handPoints > this.handPoints){
+            this.handPoints = handPoints;
+            this.handValue = tempCardValueEnum;
+        }
+    }
+    //GAME SPECIFIC
+    public void getBestHand(){
+        ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
+        //get all possible hands from generateHands.
+        allPossibleHands.addAll(generateHands());
+
+        for( Hand oneHand: allPossibleHands){
+            setHandValue(oneHand);
+        }
+
+
+    }
+    //GAME SPECIFIC
+    private ArrayList<Hand> generateHands(){
+        //this generates 21 hands.
+        //http://stackoverflow.com/questions/8375452/how-to-loop-through-all-the-combinations-of-e-g-48-choose-5
+        //for loop stolen:
+        ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
+        Hand tempHand;
+        int n = 7; //might change in tha future...
+        for ( int i = 0; i < n; i++ ) {
+            for ( int j = i + 1; j < n; j++ ) {
+                for ( int k = j + 1; k < n; k++ ) {
+                    for (int l = k + 1; l < n; l++) {
+                        for (int m = l + 1; m < n; m++) {
+                            //generate hands:
+                            tempHand = new Hand();
+                            tempHand.addCard(playerHand.getCard(i));
+                            tempHand.addCard(playerHand.getCard(j));
+                            tempHand.addCard(playerHand.getCard(k));
+                            tempHand.addCard(playerHand.getCard(l));
+                            tempHand.addCard(playerHand.getCard(m));
+
+                            //try to get the list in order:
+                            tempHand.sortCardsBySuit();
+                            tempHand.sortCardsByRank();
+                            tempHand.sortCardsBySuit();
+                            tempHand.sortCardsByRank();
+
+                            allPossibleHands.add(tempHand);
+                        }
+                    }
+                }
+            }
+        }
+        return allPossibleHands;
+    }
+
+
+
+
+
 }
