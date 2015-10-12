@@ -46,7 +46,7 @@ public class Game {
             //get the first time leader
             //System.out.println("player: " + players.get(i).getName() + ", handValue: " + players.get(i).getHandValue().getValue());
 
-            System.out.println("player: " + players.get(i).getName() + ", handPoints: " + players.get(i).getHandPoints());
+            System.out.println("player: " + players.get(i).getName() + ", handPoints: " + players.get(i).getHandPoints() + " CardValue: " + players.get(i).getHandValue());
             if(firstRun){currentLeader = i;firstRun=false;continue;}
             if(players.get(i).getHandPoints() > players.get(currentLeader).getHandPoints()){
                 currentLeader = i;
@@ -65,7 +65,8 @@ public class Game {
             //add the Table hand to the player hands.
             onePlayer.addCard(findTable().getCards());
             onePlayer.sortCardsByRank();
-            onePlayer.setHandValue();
+            //onePlayer.setHandValue();
+            onePlayer.getBestHand();
         }
     }
     //new version.
@@ -452,7 +453,7 @@ public class Game {
 
 
         //this is le beta
-        players.get(1).getBestHand();
+        //players.get(1).getBestHand();
 
     }
 }

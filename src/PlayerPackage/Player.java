@@ -179,7 +179,7 @@ abstract public class Player {
         }else if(flush != null){
             cardRank = CardValueEnum.Flush;
         }
-        System.out.println(cardRank.toString());
+        //System.out.println(cardRank.toString());
         return cardRank;
     }
     /*
@@ -256,9 +256,10 @@ abstract public class Player {
     public void setHandValue2(Hand oneHand){
         int handPoints = 0;
         ArrayList<Rank_> tempCardRanks = new ArrayList<Rank_>();
-        CardValueEnum temp = checkRankAndSuitValue(oneHand);
+        CardValueEnum tempCardValueEnum;
+        tempCardValueEnum = checkRankAndSuitValue(oneHand);
 
-        switch (temp){
+        switch (tempCardValueEnum){
             case RoyalFlush:
                 handPoints += 230000000;
                 //TBD
@@ -295,7 +296,7 @@ abstract public class Player {
                 //handPoints += 7500 * i; //for three of a kind
                 //handPoints += i; //add the two other cards
                 handPoints += 7500 * getMatchingCards(oneHand,3,1).get(0).getValue();
-                tempCardRanks.addAll(getMatchingCards(oneHand,1,3));
+                tempCardRanks.addAll(getMatchingCards(oneHand,1,2));
                 for(int i = 0; i < oneHand.getNoOfCards();i++){
                     handPoints += oneHand.getCard(i).getRank();
                 }
@@ -307,6 +308,7 @@ abstract public class Player {
                 tempCardRanks.addAll(getMatchingCards(oneHand,2,2));
                 handPoints += 1000 * tempCardRanks.get(0).getValue();
                 handPoints += 10 * tempCardRanks.get(1).getValue();
+                handPoints += getMatchingCards(oneHand,1,1).get(0).getValue();
                 break;
             case OnePair:
                 //handPoints += 40*i; //for the pair
@@ -325,7 +327,11 @@ abstract public class Player {
                 }
                 break;
         }
-        System.out.println("HandPoints: " + handPoints + " CardValue:" +  temp);
+        if(handPoints > this.handPoints){
+            this.handPoints = handPoints;
+            this.handValue = tempCardValueEnum;
+        }
+        //System.out.println("HandPoints: " + handPoints + " CardValue:" +  handValue);
 
     }
     public void getBestHand(){
@@ -334,7 +340,7 @@ abstract public class Player {
         allPossibleHands.addAll(generateHands());
 
         for( Hand oneHand: allPossibleHands){
-            System.out.println("GIVE ME YOUR INFO: " + oneHand.toString());
+            //System.out.println("GIVE ME YOUR INFO: " + oneHand.toString());
             setHandValue2(oneHand);
         }
 
