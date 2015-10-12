@@ -20,10 +20,12 @@ public class Game {
     Scanner scan = new Scanner(System.in);
 
     //GAME SPECIFIC, WILL MOVE TO GAME.JAVA:
+    /*
     private boolean stillInGame, highestBid, isBigBlind;
     private CardValueEnum handValue; //eller bara en int, får se vad som blir schysstast.
     private double roundBet;
     private int handPoints;
+    */
     //END GAME SPECIFIC
 
 
@@ -731,7 +733,7 @@ public class Game {
 
     }
     //GAME SPECIFIC
-    private ArrayList<Hand> generateHands(){
+    private ArrayList<Hand> generateHands(Hand playerHand){
         //this generates 21 hands.
         //http://stackoverflow.com/questions/8375452/how-to-loop-through-all-the-combinations-of-e-g-48-choose-5
         //for loop stolen:
