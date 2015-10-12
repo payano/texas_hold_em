@@ -53,6 +53,20 @@ public class Game {
     private boolean getStillInGame(int i){return stillInGame.get(i);}
     private int getHandPoints(int i){return handPoints.get(i);}
     private CardValueEnum getHandValue(int i){return handValue.get(i);}
+    public void setHighestBidder(int highestPlayer){
+        for(int i = 0 ; i < players.size();i++){
+            highestBid.set(i,false);
+        }
+        highestBid.set(highestPlayer,true);
+    }
+    public int getHighestBidder(){
+        for(int i = 0; i < players.size();i++){
+            if(highestBid.get(i)){
+                return i;
+            }
+        }
+        throw new HighestBidderNotFoundException("Strange, there is no highest bidder..");
+    }
     private void setWinner(){
         int currentLeader = 0;
         boolean firstRun = true;
@@ -239,20 +253,7 @@ public class Game {
 
     }
 
-    public void setHighestBidder(int highestPlayer){
-        for(int i = 0 ; i < players.size();i++){
-            highestBid.set(i,false);
-        }
-        highestBid.set(highestPlayer,true);
-    }
-    public int getHighestBidder(){
-        for(int i = 0; i < players.size();i++){
-            if(highestBid.get(i)){
-                return i;
-            }
-        }
-        throw new HighestBidderNotFoundException("Strange, there is no highest bidder..");
-    }
+
 
     public void betCheckFold(Player onePlayer){
         System.out.println("\nyour share in this bettingRound so far: " + onePlayer.getRoundBet());
