@@ -215,16 +215,17 @@ abstract public class Player {
         int handPoints = 0;
         switch (checkRankAndSuitValue(oneHand)){
             case RoyalFlush:
-                handPoints += 4000000;
+                handPoints += 230000000;
                 //TBD
+                //daskdjak
                 break;
             case StraightFlush:
-                handPoints += 371000 * getLowestCardInStraight(oneHand).getValue();
+                handPoints += 15000000 * getLowestCardInStraight(oneHand).getValue();
                 break;
             case FourOfAKind:
                 //handPoints += i * 264500; //four of a kind
                 //handPoints += i; //fifth cared
-                handPoints += 264500 * getMatchingCard(oneHand,4).getValue();
+                handPoints += 2000000 * getMatchingCard(oneHand,4).getValue();
                 break;
             case FullHouse:
                 //handPoints += 264000 * i; //three of a kind
