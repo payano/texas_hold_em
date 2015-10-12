@@ -56,6 +56,7 @@ public class Deck {
     //Skapar decket utav kort.
     private void createDeck(){
         for (RankEnum r : RankEnum.values()){
+            if(r == RankEnum.One){continue;}
             for (SuitEnum s : SuitEnum.values()){
                 theCards.add(new Card(r,s));
             }
