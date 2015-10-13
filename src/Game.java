@@ -40,7 +40,7 @@ public class Game {
             //creating seperate lists for each player to keep track of them.
             stillInGame.add(false);
             highestBid.add(false);
-            isBigBlind.add(false);
+            bigBlind.add(false);
             handValue.add(CardValueEnum.None);
             roundBet.add(0.0);
             handPoints.add(0);
@@ -58,6 +58,7 @@ public class Game {
         }
         highestBid.set(highestPlayer,true);
     }
+    public boolean getHighestBid(int i){return highestBid.get(i);}
     public int getHighestBidder(){
         for(int i = 0; i < players.size();i++){
             if(highestBid.get(i)){
@@ -118,13 +119,13 @@ public class Game {
             //if the counter gets larger than size make it zero.
             if(i >= players.size()){i = 0;}
             if(players.get(i) instanceof TablePlayer){
-                if(players.get(i).getHighestBid()){
+                if(getHighestBid(i)){
                     //if every player checked.
                     break;
                 }
                 continue;
             }
-            if(!players.get(i).getStillInGame()){continue;}
+            if(!getStillInGame(i)){continue;}
             if(players.get(i) instanceof HumanPlayer){
                 //magic happens here
                 System.out.println("HIHGEST BIDDER: " + getHighestBidder());
@@ -168,20 +169,21 @@ public class Game {
         //setup some things for the next round
         //make table the highest bidder
         //reset the bets:
-        for(Player onePlayer : players){
-            onePlayer.resetRoundBet();
+        for(int i = 0 ; i < players.size();i++){
+            resetRoundBet(i);
         }
         System.out.println("ROUND OVER!");
         setHighestBidder(findTable());
 
     }
 
-    public boolean winner(Player mightBeWinner){
+    //replace with something like getPlayersInGame().
+    public boolean winner(){
         int numberOfplayersLeft = 0;
 
         //add all the players that are still in the game.
-        for (Player onePLayer : players) {
-            if (onePLayer.getStillInGame()) numberOfplayersLeft++;
+        for (int i = 0; i < players.size();i++) {
+            if (getStillInGame(i)) numberOfplayersLeft++;
         }
 
         //if there is more than one player and the table left. No one has won yet.
