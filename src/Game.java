@@ -11,6 +11,7 @@ import java.util.Scanner;
  */
 public class Game {
 
+    //private datamembers in game class:
     private ArrayList<Player> players;
     private final int stake = 50; //this is the minimum bet for all rounds in the game.
     private Deck theDeck;
@@ -18,8 +19,6 @@ public class Game {
     private ArrayList<Boolean> stillInGame,highestBid,bigBlind;
     private ArrayList<CardValueEnum> handValue;
     private ArrayList<Double> roundBet; //change to gameeBet later...
-    private ArrayList<Integer> handPoints;
-
 
 
     public Game() {
@@ -30,7 +29,6 @@ public class Game {
         bigBlind = new ArrayList<Boolean>();
         handValue = new ArrayList<CardValueEnum>();
         roundBet = new ArrayList<Double>();
-        handPoints = new ArrayList<Integer>();
         //add players temporary:
         players.add(new TablePlayer("TheTable"));
         players.add(new HumanPlayer("Arvid",1080));
@@ -46,14 +44,13 @@ public class Game {
             bigBlind.add(false);
             handValue.add(CardValueEnum.None);
             roundBet.add(0.0);
-            handPoints.add(0);
         }
 
     }
 
     private boolean getStillInGame(int i){return stillInGame.get(i);}
     private void setStillInGame(int i,boolean value){stillInGame.set(i,value);}
-    private int getHandPoints(int i){return handPoints.get(i);}
+    private int getHandPoints(int i){return players.get(i).getHandPoints();}
     private CardValueEnum getHandValue(int i){return handValue.get(i);}
     public void setHighestBidder(int highestPlayer){
         for(int i = 0 ; i < players.size();i++){
@@ -99,7 +96,9 @@ public class Game {
         throw new SmallAndBigBlindException("JUST SOME BOGUS");
     }
     public int getBestHandPoints(int playerId){
-        return handPoints.get(playerId);
+        throw new NoSuchCardException("bougs");
+        //return players.get(playerId).getHandPoints();
+
     }
     public void setHandValues(){
         //set Hand Values for all players.
@@ -111,6 +110,30 @@ public class Game {
             setHandPoints(i);
         }
     }
+    public Hand setHandPoints(int playerId){
+        ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
+        allPossibleHands.addAll(getAllHands(players.get(playerId).getPlayerHand()));
+        int highestHand = 0;
+        int highestHandId = 0;
+        //loop through hands and get the best value.
+        for (int i = 0; i < allPossibleHands.size();i++) {
+            //
+            if(checkHandValue(allPossibleHands.get(i)) > highestHand){
+                highestHandId = i;
+                highestHand = checkHandValue(allPossibleHands.get(i));
+            }
+
+        }
+        players.get(playerId).setHandPoints(highestHand);
+        setHandValue(playerId,checkCardValue(allPossibleHands.get(highestHandId)));
+        //handPoints.set(playerId,highestHand);
+        //JALLA HIT
+        System.out.println(checkCardValue(allPossibleHands.get(highestHandId)));
+
+
+        return allPossibleHands.get(highestHandId);
+    }
+    private void setHandValue(int playerId, CardValueEnum cardValue){handValue.set(playerId,cardValue);}
     public void betRound(){
         //go to the person to the left of the highest bidder.
         //getHighestBidder is the current bidder.
@@ -467,24 +490,7 @@ public class Game {
 
     }
 
-    public Hand setHandPoints(int playerId){
-        ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
-        allPossibleHands.addAll(getAllHands(players.get(playerId).getPlayerHand()));
-        int highestHand = 0;
-        int highestHandId = 0;
-        //loop through hands and get the best value.
-        for (int i = 0; i < allPossibleHands.size();i++) {
-            //
-            if(setHandValue(allPossibleHands.get(i)) > highestHand){
-                highestHandId = i;
-                highestHand = setHandValue(allPossibleHands.get(i));
-            }
 
-        }
-        handPoints.set(playerId,highestHand);
-
-        return allPossibleHands.get(highestHandId);
-    }
     private Suit_ checkFlush(Hand oneHand){
         int suitArray[] = new int[4];
         //populate rank and suit arrays:
@@ -646,7 +652,7 @@ public class Game {
     }
 
     //GAME SPECIFIC
-    public int setHandValue(Hand oneHand){
+    public int checkHandValue(Hand oneHand){
         int handPoints = 0;
         ArrayList<Rank_> tempCardRanks = new ArrayList<Rank_>();
         CardValueEnum tempCardValueEnum;
