@@ -509,6 +509,7 @@ public class Game {
             //rotatePlayers();
 
             for (Player onePlayer : players) {
+                onePlayer.sortCardsByRank();
                 System.out.println(onePlayer.toString());
             }
 /*
@@ -546,8 +547,10 @@ public class Game {
                 highestHandId = i;
                 highestHand = setHandValue(allPossibleHands.get(i));
             }
+
         }
         handPoints.set(playerId,highestHand);
+
         return allPossibleHands.get(highestHandId);
     }
     //GAME SPECIFIC
@@ -796,6 +799,7 @@ public class Game {
                 }
                 break;
         }
+        //oneHand.setHandPoints(handPoints);
         return handPoints;
     }
     public ArrayList<Hand> getAllHands(Hand playerHand){
@@ -806,6 +810,7 @@ public class Game {
         for( Hand oneHand: allPossibleHands){
             setHandValue(oneHand);
         }*/
+
         return allPossibleHands;
     }
     //GAME SPECIFIC
