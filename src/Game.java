@@ -481,8 +481,6 @@ public class Game {
                     lowestStraight = i;
                 }
                 if (straightCount == 5) {
-                    //this is redundant....
-                    //CHECK THIS WARNING!
                     return CardValueEnum.Straight;
                 }
             }else {
@@ -513,7 +511,6 @@ public class Game {
         }
         return CardValueEnum.None;
     }
-    //GAME SPECIFIC
     private Rank_ getLowestCardInStraight(Hand oneHand){
         //lets first check if there is a straight here:
         //check for straight here
@@ -569,7 +566,6 @@ public class Game {
         }
         return cardRank;
     }
-    //GAME SPECIFIC
     private ArrayList<Rank_> getMatchingCards(Hand oneHand,int numberOfMCards,int occurrences){
         //returns the highest matching pair, three of a kind or four of a kind
         ArrayList<Rank_> result = new ArrayList<Rank_>();
@@ -683,7 +679,6 @@ public class Game {
         allPossibleHands.addAll(generateHands(playerHand));
         return allPossibleHands;
     }
-    //GAME SPECIFIC
     private ArrayList<Hand> generateHands(Hand playerHand){
         //this generates 21 hands.
         //http://stackoverflow.com/questions/8375452/how-to-loop-through-all-the-combinations-of-e-g-48-choose-5
