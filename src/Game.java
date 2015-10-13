@@ -28,6 +28,12 @@ public class Game {
     public Game() {
         theDeck = new Deck();
         players = new ArrayList<Player>();
+        stillInGame = new ArrayList<Boolean>();
+        highestBid = new ArrayList<Boolean>();
+        bigBlind = new ArrayList<Boolean>();
+        handValue = new ArrayList<CardValueEnum>();
+        roundBet = new ArrayList<Double>();
+        handPoints = new ArrayList<Integer>();
         //add players temporary:
         players.add(new TablePlayer("TheTable"));
         players.add(new HumanPlayer("Arvid",1080));
@@ -96,18 +102,24 @@ public class Game {
     }
     //this is the old getHandValues
     //should be setHandValues
-    private void setBestHand(int playerId){
-
+    private void setBestHandPoints(int playerId){
+        throw new SmallAndBigBlindException("JUST SOME BOGUS");
+    }
+    private int getBestHandPoints(int playerId){
+        return handPoints.get(playerId);
     }
     private void setHandValues(){
+        //set Hand Values for all players.
         for(int i = 0; i < players.size();i++){
             if(players.get(i) instanceof TablePlayer){continue;}
             //add the Table hand to the player hands.
-            players.get(i).addCard(findTable().getCards());
+            players.get(i).addCard(players.get(findTable()).getCards());
             players.get(i).sortCardsByRank();
             //onePlayer.setHandValue();
-            setBestHand(players.get(i).getCards());
-            onePlayer.getBestHand();
+            //setBestHand(players.get(i).getCards());
+            //onePlayer.getBestHand();
+            //setBestHandPoints(i);
+            setHandPoints(i);
         }
     }
     //new version.
@@ -130,39 +142,39 @@ public class Game {
                 //magic happens here
                 System.out.println("HIHGEST BIDDER: " + getHighestBidder());
                 System.out.println("CURRENT ID: " + i);
-                System.out.println("BIG BLIND: " + players.get(i).getBigBlind());
-                if(players.get(i).getHighestBid() == true &&  players.get(i).getBigBlind()){
+                System.out.println("BIG BLIND: " + getBigBlind(i));
+                if(getHighestBid(i) == true &&  getBigBlind(i)){
                     //if the player is the current highest bidder and the player has the bigblind
                     //if there is only one player left. He is the winner.
-                    if(!winner(players.get(i))) betCheckFold(players.get(i));
+                    if(!winner()){ betCheckFold(i);}
                     else {
                         System.out.printf(players.get(getHighestBidder()) + " wins!!");
                         //Take the money from the table and give it to the winner.
-                        players.get(i).addMoney(findTable().withdrawMoney(findTable().getMoney()));
+                        players.get(i).addMoney(players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()));
                     }
-                    players.get(i).setBigBlind(false);
-                    if(players.get(i).getRoundBet() > stake){
+                    setBigBlind(i);
+                    if(getRoundBet(i) > stake){
                         //player placed a bet.
                         continue;
                     }
                 }
-                if(players.get(i).getHighestBid()){
+                if(getHighestBid(i)){
                     //if current player is the highest bidder
                     break;
                 }
-                if(!winner(players.get(i))) betCheckFold(players.get(i));
+                if(!winner()) betCheckFold(i);
                 else {
                     System.out.printf(players.get(getHighestBidder()) + " wins!!");
                     //Take the money from the table and give it to the winner.
-                    players.get(i).addMoney(findTable().withdrawMoney(findTable().getMoney()));
+                    players.get(i).addMoney(players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()));
                 }
             }
             //Have to chen if there is a winner here if the last player of that
             //"lap" folded.
-            if (winner(players.get(i))){
+            if (winner()){
                 System.out.printf(players.get(i).getName() + " wins!!");
                 //Take the money from the table and give it to the winner.
-                players.get(i).addMoney(findTable().withdrawMoney(findTable().getMoney()));
+                players.get(i).addMoney(players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()));
             }
         }
         //ROUND x is done and done!
@@ -271,11 +283,11 @@ public class Game {
         for(int i = 0 ; i < players.size();i++){
             bigBlind.set(i,false);
         }
-        bigBlind.set(playerId,true);
+        bigBlind.set(playerId, true);
     }
-    public int getBigBlind(){
-        for(int i = 0 ; i < players.size();i++){
-
+    public boolean getBigBlind(int playerId){
+        if(bigBlind.get(playerId)){
+            return true;
         }
         throw new NoBigBlindPersonException("There is no one with big blind");
     }
@@ -416,10 +428,10 @@ public class Game {
         }
         //if you raise before you have paid big blind, you have to pay for that aswell.
         players.get(findTable()).addMoney(players.get(playerId).withdrawMoney(bettedMoney));
-        setRoundBet(findTable(),bettedMoney+getRoundBet(playerId));
+        setRoundBet(findTable(), bettedMoney + getRoundBet(playerId));
         //findTable().addRoundBet(bettedMoney);
         //update the round bet
-        setRoundBet(playerId,bettedMoney+getRoundBet(playerId));
+        setRoundBet(playerId, bettedMoney + getRoundBet(playerId));
         //onePlayer.addRoundBet(bettedMoney);
         //stake should be the same all the time!
         //stake += bettedMoney;
@@ -463,7 +475,8 @@ public class Game {
             }
 
             //Give the blinds.
-            smallAndBigBlind(players);
+            //smallAndBigBlind(players);
+            smallAndBigBlind();
             //Deal the players 2 cards each. One at a time.
             dealCards(2);
 
@@ -520,6 +533,7 @@ public class Game {
 
 
     //GAME SPECIFIC
+    //public Hand setHandPoints(int playerId){
     public Hand setHandPoints(int playerId){
         ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
         allPossibleHands.addAll(getAllHands(players.get(playerId).getPlayerHand()));
@@ -533,7 +547,7 @@ public class Game {
                 highestHand = setHandValue(allPossibleHands.get(i));
             }
         }
-        handPoints.set(highestHandId,highestHand);
+        handPoints.set(playerId,highestHand);
         return allPossibleHands.get(highestHandId);
     }
     //GAME SPECIFIC
