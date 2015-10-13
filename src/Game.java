@@ -143,7 +143,7 @@ public class Game {
                 System.out.println("HIHGEST BIDDER: " + getHighestBidder());
                 System.out.println("CURRENT ID: " + i);
                 System.out.println("BIG BLIND: " + getBigBlind(i));
-                if(getHighestBid(i) == true &&  getBigBlind(i)){
+                if(getHighestBid(i) &&  getBigBlind(i)){
                     //if the player is the current highest bidder and the player has the bigblind
                     //if there is only one player left. He is the winner.
                     if(!winner()){ betCheckFold(i);}
@@ -219,7 +219,7 @@ public class Game {
         Player 3 - Big blind (25�) <= second player in arraylist
         */
         boolean smallBlindPlayer = true;
-        boolean bigBlindPlayer = true;
+
         for(int i = 0; i < players.size();i++) {
             //skip TablePlayer betting
             if (players.get(i) instanceof TablePlayer) {continue;}
@@ -246,17 +246,20 @@ public class Game {
                 //muppigt?
                 setHighestBidder(i);
 
-            }else if(players.get(i).getMoney() < stake && bigBlindPlayer){
+            //}else if(players.get(i).getMoney() < stake && bigBlindPlayer){
+            }else if(players.get(i).getMoney() < stake ){
                 //the player is broke, next person must take the big-blind.
                 setStillInGame(i,false);
                 //onePlayer.setStillInGame(false);
-            }else if(players.get(i).getMoney() >= stake && bigBlindPlayer){
+            //}else if(players.get(i).getMoney() >= stake && bigBlindPlayer){
+            }else if(players.get(i).getMoney() >= stake ){
                 //player has taken the big blind and is still in game.
                 players.get(findTable()).addMoney(players.get(i).withdrawMoney(stake));
                 //findTable().addMoney(onePlayer.withdrawMoney(stake));
                 //bigBlindPlayer = false;
                 //onePlayer.setStillInGame(true);
                 setStillInGame(i,true);
+                //bigBlindPlayer = false;
                 //add the amount to roundbet.
                 setRoundBet(i,getRoundBet(i)+stake);
                 //onePlayer.addRoundBet(stake);
@@ -694,7 +697,7 @@ public class Game {
         //returns the highest matching pair, three of a kind or four of a kind
         ArrayList<Rank_> result = new ArrayList<Rank_>();
         int rankArray[] = new int[15];
-        int match = 0;
+        int match;
         int checkOccurences=0;
         //populate arraylist
         for(int i = 0; i < oneHand.getNoOfCards();i++){
