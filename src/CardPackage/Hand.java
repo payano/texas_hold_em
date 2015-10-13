@@ -9,14 +9,14 @@ import java.util.Collections;
  */
 public class Hand {
     private ArrayList<Card> theHand;
-    private int handPoints;
+    private int handValue;
 
 
     public Hand(){
         theHand  = new ArrayList<>();
     }
-    public void setHandPoints(int value){this.handPoints = value;}
-    public int getHandPoints(){return this.handPoints;}
+    public void setHandValue(int value){this.handValue = value;}
+    public int getHandValue(){return this.handValue;}
 
 
     //Returnerar storleken (antalet kort).

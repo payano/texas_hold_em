@@ -35,14 +35,14 @@ abstract public class Player {
 
 
 
-    //public int getHandPoints(){return this.handPoints;}
+    //public int getHandValue(){return this.handPoints;}
     //public CardValueEnum getHandValue(){return handValue;}
     //public void setHighestBid(boolean highestBidder){this.highestBid = highestBidder;}
     //public boolean getHighestBid(){return highestBid;}
     //public void setBigBlind(boolean bigBlind){this.isBigBlind = bigBlind;}
     //public boolean getBigBlind(){return isBigBlind;}
-    public int getHandPoints(){return playerHand.getHandPoints();}
-    public void setHandPoints(int i){playerHand.setHandPoints(i);}
+    public int getHandPoints(){return playerHand.getHandValue();}
+    public void setHandPoints(int i){playerHand.setHandValue(i);}
     public Hand getPlayerHand(){return this.playerHand;}
     public String getName(){
         return this.userName;

@@ -17,7 +17,7 @@ public class Game {
     private Deck theDeck;
     private Scanner scan = new Scanner(System.in);
     private ArrayList<Boolean> stillInGame,highestBid,bigBlind;
-    private ArrayList<CardValueEnum> handValue;
+    private ArrayList<CardValueEnum> handRank;
     private ArrayList<Double> roundBet; //change to gameeBet later...
 
 
@@ -27,7 +27,7 @@ public class Game {
         stillInGame = new ArrayList<Boolean>();
         highestBid = new ArrayList<Boolean>();
         bigBlind = new ArrayList<Boolean>();
-        handValue = new ArrayList<CardValueEnum>();
+        handRank = new ArrayList<CardValueEnum>();
         roundBet = new ArrayList<Double>();
         //add players temporary:
         players.add(new TablePlayer("TheTable"));
@@ -42,7 +42,7 @@ public class Game {
             stillInGame.add(false);
             highestBid.add(false);
             bigBlind.add(false);
-            handValue.add(CardValueEnum.None);
+            handRank.add(CardValueEnum.None);
             roundBet.add(0.0);
         }
 
@@ -51,7 +51,7 @@ public class Game {
     private boolean getStillInGame(int i){return stillInGame.get(i);}
     private void setStillInGame(int i,boolean value){stillInGame.set(i,value);}
     private int getHandPoints(int i){return players.get(i).getHandPoints();}
-    private CardValueEnum getHandValue(int i){return handValue.get(i);}
+    private CardValueEnum getHandRank(int i){return handRank.get(i);}
     public void setHighestBidder(int highestPlayer){
         for(int i = 0 ; i < players.size();i++){
             highestBid.set(i,false);
@@ -104,7 +104,7 @@ public class Game {
             //player must still be in game to win
             if(!getStillInGame(i)){continue;}
             //get the first time leader
-            System.out.println("player: " + players.get(i).getName() + ", handPoints: " + getHandPoints(i) + " CardValue: " + getHandValue(i));
+            System.out.println("player: " + players.get(i).getName() + ", handPoints: " + getHandPoints(i) + " CardValue: " + getHandRank(i));
             if(getHandPoints(i) == highestHandPoints){
                 winner.add(i);
                 if(winner.size() > 1) {
@@ -114,10 +114,10 @@ public class Game {
         }
         for (int i = 0; i < winner.size(); i++) {
             System.out.println("the winner is..... " + players.get(winner.get(i)).getName());
-            System.out.println("he/she has: " + getHandValue(winner.get(i)).toString());
+            System.out.println("he/she has: " + getHandRank(winner.get(i)).toString());
 
         }
-        //check if more players has the same handValue.
+        //check if more players has the same handRank.
     }
     //this is the old getHandValues
     //should be setHandValues
@@ -126,10 +126,11 @@ public class Game {
     }
     public int getBestHandPoints(int playerId){
         throw new NoSuchCardException("bougs");
-        //return players.get(playerId).getHandPoints();
+        //return players.get(playerId).getHandRank();
 
     }
-    private void setHandValue(int playerId, CardValueEnum cardValue){handValue.set(playerId,cardValue);}
+    private void setHandRank(int playerId, CardValueEnum cardValue){
+        handRank.set(playerId, cardValue);}
     public void setHandValues(){
         //set Hand Values for all players.
         for(int i = 0; i < players.size();i++){
@@ -156,7 +157,7 @@ public class Game {
         }
         //handpoints and handvalues are closely connected, update them both here.
         players.get(playerId).setHandPoints(highestHand);
-        setHandValue(playerId,checkCardValue(allPossibleHands.get(highestHandId)));
+        setHandRank(playerId, checkCardValue(allPossibleHands.get(highestHandId)));
         return allPossibleHands.get(highestHandId);
     }
 
@@ -738,7 +739,7 @@ public class Game {
                 break;
         }
         //DO MAGIC here..
-        //oneHand.setHandPoints(handPoints);
+        //oneHand.setHandRank(handPoints);
         return handPoints;
     }
     private ArrayList<Hand> getAllHands(Hand playerHand){
