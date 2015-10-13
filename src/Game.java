@@ -13,16 +13,13 @@ public class Game {
 
     private ArrayList<Player> players;
     private final int stake = 50; //this is the minimum bet for all rounds in the game.
-    //computer;
-    Deck theDeck;
-    Scanner scan = new Scanner(System.in);
-
-    //GAME SPECIFIC, WILL MOVE TO GAME.JAVA:
+    private Deck theDeck;
+    private Scanner scan = new Scanner(System.in);
     private ArrayList<Boolean> stillInGame,highestBid,bigBlind;
     private ArrayList<CardValueEnum> handValue;
     private ArrayList<Double> roundBet; //change to gameeBet later...
     private ArrayList<Integer> handPoints;
-    //END GAME SPECIFIC
+
 
 
     public Game() {
@@ -73,7 +70,7 @@ public class Game {
         }
         throw new HighestBidderNotFoundException("Strange, there is no highest bidder..");
     }
-    private void setWinner(){
+    public void setWinner(){
         int currentLeader = 0;
         boolean firstRun = true;
 
@@ -83,10 +80,7 @@ public class Game {
             if(players.get(i) instanceof TablePlayer){continue;}
             //player must still be in game to win
             if(!getStillInGame(i)){continue;}
-            //if(!players.get(i).getStillInGame()){continue;}
             //get the first time leader
-            //System.out.println("player: " + players.get(i).getName() + ", handValue: " + players.get(i).getHandValue().getValue());
-
             System.out.println("player: " + players.get(i).getName() + ", handPoints: " + getHandPoints(i) + " CardValue: " + getHandValue(i));
             if(firstRun){currentLeader = i;firstRun=false;continue;}
             if(getHandPoints(i) > getHandPoints(currentLeader)){
@@ -95,35 +89,29 @@ public class Game {
                 System.out.println("HEY MAN THIS IS A SPLIT!!");
             }
         }
-
         //check if more players has the same handValue.
         System.out.println("the winner is..... " + players.get(currentLeader).getName());
         System.out.println("he/she has: " + getHandValue(currentLeader).toString());
     }
     //this is the old getHandValues
     //should be setHandValues
-    private void setBestHandPoints(int playerId){
+    public void setBestHandPoints(int playerId){
         throw new SmallAndBigBlindException("JUST SOME BOGUS");
     }
-    private int getBestHandPoints(int playerId){
+    public int getBestHandPoints(int playerId){
         return handPoints.get(playerId);
     }
-    private void setHandValues(){
+    public void setHandValues(){
         //set Hand Values for all players.
         for(int i = 0; i < players.size();i++){
             if(players.get(i) instanceof TablePlayer){continue;}
             //add the Table hand to the player hands.
             players.get(i).addCard(players.get(findTable()).getCards());
             players.get(i).sortCardsByRank();
-            //onePlayer.setHandValue();
-            //setBestHand(players.get(i).getCards());
-            //onePlayer.getBestHand();
-            //setBestHandPoints(i);
             setHandPoints(i);
         }
     }
-    //new version.
-    private void betRound(){
+    public void betRound(){
         //go to the person to the left of the highest bidder.
         //getHighestBidder is the current bidder.
         for(int i = getHighestBidder()+1; ;i++){
@@ -292,11 +280,8 @@ public class Game {
         if(bigBlind.get(playerId)){
             return true;
         }
-        throw new NoBigBlindPersonException("There is no one with big blind");
+        return false;
     }
-
-
-
     public void betCheckFold(int playerId){
         System.out.println("\nyour share in this bettingRound so far: " + getRoundBet(playerId));
         System.out.println("Table has: " + players.get(findTable()).getMoney() + " money , the roundbet is: " + getRoundBet(findTable()));
@@ -431,7 +416,7 @@ public class Game {
         }
         //if you raise before you have paid big blind, you have to pay for that aswell.
         players.get(findTable()).addMoney(players.get(playerId).withdrawMoney(bettedMoney));
-        setRoundBet(findTable(), bettedMoney + getRoundBet(playerId));
+        setRoundBet(findTable(), bettedMoney + getRoundBet(findTable()));
         //findTable().addRoundBet(bettedMoney);
         //update the round bet
         setRoundBet(playerId, bettedMoney + getRoundBet(playerId));
@@ -443,7 +428,7 @@ public class Game {
 
     }
 
-    public int findTable(){
+    private int findTable(){
         for(int i = 0 ; i < players.size();i++) {
             //find the table...
             if (players.get(i) instanceof TablePlayer) {
@@ -557,7 +542,7 @@ public class Game {
         return allPossibleHands.get(highestHandId);
     }
     //GAME SPECIFIC
-    public Suit_ checkFlush(Hand oneHand){
+    private Suit_ checkFlush(Hand oneHand){
         int suitArray[] = new int[4];
         //populate rank and suit arrays:
         for(int i = 0; i < oneHand.getNoOfCards();i++){
@@ -636,7 +621,7 @@ public class Game {
         return CardValueEnum.None;
     }
     //GAME SPECIFIC
-    public Rank_ getLowestCardInStraight(Hand oneHand){
+    private Rank_ getLowestCardInStraight(Hand oneHand){
         //lets first check if there is a straight here:
         //check for straight here
         //check with ace=1 aswell
@@ -672,7 +657,7 @@ public class Game {
 
     }
     //GAME SPECIFIC
-    public CardValueEnum checkRankAndSuitValue(Hand oneHand){
+    private CardValueEnum checkRankAndSuitValue(Hand oneHand){
         CardValueEnum cardRank;
         Suit_ flush;
         //check if flush is set:
@@ -693,7 +678,7 @@ public class Game {
         return cardRank;
     }
     //GAME SPECIFIC
-    public ArrayList<Rank_> getMatchingCards(Hand oneHand,int numberOfMCards,int occurrences){
+    private ArrayList<Rank_> getMatchingCards(Hand oneHand,int numberOfMCards,int occurrences){
         //returns the highest matching pair, three of a kind or four of a kind
         ArrayList<Rank_> result = new ArrayList<Rank_>();
         int rankArray[] = new int[15];
@@ -805,7 +790,7 @@ public class Game {
         //oneHand.setHandPoints(handPoints);
         return handPoints;
     }
-    public ArrayList<Hand> getAllHands(Hand playerHand){
+    private ArrayList<Hand> getAllHands(Hand playerHand){
         ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
         //get all possible hands from generateHands.
         allPossibleHands.addAll(generateHands(playerHand));
