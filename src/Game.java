@@ -238,12 +238,9 @@ public class Game {
         }
 
     }
-    public void setBigBlind(int playerId){
-        bigBlind = playerId;
-    }
-    public int getBigBlind(){
-        return bigBlind;
-    }
+    public void setBigBlind(int playerId){bigBlind = playerId;}
+    public int getBigBlind(){return bigBlind;}
+
     public void betCheckFold(int playerId){
         System.out.println("\nyour share in this bettingRound so far: " + getRoundBet(playerId));
         System.out.println("Table has: " + players.get(findTable()).getMoney() + " money , the roundbet is: " + getRoundBet(findTable()));
@@ -309,43 +306,31 @@ public class Game {
                 setStillInGame(playerId,false);
         }
     }
-
-
     //skillnaden mellan dealCards och dealTable är?
     //kan inte använda en funktion??
     public void dealCards(int numberOfCards) {
         for (int i = 0; i < numberOfCards; i++) {
             for (int j = 0;j < players.size();j++) {
-                if (players.get(j) instanceof TablePlayer) {
-                    continue;
-                }
-                if (!getStillInGame(j)) {
-                    continue;
-                }
+                if (players.get(j) instanceof TablePlayer) {continue;}
+                if (!getStillInGame(j)) {continue;}
                 //Give each player one card at a time.
                 players.get(j).addCard(theDeck.dealCard());
                 System.out.println(players.get(j).toString());
             }
         }
     }
-
     public void dealTable(int numberOfCards) {
         //johan har meckat här, fungerar ej.
         for (int i = 0; i < numberOfCards; i++) {
             for (int j = 0; j < players.size();j++) {
-                if (players.get(j) instanceof HumanPlayer) {
-                    continue;
-                }
-                if (!getStillInGame(j)) {
-                    continue;
-                }
+                if (players.get(j) instanceof HumanPlayer) {continue;}
+                if (!getStillInGame(j)) {continue;}
                 //Give the table its 2 rivercards.
                 players.get(j).addCard(theDeck.dealCard());
                 System.out.println(players.get(j).toString());
             }
         }
     }
-
     public double getRoundBet(int playerId){
         return roundBet.get(playerId);
     }
@@ -353,9 +338,6 @@ public class Game {
         roundBet.set(playerId,amount);
     }
     public void bet(int playerId){
-        //this is beta release or .. alpha? :=)
-
-
         System.out.println("how much? minimum is: " + (stake - getRoundBet(playerId)));
         double bettedMoney = scan.nextInt();
         //Make sure the user bet at least the steaks.
@@ -370,7 +352,6 @@ public class Game {
         setRoundBet(playerId, bettedMoney + getRoundBet(playerId));
         setHighestBid(playerId);
     }
-
     private int findTable(){
         for(int i = 0 ; i < players.size();i++) {
             //find the table...
