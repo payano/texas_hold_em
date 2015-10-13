@@ -259,19 +259,19 @@ public class Game {
 
 
 
-    public void betCheckFold(Player onePlayer){
-        System.out.println("\nyour share in this bettingRound so far: " + onePlayer.getRoundBet());
-        System.out.println("Table has: " + findTable().getMoney() + " money , the roundbet is: "+ findTable().getRoundBet());
-        System.out.println("You need to bet at least: " + (findTable().getRoundBet() - onePlayer.getRoundBet()));
-        System.out.println(findTable().toString());
-        System.out.println(onePlayer.toString());
-        System.out.println(onePlayer.getName() + " what do you want to do? 0:check, 1:call, 2:bet, 3:all-in, 4:fold");
+    public void betCheckFold(int playerId){
+        System.out.println("\nyour share in this bettingRound so far: " + getRoundBet(playerId));
+        System.out.println("Table has: " + players.get(findTable()).getMoney() + " money , the roundbet is: " + getRoundBet(findTable()));
+        System.out.println("You need to bet at least: " + (getRoundBet(findTable()) - getRoundBet(playerId)));
+        System.out.println(players.get(findTable()).toString());
+        System.out.println(players.get(playerId).toString());
+        System.out.println(players.get(playerId).getName() + " what do you want to do? 0:check, 1:call, 2:bet, 3:all-in, 4:fold");
         switch (scan.nextInt()){
             case 0:
                 //check
                 //You cant check if someone has bet more than you have put in.
-                if(onePlayer.getRoundBet() < findTable().getRoundBet()){
-                    System.out.println("You can't call, someone has placed a bet this round. You need to bet: " + (findTable().getRoundBet()-onePlayer.getRoundBet()));
+                if(getRoundBet(playerId) < getRoundBet(findTable())){
+                    System.out.println("You can't call, someone has placed a bet this round. You need to bet: " + (getRoundBet(findTable())-getRoundBet(playerId)));
                     System.out.println("Do you want to bet or fold? : 1:call 2:bet, 4:fold");
                     switch (scan.nextInt()){
                         case 1:
@@ -279,20 +279,22 @@ public class Game {
                             //Table getRoundBet is current amount you have to call.
                             //player getRoundBet is how much you already betted.
                             //table.getRoundBet - player.getRoundBet gives the difference you have to call.
-                            double difference = findTable().getRoundBet() - onePlayer.getRoundBet();
+                            double difference = getRoundBet(findTable()) - getRoundBet(playerId);
                             //System.out.println("the difference is: " + difference);
                             //withdraw the amount and give it to the table
-                            findTable().addMoney(onePlayer.withdrawMoney(difference));
+                            players.get(findTable()).addMoney(players.get(playerId).withdrawMoney(difference));
                             //update your getRoundBet
-                            onePlayer.addRoundBet(difference);
+                            setRoundBet(playerId,difference+getRoundBet(playerId));
+                            //onePlayer.addRoundBet(difference);
                             break;
                         case 2:
                             //bet
-                            bet(onePlayer);
+                            bet(playerId);
                             break;
                         case 4:
                             System.out.println("folded...");
-                            onePlayer.setStillInGame(false);
+                            setStillInGame(playerId,false);
+                            //onePlayer.setStillInGame(false);
                     }
                 }
                 break;
@@ -301,29 +303,37 @@ public class Game {
                 //Table getRoundBet is current amount you have to call.
                 //player getRoundBet is how much you already betted.
                 //table.getRoundBet - player.getRoundBet gives the difference you have to call.
-                double difference = findTable().getRoundBet() - onePlayer.getRoundBet();
+                double difference = getRoundBet(findTable()) - getRoundBet(playerId);
+
                 //System.out.println("the difference is: " + difference);
                 //withdraw the amount and give it to the table
-                findTable().addMoney(onePlayer.withdrawMoney(difference));
+                players.get(findTable()).addMoney(players.get(playerId).withdrawMoney(difference));
                 //update your getRoundBet
-                onePlayer.addRoundBet(difference);
+                setRoundBet(playerId, getRoundBet(playerId) + difference);
+                //onePlayer.addRoundBet(difference);
                 break;
             case 2:
                 //bet
-                bet(onePlayer);
+                bet(playerId);
                 break;
             case 3:
                 //all in
-                System.out.println("All in choosen. Betting: " + onePlayer.getMoney());
+                System.out.println("All in choosen. Betting: " + players.get(playerId).getMoney());
+                System.out.println("split pot may happen here.. take care of it.");
 
-                findTable().addRoundBet(onePlayer.getMoney());
-                findTable().addMoney(onePlayer.withdrawMoney(onePlayer.getMoney()));
-                onePlayer.setStillInGame(true);
+                setRoundBet(findTable(),getRoundBet(findTable()) + players.get(playerId).getMoney());
+                //findTable().addRoundBet(onePlayer.getMoney());
+
+                players.get(findTable()).addMoney(players.get(playerId).withdrawMoney(players.get(playerId).getMoney()));
+                //findTable().addMoney(onePlayer.withdrawMoney(onePlayer.getMoney()));
+                setStillInGame(playerId,true);
+                //onePlayer.setStillInGame(true);
                 break;
             case 4:
                 //fold
                 System.out.println("folded...");
-                onePlayer.setStillInGame(false);
+                setStillInGame(playerId,false);
+                //onePlayer.setStillInGame(false);
         }
     }
 
@@ -367,7 +377,7 @@ public class Game {
         return roundBet.get(playerId);
     }
     public void setRoundBet(int playerId, double amount){
-        roundBet.set(playerId,amount + getRoundBet(playerId));
+        roundBet.set(playerId,amount);
     }
     public void resetRoundBet(int playerId){roundBet.set(playerId,0.0);}
     public void bet(int playerId){
@@ -383,10 +393,10 @@ public class Game {
         }
         //if you raise before you have paid big blind, you have to pay for that aswell.
         players.get(findTable()).addMoney(players.get(playerId).withdrawMoney(bettedMoney));
-        setRoundBet(findTable(),bettedMoney);
+        setRoundBet(findTable(),bettedMoney+getRoundBet(playerId));
         //findTable().addRoundBet(bettedMoney);
         //update the round bet
-        setRoundBet(playerId,bettedMoney);
+        setRoundBet(playerId,bettedMoney+getRoundBet(playerId));
         //onePlayer.addRoundBet(bettedMoney);
         //stake should be the same all the time!
         //stake += bettedMoney;
