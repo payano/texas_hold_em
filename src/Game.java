@@ -67,8 +67,23 @@ public class Game {
         }
         throw new HighestBidderNotFoundException("Strange, there is no highest bidder..");
     }
+    //replace with something like getPlayersInGame().
+    public boolean winner(){
+        int numberOfplayersLeft = 0;
+
+        //add all the players that are still in the game.
+        for (int i = 0; i < players.size();i++) {
+            if (getStillInGame(i)) numberOfplayersLeft++;
+        }
+
+        //if there is more than one player and the table left. No one has won yet.
+        if (numberOfplayersLeft > 2){
+            System.out.println(numberOfplayersLeft);
+            return false;
+        }
+        return true;
+    }
     public void setWinner(){
-        int currentLeader = 0;
         int highestHandPoints = 0;
         ArrayList<Integer> winner = new ArrayList<Integer>();
 
@@ -80,7 +95,6 @@ public class Game {
                 //player must still be in game to win
                 if(!getStillInGame(i)){continue;}
                 highestHandPoints = getHandPoints(i);
-                currentLeader = i;
             }
         }
         //check if there is someone else who has the same handPoints as the leader
@@ -115,6 +129,7 @@ public class Game {
         //return players.get(playerId).getHandPoints();
 
     }
+    private void setHandValue(int playerId, CardValueEnum cardValue){handValue.set(playerId,cardValue);}
     public void setHandValues(){
         //set Hand Values for all players.
         for(int i = 0; i < players.size();i++){
@@ -144,7 +159,7 @@ public class Game {
         setHandValue(playerId,checkCardValue(allPossibleHands.get(highestHandId)));
         return allPossibleHands.get(highestHandId);
     }
-    private void setHandValue(int playerId, CardValueEnum cardValue){handValue.set(playerId,cardValue);}
+
     public void betRound(){
         //go to the person to the left of the highest bidder.
         //getHighestBidder is the current bidder.
@@ -211,22 +226,7 @@ public class Game {
 
     }
 
-    //replace with something like getPlayersInGame().
-    public boolean winner(){
-        int numberOfplayersLeft = 0;
 
-        //add all the players that are still in the game.
-        for (int i = 0; i < players.size();i++) {
-            if (getStillInGame(i)) numberOfplayersLeft++;
-        }
-
-        //if there is more than one player and the table left. No one has won yet.
-        if (numberOfplayersLeft > 2){
-            System.out.println(numberOfplayersLeft);
-            return false;
-        }
-        return true;
-    }
 
     public void smallAndBigBlind(){
         //there has to be a check somewhere that the minimum amount of players(computer + human) >= 2.
