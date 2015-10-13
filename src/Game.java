@@ -49,7 +49,7 @@ public class Game {
     }
 
     private boolean getStillInGame(int i){return stillInGame.get(i);}
-    private void setStillInGame(int i){stillInGame.set(i,true);}
+    private void setStillInGame(int i,boolean value){stillInGame.set(i,value);}
     private int getHandPoints(int i){return handPoints.get(i);}
     private CardValueEnum getHandValue(int i){return handValue.get(i);}
     public void setHighestBidder(int highestPlayer){
@@ -327,18 +327,21 @@ public class Game {
         }
     }
 
+
+    //skillnaden mellan dealCards och dealTable är?
+    //kan inte använda en funktion??
     public void dealCards(int numberOfCards) {
         for (int i = 0; i < numberOfCards; i++) {
-            for (Player onePlayer : players) {
-                if (onePlayer instanceof TablePlayer) {
+            for (int j = 0;j < players.size();j++) {
+                if (players.get(j) instanceof TablePlayer) {
                     continue;
                 }
-                if (!onePlayer.getStillInGame()) {
+                if (!getStillInGame(j)) {
                     continue;
                 }
                 //Give each player one card at a time.
-                onePlayer.addCard(theDeck.dealCard());
-                System.out.println(onePlayer.toString());
+                players.get(j).addCard(theDeck.dealCard());
+                System.out.println(players.get(j).toString());
             }
         }
     }
@@ -346,49 +349,60 @@ public class Game {
     public void dealTable(int numberOfCards) {
         //johan har meckat här, fungerar ej.
         for (int i = 0; i < numberOfCards; i++) {
-            for (Player onePlayer : players) {
-                if (onePlayer instanceof HumanPlayer) {
+            for (int j = 0; j < players.size();j++) {
+                if (players.get(j) instanceof HumanPlayer) {
                     continue;
                 }
-                if (!onePlayer.getStillInGame()) {
+                if (!getStillInGame(j)) {
                     continue;
                 }
                 //Give the table its 2 rivercards.
-                onePlayer.addCard(theDeck.dealCard());
-                System.out.println(onePlayer.toString());
+                players.get(j).addCard(theDeck.dealCard());
+                System.out.println(players.get(j).toString());
             }
         }
     }
 
-    public void bet(Player onePlayer){
+    public double getRoundBet(int playerId){
+        return roundBet.get(playerId);
+    }
+    public void setRoundBet(int playerId, double amount){
+        roundBet.set(playerId,amount + getRoundBet(playerId));
+    }
+    public void resetRoundBet(int playerId){roundBet.set(playerId,0.0);}
+    public void bet(int playerId){
         //this is beta release or .. alpha? :=)
 
-        System.out.println("how much? minimum is: " + (stake - onePlayer.getRoundBet()));
+
+        System.out.println("how much? minimum is: " + (stake - getRoundBet(playerId)));
         double bettedMoney = scan.nextInt();
         //Make sure the user bet at least the steaks.
-        while (bettedMoney < (stake - onePlayer.getRoundBet()) ){
+        while (bettedMoney < (stake - getRoundBet(playerId)) ){
             System.out.println("You need to bet at least: " + stake + "\nTry again, bet: ");
             bettedMoney = scan.nextInt();
         }
         //if you raise before you have paid big blind, you have to pay for that aswell.
-        findTable().addMoney(onePlayer.withdrawMoney(bettedMoney));
-        findTable().addRoundBet(bettedMoney);
+        players.get(findTable()).addMoney(players.get(playerId).withdrawMoney(bettedMoney));
+        setRoundBet(findTable(),bettedMoney);
+        //findTable().addRoundBet(bettedMoney);
         //update the round bet
-        onePlayer.addRoundBet(bettedMoney);
+        setRoundBet(playerId,bettedMoney);
+        //onePlayer.addRoundBet(bettedMoney);
         //stake should be the same all the time!
         //stake += bettedMoney;
-        setHighestBidder(onePlayer);
+        //setHighestBidder(onePlayer);
+        setHighestBidder(playerId);
 
     }
 
-    public Player findTable(){
-        for(Player t : players) {
+    public int findTable(){
+        for(int i = 0 ; i < players.size();i++) {
             //find the table...
-            if (t instanceof TablePlayer) {
-                return t;
+            if (players.get(i) instanceof TablePlayer) {
+                return i;
             }
         }
-        return null;
+        throw new NoPlayerInGameException("Can not find the table.");
     }
 
     public void rotatePlayers(){
@@ -411,8 +425,8 @@ public class Game {
 //        while (scan.nextInt() == 1) {
             //make all players still in game and enabled to check
 
-            for (Player onePlayer : players) {
-                onePlayer.setStillInGame(true);
+            for (int i = 0; i < players.size();i++) {
+                setStillInGame(i,true);
             }
 
             //Give the blinds.
@@ -486,6 +500,7 @@ public class Game {
                 highestHand = setHandValue(allPossibleHands.get(i));
             }
         }
+        handPoints.set(highestHandId,highestHand);
         return allPossibleHands.get(highestHandId);
     }
     //GAME SPECIFIC
