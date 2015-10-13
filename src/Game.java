@@ -196,18 +196,7 @@ public class Game {
 
     public void smallAndBigBlind(){
         //there has to be a check somewhere that the minimum amount of players(computer + human) >= 2.
-        //WARNING
-        //Potential error: only two players but they dont have enough money to play.
-        //a check to see if there is atleast two valid players with enough money must be checked.
-        /*
-        Example Betting Round 1
-        There are five players at the table:
-        Player 1 - Button <= Last player
-        Player 2 - Small blind (10�) <= first player in arraylist
-        Player 3 - Big blind (25�) <= second player in arraylist
-        */
         boolean smallBlindPlayer = true;
-
         for(int i = 0; i < players.size();i++) {
             //skip TablePlayer betting
             if (players.get(i) instanceof TablePlayer) {continue;}
@@ -216,54 +205,32 @@ public class Game {
                 //the player is broke, next person must take the smallblind.
                 setStillInGame(i, false);
             }else if(players.get(i).getMoney() >= stake/2 && smallBlindPlayer){
-
                 //player has taken small blind and is still in game.
                 //this player must also call the stake or the bet.
                 players.get(findTable()).addMoney(players.get(i).withdrawMoney(stake / 2));
-                //findTable().addMoney(onePlayer.withdrawMoney(stake / 2));
                 setStillInGame(i,true);
                 smallBlindPlayer = false;
                 //add the amount to roundBet.
                 setRoundBet(i,(stake/2)+getRoundBet(i));
-                //onePlayer.addRoundBet(stake/2);
-
                 System.out.println("Player: " + players.get(i).getName() + " got small blind, amount: " + stake / 2);
-                //System.out.println("Table has: " + findTable().getMoney() + " money and getRoundBet: " + findTable().getRoundBet());
-
-                //onePlayer.setSmallBlind(true);
-                //muppigt?
                 setHighestBidder(i);
-
-            //}else if(players.get(i).getMoney() < stake && bigBlindPlayer){
             }else if(players.get(i).getMoney() < stake ){
                 //the player is broke, next person must take the big-blind.
                 setStillInGame(i,false);
-                //onePlayer.setStillInGame(false);
-            //}else if(players.get(i).getMoney() >= stake && bigBlindPlayer){
             }else if(players.get(i).getMoney() >= stake ){
                 //player has taken the big blind and is still in game.
                 players.get(findTable()).addMoney(players.get(i).withdrawMoney(stake));
-                //findTable().addMoney(onePlayer.withdrawMoney(stake));
-                //bigBlindPlayer = false;
-                //onePlayer.setStillInGame(true);
                 setStillInGame(i,true);
-                //bigBlindPlayer = false;
                 //add the amount to roundbet.
                 setRoundBet(i,getRoundBet(i)+stake);
-                //onePlayer.addRoundBet(stake);
                 setRoundBet(findTable(),getRoundBet(findTable())+stake);
-                //findTable().addRoundBet(stake);
                 System.out.println("Player: " + players.get(i).getName() + " got big blind, amount: " + stake);
                 System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
-
                 //same as above...
                 setHighestBidder(i);
                 setBigBlind(i);
-                //onePlayer.setBigBlind(true);
-
                 break;
             }else {
-                //ghetto solution
                 throw new SmallAndBigBlindException("Small and big blind could not be taken from players on the table.");
             }
         }
@@ -303,12 +270,10 @@ public class Game {
                             //player getRoundBet is how much you already betted.
                             //table.getRoundBet - player.getRoundBet gives the difference you have to call.
                             double difference = getRoundBet(findTable()) - getRoundBet(playerId);
-                            //System.out.println("the difference is: " + difference);
                             //withdraw the amount and give it to the table
                             players.get(findTable()).addMoney(players.get(playerId).withdrawMoney(difference));
                             //update your getRoundBet
                             setRoundBet(playerId,difference+getRoundBet(playerId));
-                            //onePlayer.addRoundBet(difference);
                             break;
                         case 2:
                             //bet
@@ -317,7 +282,6 @@ public class Game {
                         case 4:
                             System.out.println("folded...");
                             setStillInGame(playerId,false);
-                            //onePlayer.setStillInGame(false);
                     }
                 }
                 break;
@@ -327,13 +291,10 @@ public class Game {
                 //player getRoundBet is how much you already betted.
                 //table.getRoundBet - player.getRoundBet gives the difference you have to call.
                 double difference = getRoundBet(findTable()) - getRoundBet(playerId);
-
-                //System.out.println("the difference is: " + difference);
                 //withdraw the amount and give it to the table
                 players.get(findTable()).addMoney(players.get(playerId).withdrawMoney(difference));
                 //update your getRoundBet
                 setRoundBet(playerId, getRoundBet(playerId) + difference);
-                //onePlayer.addRoundBet(difference);
                 break;
             case 2:
                 //bet
@@ -343,20 +304,14 @@ public class Game {
                 //all in
                 System.out.println("All in choosen. Betting: " + players.get(playerId).getMoney());
                 System.out.println("split pot may happen here.. take care of it.");
-
                 setRoundBet(findTable(),getRoundBet(findTable()) + players.get(playerId).getMoney());
-                //findTable().addRoundBet(onePlayer.getMoney());
-
                 players.get(findTable()).addMoney(players.get(playerId).withdrawMoney(players.get(playerId).getMoney()));
-                //findTable().addMoney(onePlayer.withdrawMoney(onePlayer.getMoney()));
                 setStillInGame(playerId,true);
-                //onePlayer.setStillInGame(true);
                 break;
             case 4:
                 //fold
                 System.out.println("folded...");
                 setStillInGame(playerId,false);
-                //onePlayer.setStillInGame(false);
         }
     }
 
@@ -417,15 +372,9 @@ public class Game {
         //if you raise before you have paid big blind, you have to pay for that aswell.
         players.get(findTable()).addMoney(players.get(playerId).withdrawMoney(bettedMoney));
         setRoundBet(findTable(), bettedMoney + getRoundBet(findTable()));
-        //findTable().addRoundBet(bettedMoney);
         //update the round bet
         setRoundBet(playerId, bettedMoney + getRoundBet(playerId));
-        //onePlayer.addRoundBet(bettedMoney);
-        //stake should be the same all the time!
-        //stake += bettedMoney;
-        //setHighestBidder(onePlayer);
         setHighestBidder(playerId);
-
     }
 
     private int findTable(){
@@ -448,7 +397,6 @@ public class Game {
     }
 
     public void start(){
-
         System.out.println("SHUFFLING CARDS...");
         theDeck.shuffleCards();
 
@@ -518,11 +466,7 @@ public class Game {
         //players.get(1).getBestHand();
 
     }
-    //FIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXX THIIIIIIIIIS SHIIIIIIIIIIIIIT
 
-
-    //GAME SPECIFIC
-    //public Hand setHandPoints(int playerId){
     public Hand setHandPoints(int playerId){
         ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
         allPossibleHands.addAll(getAllHands(players.get(playerId).getPlayerHand()));
@@ -541,7 +485,6 @@ public class Game {
 
         return allPossibleHands.get(highestHandId);
     }
-    //GAME SPECIFIC
     private Suit_ checkFlush(Hand oneHand){
         int suitArray[] = new int[4];
         //populate rank and suit arrays:
@@ -561,8 +504,6 @@ public class Game {
         }
         return null;
     }
-
-    //GAME SPECIFIC
     public CardValueEnum checkCardValue(Hand oneHand){
         int straightCount = 0;
         int lastCardValue = 0;
@@ -588,14 +529,12 @@ public class Game {
                     //this is redundant....
                     //CHECK THIS WARNING!
                     return CardValueEnum.Straight;
-                    //straight = true;
                 }
             }else {
                 straightCount = 0;
                 lowestStraight = 0;
             }
             lastCardValue = i;
-
             //end check for straight
             if(i == 1){continue;}
             //check for pair, twopair, three of a kind, four of a kind
@@ -605,7 +544,6 @@ public class Game {
                 threeOfAKind = true;
             }else if(rankArray[i] == 4){
                 return CardValueEnum.FourOfAKind;
-                //fourOfAKind = true;
             }
         }
 
@@ -656,7 +594,6 @@ public class Game {
         throw new NoCardValueStraightException("There is no straight in the list.");
 
     }
-    //GAME SPECIFIC
     private CardValueEnum checkRankAndSuitValue(Hand oneHand){
         CardValueEnum cardRank;
         Suit_ flush;
@@ -702,11 +639,7 @@ public class Game {
                 }
             }
         }
-        if(checkOccurences != occurrences){
-            throw new NoMatchingCardException("Occurences: " + occurrences + " did not match checkOccurences:" + checkOccurences);
-        }
-        if(result.size() != occurrences){
-            //redundant, just for testing.
+        if(checkOccurences != occurrences || result.size() != occurrences){
             throw new NoMatchingCardException("Occurences: " + occurrences + " did not match checkOccurences:" + checkOccurences);
         }
         return result;
@@ -787,6 +720,7 @@ public class Game {
                 }
                 break;
         }
+        //DO MAGIC here..
         //oneHand.setHandPoints(handPoints);
         return handPoints;
     }
@@ -794,11 +728,6 @@ public class Game {
         ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
         //get all possible hands from generateHands.
         allPossibleHands.addAll(generateHands(playerHand));
-        /*
-        for( Hand oneHand: allPossibleHands){
-            setHandValue(oneHand);
-        }*/
-
         return allPossibleHands;
     }
     //GAME SPECIFIC
