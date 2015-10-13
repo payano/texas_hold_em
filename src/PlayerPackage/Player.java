@@ -41,6 +41,7 @@ abstract public class Player {
     //public boolean getHighestBid(){return highestBid;}
     //public void setBigBlind(boolean bigBlind){this.isBigBlind = bigBlind;}
     //public boolean getBigBlind(){return isBigBlind;}
+    public Hand getPlayerHand(){return this.playerHand;}
     public String getName(){
         return this.userName;
     }

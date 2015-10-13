@@ -1,10 +1,8 @@
 import CardPackage.*;
 import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
-import com.sun.org.apache.xpath.internal.SourceTree;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
 /**
@@ -51,6 +49,7 @@ public class Game {
     }
 
     private boolean getStillInGame(int i){return stillInGame.get(i);}
+    private void setStillInGame(int i){stillInGame.set(i,true);}
     private int getHandPoints(int i){return handPoints.get(i);}
     private CardValueEnum getHandValue(int i){return handValue.get(i);}
     public void setHighestBidder(int highestPlayer){
@@ -94,7 +93,12 @@ public class Game {
         System.out.println("the winner is..... " + players.get(currentLeader).getName());
         System.out.println("he/she has: " + getHandValue(currentLeader).toString());
     }
-    private void getHandValues(){
+    //this is the old getHandValues
+    //should be setHandValues
+    private void setBestHand(int playerId){
+
+    }
+    private void setHandValues(){
         for(int i = 0; i < players.size();i++){
             if(players.get(i) instanceof TablePlayer){continue;}
             //add the Table hand to the player hands.
@@ -388,25 +392,11 @@ public class Game {
     }
 
     public void rotatePlayers(){
-        //we need one list for the bets and one list for the table seating.
-        //rotate players will be used for making the bets go around all players.
-        System.out.println("\nBEFORE ROTATE");
-
-        for (Player onePlayer: players){
-            System.out.println(onePlayer.toString());
-        }
-
-        System.out.println("\nROTATING BEEP BOOP");
-
+        //rotate players one step
         for(int i = 0 ; i < players.size(); i++){
             if(players.get(i) instanceof TablePlayer){continue;}
             players.add(players.remove(i));
             break;
-
-        }
-
-        for(Player onePlayer: players){
-            System.out.println(onePlayer.toString());
         }
     }
 
@@ -453,7 +443,7 @@ public class Game {
 
 
             System.out.println("\n\n\n\n");
-            getHandValues();
+            setHandValues();
             setWinner();
 
             //rotatePlayers();
@@ -481,6 +471,23 @@ public class Game {
     }
     //FIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXX THIIIIIIIIIS SHIIIIIIIIIIIIIT
 
+
+    //GAME SPECIFIC
+    public Hand setHandPoints(int playerId){
+        ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
+        allPossibleHands.addAll(getAllHands(players.get(playerId).getPlayerHand()));
+        int highestHand = 0;
+        int highestHandId = 0;
+        //loop through hands and get the best value.
+        for (int i = 0; i < allPossibleHands.size();i++) {
+            //
+            if(setHandValue(allPossibleHands.get(i)) > highestHand){
+                highestHandId = i;
+                highestHand = setHandValue(allPossibleHands.get(i));
+            }
+        }
+        return allPossibleHands.get(highestHandId);
+    }
     //GAME SPECIFIC
     public Suit_ checkFlush(Hand oneHand){
         int suitArray[] = new int[4];
@@ -653,7 +660,7 @@ public class Game {
     }
 
     //GAME SPECIFIC
-    public void setHandValue(Hand oneHand){
+    public int setHandValue(Hand oneHand){
         int handPoints = 0;
         ArrayList<Rank_> tempCardRanks = new ArrayList<Rank_>();
         CardValueEnum tempCardValueEnum;
@@ -727,22 +734,17 @@ public class Game {
                 }
                 break;
         }
-        if(handPoints > this.handPoints){
-            this.handPoints = handPoints;
-            this.handValue = tempCardValueEnum;
-        }
+        return handPoints;
     }
-    //GAME SPECIFIC
-    public void getBestHand(){
+    public ArrayList<Hand> getAllHands(Hand playerHand){
         ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
         //get all possible hands from generateHands.
-        allPossibleHands.addAll(generateHands());
-
+        allPossibleHands.addAll(generateHands(playerHand));
+        /*
         for( Hand oneHand: allPossibleHands){
             setHandValue(oneHand);
-        }
-
-
+        }*/
+        return allPossibleHands;
     }
     //GAME SPECIFIC
     private ArrayList<Hand> generateHands(Hand playerHand){
