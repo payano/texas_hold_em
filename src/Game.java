@@ -70,6 +70,7 @@ public class Game {
     public void setWinner(){
         int currentLeader = 0;
         int highestHandPoints = 0;
+        ArrayList<Integer> winner = new ArrayList<Integer>();
 
         //loop through the players and get the current leader:
         for (int i = 0 ; i < players.size();i++){
@@ -82,7 +83,7 @@ public class Game {
                 currentLeader = i;
             }
         }
-        //check if there is someone
+        //check if there is someone else who has the same handPoints as the leader
         for(int i = 0; i < players.size();i++){
             //table can not win.
             if(players.get(i) instanceof TablePlayer){continue;}
@@ -90,15 +91,19 @@ public class Game {
             if(!getStillInGame(i)){continue;}
             //get the first time leader
             System.out.println("player: " + players.get(i).getName() + ", handPoints: " + getHandPoints(i) + " CardValue: " + getHandValue(i));
-            if(getHandPoints(i) > highestHandPoints){
-                currentLeader = i;
-            }else if(getHandPoints(i) == getHandPoints(currentLeader)){
-                System.out.println("HEY MAN THIS IS A SPLIT!!");
+            if(getHandPoints(i) == highestHandPoints){
+                winner.add(i);
+                if(winner.size() > 1) {
+                    System.out.println("HEY MAN THIS IS A SPLIT!!");
+                }
             }
         }
+        for (int i = 0; i < winner.size(); i++) {
+            System.out.println("the winner is..... " + players.get(winner.get(i)).getName());
+            System.out.println("he/she has: " + getHandValue(winner.get(i)).toString());
+
+        }
         //check if more players has the same handValue.
-        System.out.println("the winner is..... " + players.get(currentLeader).getName());
-        System.out.println("he/she has: " + getHandValue(currentLeader).toString());
     }
     //this is the old getHandValues
     //should be setHandValues
