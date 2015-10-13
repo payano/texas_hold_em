@@ -16,7 +16,8 @@ public class Game {
     private final int stake = 50; //this is the minimum bet for all rounds in the game.
     private Deck theDeck;
     private Scanner scan = new Scanner(System.in);
-    private ArrayList<Boolean> stillInGame,highestBid,bigBlind;
+    private ArrayList<Boolean> stillInGame;
+    private int highestBid,bigBlind;
     private ArrayList<CardValueEnum> handRank;
     private ArrayList<Double> roundBet; //change to gameeBet later...
 
@@ -25,8 +26,8 @@ public class Game {
         theDeck = new Deck();
         players = new ArrayList<Player>();
         stillInGame = new ArrayList<Boolean>();
-        highestBid = new ArrayList<Boolean>();
-        bigBlind = new ArrayList<Boolean>();
+        //highestBid = new ArrayList<Boolean>();
+        //bigBlind = new ArrayList<Boolean>();
         handRank = new ArrayList<CardValueEnum>();
         roundBet = new ArrayList<Double>();
         //add players temporary:
@@ -40,8 +41,8 @@ public class Game {
         for (int i = 0; i < players.size() ; i++) {
             //creating seperate lists for each player to keep track of them.
             stillInGame.add(false);
-            highestBid.add(false);
-            bigBlind.add(false);
+            //highestBid.add(false);
+            //bigBlind.add(false);
             handRank.add(CardValueEnum.None);
             roundBet.add(0.0);
         }
@@ -52,13 +53,10 @@ public class Game {
     private void setStillInGame(int i,boolean value){stillInGame.set(i,value);}
     private int getHandPoints(int i){return players.get(i).getHandPoints();}
     private CardValueEnum getHandRank(int i){return handRank.get(i);}
-    public void setHighestBidder(int highestPlayer){
-        for(int i = 0 ; i < players.size();i++){
-            highestBid.set(i,false);
-        }
-        highestBid.set(highestPlayer,true);
-    }
-    public boolean getHighestBid(int i){return highestBid.get(i);}
+    public void setHighestBid(int playerId){highestBid = playerId;}
+    public int getHighestBid(){return highestBid;}
+
+    /*
     public int getHighestBidder(){
         for(int i = 0; i < players.size();i++){
             if(highestBid.get(i)){
@@ -67,6 +65,8 @@ public class Game {
         }
         throw new HighestBidderNotFoundException("Strange, there is no highest bidder..");
     }
+    */
+
     //replace with something like getPlayersInGame().
     public boolean winner(){
         int numberOfplayersLeft = 0;
@@ -164,12 +164,12 @@ public class Game {
     public void betRound(){
         //go to the person to the left of the highest bidder.
         //getHighestBidder is the current bidder.
-        for(int i = getHighestBidder()+1; ;i++){
+        for(int i = getHighestBid()+1; ;i++){
 
             //if the counter gets larger than size make it zero.
             if(i >= players.size()){i = 0;}
             if(players.get(i) instanceof TablePlayer){
-                if(getHighestBid(i)){
+                if(getHighestBid() == i){
                     //if every player checked.
                     break;
                 }
@@ -178,15 +178,15 @@ public class Game {
             if(!getStillInGame(i)){continue;}
             if(players.get(i) instanceof HumanPlayer){
                 //magic happens here
-                System.out.println("HIHGEST BIDDER: " + getHighestBidder());
+                System.out.println("HIHGEST BIDDER: " + getHighestBid());
                 System.out.println("CURRENT ID: " + i);
-                System.out.println("BIG BLIND: " + getBigBlind(i));
-                if(getHighestBid(i) &&  getBigBlind(i)){
+                System.out.println("BIG BLIND: " + getBigBlind());
+                if(getHighestBid() ==  getBigBlind()){
                     //if the player is the current highest bidder and the player has the bigblind
                     //if there is only one player left. He is the winner.
                     if(!winner()){ betCheckFold(i);}
                     else {
-                        System.out.printf(players.get(getHighestBidder()) + " wins!!");
+                        System.out.printf(players.get(getHighestBid()) + " wins!!");
                         //Take the money from the table and give it to the winner.
                         players.get(i).addMoney(players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()));
                     }
@@ -196,13 +196,13 @@ public class Game {
                         continue;
                     }
                 }
-                if(getHighestBid(i)){
+                if(getHighestBid() == i){
                     //if current player is the highest bidder
                     break;
                 }
                 if(!winner()) betCheckFold(i);
                 else {
-                    System.out.printf(players.get(getHighestBidder()) + " wins!!");
+                    System.out.printf(players.get(getHighestBid()) + " wins!!");
                     //Take the money from the table and give it to the winner.
                     players.get(i).addMoney(players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()));
                 }
@@ -223,7 +223,7 @@ public class Game {
             resetRoundBet(i);
         }
         System.out.println("ROUND OVER!");
-        setHighestBidder(findTable());
+        setHighestBid(findTable());
 
     }
 
@@ -248,7 +248,7 @@ public class Game {
                 //add the amount to roundBet.
                 setRoundBet(i,(stake/2)+getRoundBet(i));
                 System.out.println("Player: " + players.get(i).getName() + " got small blind, amount: " + stake / 2);
-                setHighestBidder(i);
+                setHighestBid(i);
             }else if(players.get(i).getMoney() < stake ){
                 //the player is broke, next person must take the big-blind.
                 setStillInGame(i,false);
@@ -262,7 +262,7 @@ public class Game {
                 System.out.println("Player: " + players.get(i).getName() + " got big blind, amount: " + stake);
                 System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
                 //same as above...
-                setHighestBidder(i);
+                setHighestBid(i);
                 setBigBlind(i);
                 break;
             }else {
@@ -272,17 +272,10 @@ public class Game {
 
     }
     public void setBigBlind(int playerId){
-        //only one can be BB
-        for(int i = 0 ; i < players.size();i++){
-            bigBlind.set(i,false);
-        }
-        bigBlind.set(playerId, true);
+        bigBlind = playerId;
     }
-    public boolean getBigBlind(int playerId){
-        if(bigBlind.get(playerId)){
-            return true;
-        }
-        return false;
+    public int getBigBlind(){
+        return bigBlind;
     }
     public void betCheckFold(int playerId){
         System.out.println("\nyour share in this bettingRound so far: " + getRoundBet(playerId));
@@ -409,7 +402,7 @@ public class Game {
         setRoundBet(findTable(), bettedMoney + getRoundBet(findTable()));
         //update the round bet
         setRoundBet(playerId, bettedMoney + getRoundBet(playerId));
-        setHighestBidder(playerId);
+        setHighestBid(playerId);
     }
 
     private int findTable(){
@@ -452,7 +445,7 @@ public class Game {
             dealCards(2);
 
             //lets bet!
-            //betRound();
+            betRound();
 
             //Deal the flop
             dealTable(3);
