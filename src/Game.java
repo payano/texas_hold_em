@@ -18,7 +18,7 @@ public class Game {
     Scanner scan = new Scanner(System.in);
 
     //GAME SPECIFIC, WILL MOVE TO GAME.JAVA:
-    private ArrayList<Boolean> stillInGame,highestBid,isBigBlind;
+    private ArrayList<Boolean> stillInGame,highestBid,bigBlind;
     private ArrayList<CardValueEnum> handValue;
     private ArrayList<Double> roundBet; //change to gameeBet later...
     private ArrayList<Integer> handPoints;
@@ -192,7 +192,7 @@ public class Game {
         return true;
     }
 
-    public void smallAndBigBlind(ArrayList<Player> players){
+    public void smallAndBigBlind(){
         //there has to be a check somewhere that the minimum amount of players(computer + human) >= 2.
         //WARNING
         //Potential error: only two players but they dont have enough money to play.
@@ -206,47 +206,55 @@ public class Game {
         */
         boolean smallBlindPlayer = true;
         boolean bigBlindPlayer = true;
-        for(Player onePlayer : players) {
+        for(int i = 0; i < players.size();i++) {
             //skip TablePlayer betting
-            if (onePlayer instanceof TablePlayer) {continue;}
+            if (players.get(i) instanceof TablePlayer) {continue;}
             //kommmer detta fungera?
-            if(onePlayer.getMoney() < stake/2 && smallBlindPlayer){
+            if(players.get(i).getMoney() < stake/2 && smallBlindPlayer){
                 //the player is broke, next person must take the smallblind.
-                onePlayer.setStillInGame(false);
-            }else if(onePlayer.getMoney() >= stake/2 && smallBlindPlayer){
+                setStillInGame(i, false);
+            }else if(players.get(i).getMoney() >= stake/2 && smallBlindPlayer){
 
                 //player has taken small blind and is still in game.
                 //this player must also call the stake or the bet.
-                findTable().addMoney(onePlayer.withdrawMoney(stake / 2));
-                onePlayer.setStillInGame(true);
+                players.get(findTable()).addMoney(players.get(i).withdrawMoney(stake / 2));
+                //findTable().addMoney(onePlayer.withdrawMoney(stake / 2));
+                setStillInGame(i,true);
                 smallBlindPlayer = false;
                 //add the amount to roundBet.
-                onePlayer.addRoundBet(stake/2);
+                setRoundBet(i,(stake/2)+getRoundBet(i));
+                //onePlayer.addRoundBet(stake/2);
 
-                System.out.println("Player: " + onePlayer.getName() + " got small blind, amount: " + stake / 2);
+                System.out.println("Player: " + players.get(i).getName() + " got small blind, amount: " + stake / 2);
                 //System.out.println("Table has: " + findTable().getMoney() + " money and getRoundBet: " + findTable().getRoundBet());
 
                 //onePlayer.setSmallBlind(true);
                 //muppigt?
-                setHighestBidder(onePlayer);
+                setHighestBidder(i);
 
-            }else if(onePlayer.getMoney() < stake && bigBlindPlayer){
+            }else if(players.get(i).getMoney() < stake && bigBlindPlayer){
                 //the player is broke, next person must take the big-blind.
-                onePlayer.setStillInGame(false);
-            }else if(onePlayer.getMoney() >= stake && bigBlindPlayer){
+                setStillInGame(i,false);
+                //onePlayer.setStillInGame(false);
+            }else if(players.get(i).getMoney() >= stake && bigBlindPlayer){
                 //player has taken the big blind and is still in game.
-                findTable().addMoney(onePlayer.withdrawMoney(stake));
+                players.get(findTable()).addMoney(players.get(i).withdrawMoney(stake));
+                //findTable().addMoney(onePlayer.withdrawMoney(stake));
                 //bigBlindPlayer = false;
-                onePlayer.setStillInGame(true);
+                //onePlayer.setStillInGame(true);
+                setStillInGame(i,true);
                 //add the amount to roundbet.
-                onePlayer.addRoundBet(stake);
-                findTable().addRoundBet(stake);
-                System.out.println("Player: " + onePlayer.getName() + " got big blind, amount: " + stake);
-                System.out.println("Table has: " + findTable().getMoney() + " money and getRoundBet: " + findTable().getRoundBet());
+                setRoundBet(i,getRoundBet(i)+stake);
+                //onePlayer.addRoundBet(stake);
+                setRoundBet(findTable(),getRoundBet(findTable())+stake);
+                //findTable().addRoundBet(stake);
+                System.out.println("Player: " + players.get(i).getName() + " got big blind, amount: " + stake);
+                System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
 
                 //same as above...
-                setHighestBidder(onePlayer);
-                onePlayer.setBigBlind(true);
+                setHighestBidder(i);
+                setBigBlind(i);
+                //onePlayer.setBigBlind(true);
 
                 break;
             }else {
@@ -255,6 +263,19 @@ public class Game {
             }
         }
 
+    }
+    public void setBigBlind(int playerId){
+        //only one can be BB
+        for(int i = 0 ; i < players.size();i++){
+            bigBlind.set(i,false);
+        }
+        bigBlind.set(playerId,true);
+    }
+    public int getBigBlind(){
+        for(int i = 0 ; i < players.size();i++){
+
+        }
+        throw new NoBigBlindPersonException("There is no one with big blind");
     }
 
 
