@@ -37,8 +37,8 @@ abstract public class Player {
 
     //public int getHandValue(){return this.handPoints;}
     //public CardValueEnum getHandValue(){return handValue;}
-    //public void setHighestBid(boolean highestBidder){this.highestBid = highestBidder;}
-    //public boolean getHighestBid(){return highestBid;}
+    //public void setHighestBetPlayerId(boolean highestBidder){this.highestBid = highestBidder;}
+    //public boolean getHighestBetPlayerId(){return highestBid;}
     //public void setBigBlind(boolean bigBlind){this.isBigBlind = bigBlind;}
     //public boolean getBigBlind(){return isBigBlind;}
     public int getHandPoints(){return playerHand.getHandValue();}
