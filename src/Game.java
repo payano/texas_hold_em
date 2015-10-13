@@ -69,9 +69,20 @@ public class Game {
     }
     public void setWinner(){
         int currentLeader = 0;
-        boolean firstRun = true;
+        int highestHandPoints = 0;
 
-        //check highest handValue.
+        //loop through the players and get the current leader:
+        for (int i = 0 ; i < players.size();i++){
+            if(getHandPoints(i) > highestHandPoints){
+                //table can not win.
+                if(players.get(i) instanceof TablePlayer){continue;}
+                //player must still be in game to win
+                if(!getStillInGame(i)){continue;}
+                highestHandPoints = getHandPoints(i);
+                currentLeader = i;
+            }
+        }
+        //check if there is someone
         for(int i = 0; i < players.size();i++){
             //table can not win.
             if(players.get(i) instanceof TablePlayer){continue;}
@@ -79,8 +90,7 @@ public class Game {
             if(!getStillInGame(i)){continue;}
             //get the first time leader
             System.out.println("player: " + players.get(i).getName() + ", handPoints: " + getHandPoints(i) + " CardValue: " + getHandValue(i));
-            if(firstRun){currentLeader = i;firstRun=false;continue;}
-            if(getHandPoints(i) > getHandPoints(currentLeader)){
+            if(getHandPoints(i) > highestHandPoints){
                 currentLeader = i;
             }else if(getHandPoints(i) == getHandPoints(currentLeader)){
                 System.out.println("HEY MAN THIS IS A SPLIT!!");
@@ -124,13 +134,9 @@ public class Game {
             }
 
         }
+        //handpoints and handvalues are closely connected, update them both here.
         players.get(playerId).setHandPoints(highestHand);
         setHandValue(playerId,checkCardValue(allPossibleHands.get(highestHandId)));
-        //handPoints.set(playerId,highestHand);
-        //JALLA HIT
-        System.out.println(checkCardValue(allPossibleHands.get(highestHandId)));
-
-
         return allPossibleHands.get(highestHandId);
     }
     private void setHandValue(int playerId, CardValueEnum cardValue){handValue.set(playerId,cardValue);}
