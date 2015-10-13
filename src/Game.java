@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Created by Arvid on 2015-09-15.
+ * Created by Arvid and Johan Svensson on 2015-09-15.
  *
  */
 public class Game {
@@ -26,8 +26,6 @@ public class Game {
         theDeck = new Deck();
         players = new ArrayList<Player>();
         stillInGame = new ArrayList<Boolean>();
-        //highestBid = new ArrayList<Boolean>();
-        //bigBlind = new ArrayList<Boolean>();
         handRank = new ArrayList<CardValueEnum>();
         roundBet = new ArrayList<Double>();
         //add players temporary:
@@ -41,47 +39,26 @@ public class Game {
         for (int i = 0; i < players.size() ; i++) {
             //creating seperate lists for each player to keep track of them.
             stillInGame.add(false);
-            //highestBid.add(false);
-            //bigBlind.add(false);
             handRank.add(CardValueEnum.None);
             roundBet.add(0.0);
         }
 
     }
 
-    private boolean getStillInGame(int i){return stillInGame.get(i);}
-    private void setStillInGame(int i,boolean value){stillInGame.set(i,value);}
-    private int getHandPoints(int i){return players.get(i).getHandPoints();}
-    private CardValueEnum getHandRank(int i){return handRank.get(i);}
+    public boolean getStillInGame(int i){return stillInGame.get(i);}
+    public void setStillInGame(int i,boolean value){stillInGame.set(i,value);}
+    public int getHandPoints(int i){return players.get(i).getHandPoints();}
+    public CardValueEnum getHandRank(int i){return handRank.get(i);}
     public void setHighestBid(int playerId){highestBid = playerId;}
     public int getHighestBid(){return highestBid;}
-
-    /*
-    public int getHighestBidder(){
-        for(int i = 0; i < players.size();i++){
-            if(highestBid.get(i)){
-                return i;
-            }
-        }
-        throw new HighestBidderNotFoundException("Strange, there is no highest bidder..");
-    }
-    */
-
-    //replace with something like getPlayersInGame().
-    public boolean winner(){
+    public int getPlayersInGame(){
         int numberOfplayersLeft = 0;
-
         //add all the players that are still in the game.
         for (int i = 0; i < players.size();i++) {
-            if (getStillInGame(i)) numberOfplayersLeft++;
+            if (players.get(i) instanceof TablePlayer){continue;}
+            if (getStillInGame(i)){numberOfplayersLeft++;}
         }
-
-        //if there is more than one player and the table left. No one has won yet.
-        if (numberOfplayersLeft > 2){
-            System.out.println(numberOfplayersLeft);
-            return false;
-        }
-        return true;
+        return numberOfplayersLeft;
     }
     public void setWinner(){
         int highestHandPoints = 0;
@@ -113,21 +90,11 @@ public class Game {
             }
         }
         for (int i = 0; i < winner.size(); i++) {
-            System.out.println("the winner is..... " + players.get(winner.get(i)).getName());
+            System.out.println("the getPlayersInGame is..... " + players.get(winner.get(i)).getName());
             System.out.println("he/she has: " + getHandRank(winner.get(i)).toString());
 
         }
         //check if more players has the same handRank.
-    }
-    //this is the old getHandValues
-    //should be setHandValues
-    public void setBestHandPoints(int playerId){
-        throw new SmallAndBigBlindException("JUST SOME BOGUS");
-    }
-    public int getBestHandPoints(int playerId){
-        throw new NoSuchCardException("bougs");
-        //return players.get(playerId).getHandRank();
-
     }
     private void setHandRank(int playerId, CardValueEnum cardValue){
         handRank.set(playerId, cardValue);}
@@ -149,9 +116,9 @@ public class Game {
         //loop through hands and get the best value.
         for (int i = 0; i < allPossibleHands.size();i++) {
             //
-            if(checkHandValue(allPossibleHands.get(i)) > highestHand){
+            if(checkHandRank(allPossibleHands.get(i)) > highestHand){
                 highestHandId = i;
-                highestHand = checkHandValue(allPossibleHands.get(i));
+                highestHand = checkHandRank(allPossibleHands.get(i));
             }
 
         }
@@ -183,11 +150,11 @@ public class Game {
                 System.out.println("BIG BLIND: " + getBigBlind());
                 if(getHighestBid() ==  getBigBlind()){
                     //if the player is the current highest bidder and the player has the bigblind
-                    //if there is only one player left. He is the winner.
-                    if(!winner()){ betCheckFold(i);}
+                    //if there is only one player left. He is the getPlayersInGame.
+                    if(getPlayersInGame() > 1){ betCheckFold(i);}
                     else {
                         System.out.printf(players.get(getHighestBid()) + " wins!!");
-                        //Take the money from the table and give it to the winner.
+                        //Take the money from the table and give it to the getPlayersInGame.
                         players.get(i).addMoney(players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()));
                     }
                     setBigBlind(i);
@@ -200,18 +167,18 @@ public class Game {
                     //if current player is the highest bidder
                     break;
                 }
-                if(!winner()) betCheckFold(i);
+                if(getPlayersInGame() > 1) betCheckFold(i);
                 else {
                     System.out.printf(players.get(getHighestBid()) + " wins!!");
-                    //Take the money from the table and give it to the winner.
+                    //Take the money from the table and give it to the getPlayersInGame.
                     players.get(i).addMoney(players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()));
                 }
             }
-            //Have to chen if there is a winner here if the last player of that
+            //Have to chen if there is a getPlayersInGame here if the last player of that
             //"lap" folded.
-            if (winner()){
+            if (getPlayersInGame() == 1){
                 System.out.printf(players.get(i).getName() + " wins!!");
-                //Take the money from the table and give it to the winner.
+                //Take the money from the table and give it to the getPlayersInGame.
                 players.get(i).addMoney(players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()));
             }
         }
@@ -220,7 +187,7 @@ public class Game {
         //make table the highest bidder
         //reset the bets:
         for(int i = 0 ; i < players.size();i++){
-            resetRoundBet(i);
+            setRoundBet(i,0);
         }
         System.out.println("ROUND OVER!");
         setHighestBid(findTable());
@@ -385,7 +352,6 @@ public class Game {
     public void setRoundBet(int playerId, double amount){
         roundBet.set(playerId,amount);
     }
-    public void resetRoundBet(int playerId){roundBet.set(playerId,0.0);}
     public void bet(int playerId){
         //this is beta release or .. alpha? :=)
 
@@ -445,7 +411,7 @@ public class Game {
             dealCards(2);
 
             //lets bet!
-            betRound();
+            //betRound();
 
             //Deal the flop
             dealTable(3);
@@ -515,7 +481,7 @@ public class Game {
         }
         return null;
     }
-    public CardValueEnum checkCardValue(Hand oneHand){
+    private CardValueEnum checkCardValue(Hand oneHand){
         int straightCount = 0;
         int lastCardValue = 0;
         int lowestStraight = 0;
@@ -655,9 +621,7 @@ public class Game {
         }
         return result;
     }
-
-    //GAME SPECIFIC
-    public int checkHandValue(Hand oneHand){
+    private int checkHandRank(Hand oneHand){
         int handPoints = 0;
         ArrayList<Rank_> tempCardRanks = new ArrayList<Rank_>();
         CardValueEnum tempCardValueEnum;
@@ -776,9 +740,4 @@ public class Game {
         }
         return allPossibleHands;
     }
-
-
-
-
-
 }
