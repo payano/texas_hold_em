@@ -465,7 +465,7 @@ public class Game {
         int lowestStraight = 0;
         int pairCount = 0;
         boolean threeOfAKind = false;
-        int rankArray[] = new int[Rank_.values().length];
+        int rankArray[] = new int[Rank_.values().length+1];
         for(int i = 0; i < oneHand.getNoOfCards();i++){
             //add ace to first slot in the array aswell.
             if(oneHand.getCard(i).getRank() == 14){rankArray[1]++;}
@@ -518,7 +518,7 @@ public class Game {
         int lastCardValue = 0;
         int straightCount = 0;
         int lowestStraight = 0;
-        int rankArray[] = new int[Rank_.values().length];
+        int rankArray[] = new int[Rank_.values().length+1];
         for(int i = 0; i < oneHand.getNoOfCards();i++){
             //add ace to first slot in the array aswell.
             if(oneHand.getCard(i).getRank() == 14){rankArray[1]++;}
@@ -569,7 +569,7 @@ public class Game {
     private ArrayList<Rank_> getMatchingCards(Hand oneHand,int numberOfMCards,int occurrences){
         //returns the highest matching pair, three of a kind or four of a kind
         ArrayList<Rank_> result = new ArrayList<Rank_>();
-        int rankArray[] = new int[Rank_.values().length];
+        int rankArray[] = new int[Rank_.values().length+1];
         int match;
         int checkOccurences=0;
         //populate arraylist
