@@ -29,11 +29,10 @@ public class GameView extends BorderPane{
         addEventHandlers(controller);
     }
 
-
-
     private void addEventHandlers(GameController controller) {
         restartItem.setOnAction(event -> controller.startTheGame());
         callButton.setOnAction(event -> updatePlayer());
+        //betButton.setOnAction(event -> betHandler());
     }
 
     public void updatePlayer(){
@@ -55,23 +54,40 @@ public class GameView extends BorderPane{
 
         //Add the buttons
         callButton = new Button("Check/Call");
+        callButton.setMinWidth(30);
         betButton = new Button("Raise");
+        betButton.setMinWidth(30);
         allInButton = new Button("All in");
+        allInButton.setMinWidth(30);
         foldButton = new Button("Fold");
+        foldButton.setMinWidth(30);
 
         //Add Player name and moneystack
         playerMoneyLabel = new Label("- - -");
         playerNameLabel = new Label("Player");
 
         GridPane buttonBar = new GridPane();
-        buttonBar.setHgap(20);
-        buttonBar.addRow(0,
-                playerNameLabel,
-                playerMoneyLabel,
-                callButton,
-                betButton,
-                allInButton,
-                foldButton);
+        buttonBar.setPadding(new Insets(10, 10, 10, 10));
+        buttonBar.setHgap(8);
+
+        Slider slider = new Slider();
+        slider.setMin(0);
+        slider.setMax(100);
+        slider.setValue(40);
+        slider.setShowTickLabels(true);
+        slider.setShowTickMarks(true);
+        slider.setMajorTickUnit(50);
+        slider.setMinorTickCount(5);
+        slider.setBlockIncrement(10);
+        buttonBar.add(slider, 6, 0);
+
+        buttonBar.add(playerNameLabel, 0, 1);
+        buttonBar.add(playerMoneyLabel, 1, 1);
+        buttonBar.add(callButton, 4, 1);
+        buttonBar.add(betButton, 5, 0);
+        buttonBar.add(allInButton, 5, 1);
+        buttonBar.add(foldButton, 6, 1);
+
         this.setBottom(buttonBar);
 
         //temp center
