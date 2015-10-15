@@ -59,11 +59,10 @@ public class Deck {
     //Skapar decket utav kort.
     private void createDeck(){
         int imgNr = 52;
-        //image = new Image(this.getClass().getResource("../resources/cards/1.png").toString());
-        //Hej Johan
+
         for (int i = Rank_.values().length-1; i >= 0 ; i--) {
             for (int j = Suit_.values().length-1; j >= 0 ; j--) {
-                System.out.println("i: " + i + " j: " + j);
+                //System.out.println("i: " + i + " j: " + j);
                 //theCards.add(new Card(i,j,new Image(this.getClass().getResource("../resources/cards/" + imgNr + ".png").toString())));
                 //imgNr++;
             }

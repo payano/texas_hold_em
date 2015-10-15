@@ -30,6 +30,7 @@ public class GameView extends BorderPane{
     private MenuItem exitItem, restartItem, highScoreItem;
     private Slider slider;
 
+    private int x,y;
 
     public GameView(GameModel model){
         this.model = model;
@@ -115,7 +116,9 @@ public class GameView extends BorderPane{
         for(Card c : model.getCurrentPlayer().getCards()) {
             System.out.println("TEST");
             image = c.getImage();
-            gc.drawImage(image, 10, 10);
+            x=x+10;
+            y= 10;
+            gc.drawImage(image, x, x);
         }
 
     }
