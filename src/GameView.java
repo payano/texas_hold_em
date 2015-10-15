@@ -2,6 +2,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -15,9 +16,9 @@ public class GameView extends BorderPane{
 
     private final GameModel model;
 
-    private TextArea temp;
+    private TextField slierAmountLabel;
     private Button callButton, betButton, foldButton, allInButton;
-    private Label playerNameLabel, playerMoneyLabel, slierAmountLabel;
+    private Label playerNameLabel, playerMoneyLabel, currentPlayerLabel, currentPLayerMoneyLabel;
     private Menu fileMenu;
     private MenuItem exitItem, restartItem, highScoreItem;
     private Slider slider;
@@ -37,13 +38,16 @@ public class GameView extends BorderPane{
         betButton.setOnAction(event2 -> controller.betHandler());
         callButton.setOnAction(event -> controller.callHandler());
         foldButton.setOnAction(event1 -> controller.foldHandler());
+        allInButton.setOnAction(event1 -> controller.allInHandler());
         slider.setOnMouseDragged(event -> updateSlierAmountLabel());
+        slierAmountLabel.setOnAction(event -> controller.betHandler());
     }
+
 
     public void updateSlierAmountLabel(){
         double d = slider.getValue();
         int value = (int) d;
-        slierAmountLabel.setText(((Integer)value).toString());
+        slierAmountLabel.setText(((Integer) value).toString());
     }
 
     public int getBet(){
@@ -76,18 +80,23 @@ public class GameView extends BorderPane{
 
         //Add the buttons
         callButton = new Button("Check/Call");
-        callButton.setMinWidth(30);
+        callButton.setMinWidth(70);
         betButton = new Button("Raise");
-        betButton.setMinWidth(30);
+        betButton.setMinWidth(70);
         allInButton = new Button("All in");
-        allInButton.setMinWidth(30);
+        allInButton.setMinWidth(70);
         foldButton = new Button("Fold");
-        foldButton.setMinWidth(30);
+        foldButton.setMinWidth(70);
 
         //Add Player name and moneystack
+        currentPlayerLabel = new Label("Player:");
+        currentPLayerMoneyLabel = new Label("Money:");
         playerMoneyLabel = new Label("- - -");
         playerNameLabel = new Label("Player");
-        slierAmountLabel = new Label("0");
+
+        //Add the
+        slierAmountLabel = new TextField("0");
+        slierAmountLabel.setMaxWidth(100);
 
 
         //Add the buttom bar with buttons ans slider for beting.
@@ -97,6 +106,7 @@ public class GameView extends BorderPane{
 
         //Creat the slider
         slider = new Slider();
+        slider.setMinWidth(200);
         slider.setMin(0);
         slider.setMax(100);
         slider.setValue(0);
@@ -106,20 +116,20 @@ public class GameView extends BorderPane{
         slider.setMinorTickCount(1);
         slider.setBlockIncrement(1);
         //bet button, slider and label.
-        buttonBar.add(slider, 6, 0);
-        buttonBar.add(betButton, 5, 0);
-        buttonBar.add(slierAmountLabel, 7, 0);
 
-        buttonBar.add(playerNameLabel, 0, 1);
-        buttonBar.add(playerMoneyLabel, 1, 1);
-        buttonBar.add(callButton, 4, 1);
-        buttonBar.add(allInButton, 5, 1);
-        buttonBar.add(foldButton, 6, 1);
+
+        buttonBar.add(currentPlayerLabel, 0, 0);
+        buttonBar.add(playerNameLabel, 1, 0);
+        buttonBar.add(currentPLayerMoneyLabel, 2, 0);
+        buttonBar.add(playerMoneyLabel, 3, 0);
+        buttonBar.add(callButton, 0, 1);
+        buttonBar.add(allInButton, 1, 1);
+        buttonBar.add(foldButton, 2, 1);
+        buttonBar.add(betButton, 3, 1);
+        buttonBar.add(slider, 4, 1);
+        buttonBar.add(slierAmountLabel, 5, 1);
 
         this.setBottom(buttonBar);
 
-        //temp center
-        temp = new TextArea("TEST..");
-        this.setCenter(temp);
     }
 }
