@@ -52,6 +52,7 @@ public class GameController {
            case PreFlop:
                if (model.roundComplete()) {
                    model.dealTable(3);
+                   view.updateTable();
                    model.setRoundStatus(GameStatusEnum.Flop);
                    System.out.println("\nPreFlop -> Flop\n");
                }
@@ -59,6 +60,7 @@ public class GameController {
            case Flop:
                if (model.roundComplete()) {
                    model.dealTable(1);
+                   view.updateTable();
                    model.setRoundStatus(GameStatusEnum.Turn);
                    System.out.println("\nFlop -> Turn\n");
                }
@@ -66,6 +68,7 @@ public class GameController {
            case Turn:
                if (model.roundComplete()) {
                    model.dealTable(1);
+                   view.updateTable();
                    model.setRoundStatus(GameStatusEnum.River);
                    System.out.println("\nTurn -> River\n");
                }

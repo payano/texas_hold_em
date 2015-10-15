@@ -30,7 +30,7 @@ public class GameView extends BorderPane{
     private MenuItem exitItem, restartItem, highScoreItem;
     private Slider slider;
 
-    private int x,y;
+    private int player1X = 100,player1Y,tableX, tableY;
 
     public GameView(GameModel model){
         this.model = model;
@@ -113,14 +113,24 @@ public class GameView extends BorderPane{
 
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        player1X += 100;
         for(Card c : model.getCurrentPlayer().getCards()) {
-            System.out.println("TEST");
             image = c.getImage();
-            x=x+10;
-            y= 10;
-            gc.drawImage(image, x, x);
+            player1X=player1X+30;
+            player1Y = 250;
+            gc.drawImage(image, player1X, player1Y);
         }
 
+    }
+
+    public void updateTable(){
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        for(Card c : model.getPlayer(model.findTable()).getCards()) {
+            image = c.getImage();
+            tableX+= 30;
+            tableY = 10;
+            gc.drawImage(image, tableX, tableY);
+        }
     }
 
     /**
