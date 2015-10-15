@@ -28,6 +28,8 @@ public class GameView extends BorderPane{
         GameController controller = new GameController(model, this);
         initView();
         addEventHandlers(controller);
+
+        controller.startTheGame();
     }
 
     private void addEventHandlers(GameController controller) {

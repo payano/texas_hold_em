@@ -12,8 +12,6 @@ public class GameController {
     public GameController(GameModel model, GameView view){
         this.model = model;
         this.view = view;
-
-        //startTheGame();
     }
 
     public void callHandler(){
@@ -54,8 +52,8 @@ public class GameController {
                if (model.roundComplete()) {
                    model.dealTable(3);
                    model.setRoundStatus(GameStatusEnum.Flop);
-                   break;
                }
+               break;
 
        }
 
