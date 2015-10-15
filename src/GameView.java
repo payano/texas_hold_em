@@ -16,7 +16,7 @@ public class GameView extends BorderPane{
 
     private final GameModel model;
 
-    private TextField slierAmountLabel;
+    private TextField sliderAmountField;
     private Button callButton, betButton, foldButton, allInButton;
     private Label playerNameLabel, playerMoneyLabel, currentPlayerLabel, currentPLayerMoneyLabel;
     private Menu fileMenu;
@@ -33,29 +33,43 @@ public class GameView extends BorderPane{
         controller.startTheGame();
     }
 
+    /**
+     * Adds handlers to all the objects that needs it.
+     * @param controller
+     */
     private void addEventHandlers(GameController controller) {
         restartItem.setOnAction(event -> controller.startTheGame());
         betButton.setOnAction(event2 -> controller.betHandler());
         callButton.setOnAction(event -> controller.callHandler());
         foldButton.setOnAction(event1 -> controller.foldHandler());
         allInButton.setOnAction(event1 -> controller.allInHandler());
-        slider.setOnMouseDragged(event -> updateSlierAmountLabel());
-        slierAmountLabel.setOnAction(event -> controller.betHandler());
+        slider.setOnMouseDragged(event -> updateSlierAmountText());
+        sliderAmountField.setOnAction(event -> controller.betHandler());
     }
 
 
-    public void updateSlierAmountLabel(){
+    /**
+     * Updates the information in the TextField ned to the
+     * slider with the current slider value.
+     */
+    public void updateSlierAmountText(){
         double d = slider.getValue();
         int value = (int) d;
-        slierAmountLabel.setText(((Integer) value).toString());
+        sliderAmountField.setText(((Integer) value).toString());
     }
 
+    /**
+     * Get the value from the text field to bet with.
+     *
+     * @return betAmount
+     */
     public int getBet(){
-        double d = slider.getValue();
-        int value = (int) d;
-        return value;
+        return Integer.parseInt(sliderAmountField.getText());
     }
 
+    /**
+     * Updates all the items that needs updates.
+     */
     public void updatePlayer(){
         playerNameLabel.setText(model.getCurrentPlayer().getName());
         playerMoneyLabel.setText(((Double) model.getCurrentPlayer().getMoney()).toString());
@@ -63,10 +77,12 @@ public class GameView extends BorderPane{
         slider.setMax(model.getCurrentPlayer().getMoney());
         slider.setValue(model.getStake());
         slider.setMajorTickUnit(model.getCurrentPlayer().getMoney()/2);
-        slierAmountLabel.setText(((Integer) model.getStake()).toString());
+        sliderAmountField.setText(((Integer) model.getStake()).toString());
     }
 
-
+    /**
+     * Initiates the view.
+     */
     private void initView() {
         //Add the menu
         fileMenu = new Menu("File");
@@ -95,8 +111,8 @@ public class GameView extends BorderPane{
         playerNameLabel = new Label("Player");
 
         //Add the
-        slierAmountLabel = new TextField("0");
-        slierAmountLabel.setMaxWidth(100);
+        sliderAmountField = new TextField("0");
+        sliderAmountField.setMaxWidth(100);
 
 
         //Add the buttom bar with buttons ans slider for beting.
@@ -127,7 +143,7 @@ public class GameView extends BorderPane{
         buttonBar.add(foldButton, 2, 1);
         buttonBar.add(betButton, 3, 1);
         buttonBar.add(slider, 4, 1);
-        buttonBar.add(slierAmountLabel, 5, 1);
+        buttonBar.add(sliderAmountField, 5, 1);
 
         this.setBottom(buttonBar);
 
