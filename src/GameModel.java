@@ -21,6 +21,7 @@ public class GameModel {
     private ArrayList<CardValueEnum> handRank;
     private ArrayList<Double> roundBet; //change to gameeBet later...
     private int currentPlayer;
+    private GameStatusEnum roundStatus;
 
 
 
@@ -241,17 +242,17 @@ public class GameModel {
         }
 
     }
-
-    public boolean getRoundFinished(){
+/*
+    public GameStatusEnum getRoundStatus(){
         //tells controller if the round is done.
         System.out.println("currentplayerid: " + getCurrentPlayerId() + " highestplayeid: " + highestBetPlayerId);
         if(getCurrentPlayerId() == highestBetPlayerId)
         {
-            return true;
+            return GameStatusEnum.;
         }
-        return false;
+            return false;
     }
-
+*/
     private void setBigBlind(int playerId){bigBlind = playerId;}
     private int getBigBlind(){return bigBlind;}
 
@@ -446,7 +447,12 @@ public class GameModel {
             for (int i = 0; i < players.size();i++) {
                 setStillInGame(i,true);
             }
+            roundStatus = GameStatusEnum.PreFlop;
     }
+    public void setRoundStatus(GameStatusEnum status){
+        roundStatus = status;
+    }
+    public GameStatusEnum getRoundStatus(){return roundStatus;}
 
 
     private Suit_ checkFlush(Hand oneHand){
