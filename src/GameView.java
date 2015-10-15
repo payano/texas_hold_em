@@ -90,7 +90,7 @@ public class GameView extends BorderPane{
         slider.setShowTickLabels(true);
         slider.setShowTickMarks(true);
         //slider.setMajorTickUnit(1);
-        slider.setMinorTickCount();
+        slider.setMinorTickCount(10);
         slider.setBlockIncrement(1);
         //bet button, slider and label.
         buttonBar.add(slider, 6, 0);
