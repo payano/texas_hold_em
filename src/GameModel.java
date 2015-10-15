@@ -475,6 +475,7 @@ public class GameModel {
 
     public void initGame(){
         System.out.println("SHUFFLING CARDS...");
+        theDeck.fillDeck();
         theDeck.shuffleCards();
 
 
