@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -135,6 +136,10 @@ public class GameView extends BorderPane{
         currentPLayerMoneyLabel = new Label("Money:");
         playerMoneyLabel = new Label("- - -");
         playerNameLabel = new Label("Player");
+        playerMoneyLabel.setTextFill(Color.rgb(152, 158, 168));
+        playerNameLabel.setTextFill(Color.rgb(152, 158, 168));
+        currentPLayerMoneyLabel.setTextFill(Color.rgb(152, 158, 168));
+        currentPlayerLabel.setTextFill(Color.rgb(152, 158, 168));
 
         sliderAmountField = new TextField("0");
         sliderAmountField.setMaxWidth(100);
@@ -153,6 +158,7 @@ public class GameView extends BorderPane{
 
         //Add the buttom bar with buttons ans slider for beting.
         GridPane buttonBar = new GridPane();
+        buttonBar.setStyle("-fx-background-color: #252628;");
         buttonBar.setPadding(new Insets(10, 10, 10, 10));
         buttonBar.setHgap(8);
 
@@ -168,6 +174,8 @@ public class GameView extends BorderPane{
         buttonBar.add(sliderAmountField, 5, 1);
         this.setBottom(buttonBar);
 
+
+
         //Image tests
 
         canvas = new Canvas(700,400);
@@ -178,7 +186,7 @@ public class GameView extends BorderPane{
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // paint the background
-        gc.setFill(Color.GRAY);
+        gc.setFill(Color.rgb(37, 38, 40));
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
 
