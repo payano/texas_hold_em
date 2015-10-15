@@ -79,7 +79,7 @@ public class GameView extends BorderPane{
         playerNameLabel.setText(model.getCurrentPlayer().getName());
         playerMoneyLabel.setText(((Double) model.getCurrentPlayer().getMoney()).toString());
         slider.setMin(model.getStake());
-        slider.setMax(model.getCurrentPlayer().getMoney());
+        if (model.getCurrentPlayer().getMoney() > 0)slider.setMax(model.getCurrentPlayer().getMoney());
         slider.setValue(model.getStake());
         slider.setMajorTickUnit(model.getCurrentPlayer().getMoney()/2);
         sliderAmountField.setText(((Integer) model.getStake()).toString());
