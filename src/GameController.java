@@ -79,7 +79,7 @@ public class GameController {
                        System.out.println(model.getHandRank(i));
                    }
 
-                   startTheGame();
+                   //startTheGame();
                    model.setRoundStatus(GameStatusEnum.PreFlop);
                }
                break;
