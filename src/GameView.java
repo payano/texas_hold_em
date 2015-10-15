@@ -50,7 +50,7 @@ public class GameView extends BorderPane{
         playerMoneyLabel.setText(((Double) model.getCurrentPlayer().getMoney()).toString());
         slider.setMin(model.getStake());
         slider.setMax(model.getCurrentPlayer().getMoney());
-        //slider.setMajorTickUnit();
+        slider.setMajorTickUnit(model.getCurrentPlayer().getMoney()/2);
     }
 
 
