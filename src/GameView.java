@@ -174,23 +174,19 @@ public class GameView extends BorderPane{
         buttonBar.add(sliderAmountField, 5, 1);
         this.setBottom(buttonBar);
 
-
-
         //Image tests
 
         canvas = new Canvas(700,400);
-
-
         this.setCenter(canvas);
-
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // paint the background
         gc.setFill(Color.rgb(37, 38, 40));
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-
-
+        // Load the image
+        Image image = new Image(this.getClass().getResource("resources/cards/1.png").toString());
+        gc.drawImage(image, 10, 10);
 
     }
 }
