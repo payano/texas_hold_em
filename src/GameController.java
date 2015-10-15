@@ -15,9 +15,6 @@ public class GameController {
     }
 
     public void callHandler(){
-       if(model.getCurrentPlayer().getMoney() < model.getRoundBet(model.findTable())){
-            view.enableBet(false);
-       }else view.enableBet(true);
         model.call();
         updateRoundStatus();
         view.updatePlayer();

@@ -47,11 +47,6 @@ public class GameView extends BorderPane{
         sliderAmountField.setOnAction(event -> controller.betHandler());
     }
 
-    public void enableBet(boolean enableToBet){
-        if(!enableToBet) {
-            betButton.disableProperty();
-        }
-    }
 
     /**
      * Updates the information in the TextField ned to the
@@ -83,6 +78,14 @@ public class GameView extends BorderPane{
         slider.setValue(model.getStake());
         slider.setMajorTickUnit(model.getCurrentPlayer().getMoney()/2);
         sliderAmountField.setText(((Integer) model.getStake()).toString());
+
+        if(model.getCurrentPlayer().getMoney() < model.getRoundBet(model.findTable())){
+            betButton.setDisable(true);
+            callButton.setDisable(true);
+        }else{
+            betButton.setDisable(false);
+            callButton.setDisable(false);
+        }
     }
 
     /**
