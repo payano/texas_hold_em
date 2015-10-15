@@ -12,8 +12,6 @@ public class GameController {
     public GameController(GameModel model, GameView view){
         this.model = model;
         this.view = view;
-
-        //startTheGame();
     }
 
     public void callHandler(){
@@ -54,10 +52,30 @@ public class GameController {
                if (model.roundComplete()) {
                    model.dealTable(3);
                    model.setRoundStatus(GameStatusEnum.Flop);
-                   break;
+                   System.out.println("\nPreFlop -> Flop\n");
                }
-
+               break;
+           case Flop:
+               if (model.roundComplete()) {
+                   model.dealTable(1);
+                   model.setRoundStatus(GameStatusEnum.Turn);
+                   System.out.println("\nFlop -> Turn\n");
+               }
+               break;
+           case Turn:
+               if (model.roundComplete()) {
+                   model.dealTable(1);
+                   model.setRoundStatus(GameStatusEnum.River);
+                   System.out.println("\nTurn -> River\n");
+               }
+               break;
+           case River:
+               if (model.roundComplete()) {
+                   System.out.println("\nRiver -> River\n");
+                   //CHECK FOR WINNER
+                   //model.setRoundStatus(GameStatusEnum.Turn);
+               }
+               break;
        }
-
     }
 }
