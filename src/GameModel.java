@@ -252,9 +252,14 @@ public class GameModel {
         return currentPlayer;
     }
     private void setNextPlayer(){
-        currentPlayer++;
-        if(currentPlayer >= players.size()) {
-            currentPlayer = 1;
+        //currentPlayer++;
+        for (int i = currentPlayer+1;  ; i++) {
+            if(i >= players.size()){
+                i=0;
+            }
+            if(players.get(i) instanceof TablePlayer){continue;}
+            else if(!getStillInGame(i)){continue;}
+            else{currentPlayer = i;break;}
         }
     }
     private void setNextPlayer(int nextPlayer){
