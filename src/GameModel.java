@@ -48,6 +48,8 @@ public class GameModel {
 
     }
 
+    public void setRoundStatus(GameStatusEnum status){roundStatus = status;}
+    public GameStatusEnum getRoundStatus(){return roundStatus;}
     public boolean getStillInGame(int i){return stillInGame.get(i);}
     private void setStillInGame(int i,boolean value){stillInGame.set(i,value);}
     public int getHandPoints(int i){return players.get(i).getHandPoints();}
@@ -449,12 +451,6 @@ public class GameModel {
             }
             roundStatus = GameStatusEnum.PreFlop;
     }
-    public void setRoundStatus(GameStatusEnum status){
-        roundStatus = status;
-    }
-    public GameStatusEnum getRoundStatus(){return roundStatus;}
-
-
     private Suit_ checkFlush(Hand oneHand){
         int suitArray[] = new int[Suit_.values().length];
         //populate rank and suit arrays:
