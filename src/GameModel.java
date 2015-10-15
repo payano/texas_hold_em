@@ -100,19 +100,20 @@ public class GameModel {
                 }
             }
         }
-        System.out.println("Player winner: " +players.get(winner.get(0)).getName() + " money: " + players.get(winner.get(0)).getMoney());
-        System.out.println("Player winner: " +players.get(findTable()).getName() + " money: " + players.get(findTable()).getMoney());
+
         for (int i = 0; i < winner.size(); i++) {
-            players.get(i).addMoney(
-                    players.get(findTable()).withdrawMoney(
-                            players.get(findTable()).getMoney())/winner.size()
-                    );
+
+            System.out.println("Player <" + players.get(winner.get(i)).getName() + "> has money: " + players.get(winner.get(i)).getMoney());
+            System.out.println("Player <" + players.get(findTable()).getName() + "> has money: " + players.get(findTable()).getMoney());
+            players.get(winner.get(i)).addMoney(
+                    players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()/winner.size())
+            );
             System.out.println("the getPlayersInGame is..... " + players.get(winner.get(i)).getName());
             System.out.println("he/she has: " + getHandRank(winner.get(i)).toString());
+            System.out.println("Player <" + players.get(winner.get(i)).getName() + "> has money: " + players.get(winner.get(i)).getMoney());
+            System.out.println("Player <" + players.get(findTable()).getName() + "> has money: " + players.get(findTable()).getMoney());
 
         }
-        System.out.println("Player winner: " +players.get(winner.get(0)).getName() + " money: " + players.get(winner.get(0)).getMoney());
-        System.out.println("Player winner: " +players.get(findTable()).getName() + " money: " + players.get(findTable()).getMoney());
 
         return winner;
         //check if more players has the same handRank.
