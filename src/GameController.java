@@ -20,6 +20,11 @@ public class GameController {
         view.updatePlayer();
     }
 
+    public void foldHandler(){
+        model.fold();
+        view.updatePlayer();
+    }
+
 
     public void startTheGame(){
         model.initGame();

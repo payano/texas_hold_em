@@ -33,13 +33,16 @@ public class GameView extends BorderPane{
     private void addEventHandlers(GameController controller) {
         restartItem.setOnAction(event -> controller.startTheGame());
         callButton.setOnAction(event -> controller.callHandler());
-        slider.setOnMouseDragged(event -> updateSlierAountLabel());
+        foldButton.setOnAction(event1 -> controller.foldHandler());
+        slider.setOnMouseDragged(event -> updateSlierAmountLabel());
+
         //betButton.setOnAction(event -> betHandler());
     }
 
-    public void updateSlierAountLabel(){
-
-        slierAmountLabel.setText(""+ slider.getValue());
+    public void updateSlierAmountLabel(){
+        double d = slider.getValue();
+        int value = (int) d;
+        slierAmountLabel.setText("" + value);
     }
 
     public void updatePlayer(){
@@ -47,6 +50,7 @@ public class GameView extends BorderPane{
         playerMoneyLabel.setText(((Double) model.getCurrentPlayer().getMoney()).toString());
         slider.setMin(model.getStake());
         slider.setMax(model.getCurrentPlayer().getMoney());
+        //slider.setMajorTickUnit();
     }
 
 
@@ -89,8 +93,8 @@ public class GameView extends BorderPane{
         slider.setValue(0);
         slider.setShowTickLabels(true);
         slider.setShowTickMarks(true);
-        //slider.setMajorTickUnit(1);
-        slider.setMinorTickCount(10);
+        slider.setMajorTickUnit(100);
+        slider.setMinorTickCount(1);
         slider.setBlockIncrement(1);
         //bet button, slider and label.
         buttonBar.add(slider, 6, 0);
