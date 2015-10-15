@@ -35,6 +35,9 @@ abstract public class Player {
 
 
 
+    public void removeAllCards(){
+        playerHand.removeAllCards();
+    }
     //public int getHandValue(){return this.handPoints;}
     //public CardValueEnum getHandValue(){return handValue;}
     //public void setHighestBetPlayerId(boolean highestBidder){this.highestBid = highestBidder;}

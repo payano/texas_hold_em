@@ -475,7 +475,7 @@ public class GameModel {
 
             for (int i = 0; i < players.size();i++) {
                 setStillInGame(i,true);
-                players.get(i).
+                players.get(i).removeAllCards();
             }
             roundStatus = GameStatusEnum.PreFlop;
     }

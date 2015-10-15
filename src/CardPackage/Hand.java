@@ -57,6 +57,9 @@ public class Hand {
             return theHand.remove(cardNr);
         }
     }
+    public void removeAllCards(){
+        theHand.removeAll(theHand);
+    }
 
     //Returnerar alla kort i en hand med [] i början och slut.
     public String toString(){
