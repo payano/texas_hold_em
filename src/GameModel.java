@@ -53,7 +53,7 @@ public class GameModel {
     public CardValueEnum getHandRank(int i){return handRank.get(i);}
     private void setHighestBetPlayerId(int playerId){highestBetPlayerId = playerId;}
     private int getHighestBetPlayerId(){return highestBetPlayerId;}
-    private int getPlayersInGame(){
+    public int getPlayersInGame(){
         int numberOfplayersLeft = 0;
         //add all the players that are still in the game.
         for (int i = 0; i < players.size();i++) {
