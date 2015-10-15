@@ -254,8 +254,8 @@ public class GameModel {
         System.out.println("currentplayerid: " + getCurrentPlayerId() + " highestplayeid: " + highestBetPlayerId + " bigblind:" + getBigBlind());
         System.out.println("player: " + getCurrentPlayer().getName());
         if(getBigBlind() == getCurrentPlayerId() && getHighestBetPlayerId() == getHighestBetPlayerId()){
-            System.out.println("ge mig godis");
             setBigBlind(findTable());
+            //ful lösning
             setHighestBetPlayerId(getCurrentPlayerId()+1);
         }
         else if(getCurrentPlayerId() == getHighestBetPlayerId())
@@ -288,13 +288,13 @@ public class GameModel {
             if(players.get(i) instanceof TablePlayer){continue;}
             else if(counter >= 100){throw new NoPlayerInGameException("method SetNextPlayer cannot set the next player, no players still in game!");}
             else if(!getStillInGame(i)){continue;}
-            else if(getBigBlind() == i && getHighestBetPlayerId() == currentPlayer){
-                System.out.println("komisi");
+            //else if(getBigBlind() == i && getHighestBetPlayerId() == currentPlayer){
+            //    System.out.println("komisi");
                 //set
                 //setBigBlind(findTable());
                 //currentPlayer = i;
-                break;
-            }
+            //    break;
+           // }
             /*
             else if(i == getHighestBetPlayerId() && getBigBlind() == i){
                 //HMM!!
