@@ -271,6 +271,7 @@ public class GameModel {
     public void bet(double betAmount){
         players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
         setRoundBet(findTable(), betAmount + getRoundBet(findTable()));
+        System.out.println("roundbet: " + getRoundBet(findTable()));
         setNextPlayer();
     }
     public void check(){
