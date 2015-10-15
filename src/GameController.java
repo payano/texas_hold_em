@@ -73,6 +73,7 @@ public class GameController {
            case River:
                if (model.roundComplete()) {
                    System.out.println("\nRiver -> River\n");
+                   model.setWinner();
 
                }
                break;
