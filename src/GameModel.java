@@ -411,7 +411,7 @@ public class GameModel {
         }
     }
 
-    private void start(){
+    public void initGame(){
         System.out.println("SHUFFLING CARDS...");
         theDeck.shuffleCards();
 
@@ -424,62 +424,6 @@ public class GameModel {
             for (int i = 0; i < players.size();i++) {
                 setStillInGame(i,true);
             }
-
-            //Give the blinds.
-            //smallAndBigBlind(players);
-            //smallAndBigBlind();
-            //Deal the players 2 cards each. One at a time.
-            //dealCards(2);
-
-            //lets bet!
-            //betRound();
-
-            //Deal the flop
-            //dealTable(3);
-
-            //lets bet!
-            //betRound();
-
-            //Deal one more card to the table
-            //dealTable(1);
-
-            //Lets bet!
-            //betRound();
-
-            //Deal the river!
-            //dealTable(1);
-
-            //lets bet!
-            //betRound();
-
-/*
-            System.out.println("\n\n\n\n");
-            setHandValues();
-            setWinner();
-
-            //rotatePlayers();
-
-            for (Player onePlayer : players) {
-                onePlayer.sortCardsByRank();
-                System.out.println(onePlayer.toString());
-            }
-/*
-            System.out.println("Want to play another round? 1:yes ");
-        }
-    */
-
-        //Deal the river
-        //dealRiver();
-
-        //Lets bet again!
-        //betRound();
-
-        System.out.println("SLUT");
-
-
-        //this is le beta
-        //players.get(1).getBestHand();
-
     }
 
 
