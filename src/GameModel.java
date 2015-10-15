@@ -70,7 +70,7 @@ public class GameModel {
         }
         return numberOfplayersLeft;
     }
-    public void setWinner(){
+    public ArrayList<Integer> setWinner(){
         setHandValues();
         int highestHandPoints = 0;
         ArrayList<Integer> winner = new ArrayList<Integer>();
@@ -105,6 +105,7 @@ public class GameModel {
             System.out.println("he/she has: " + getHandRank(winner.get(i)).toString());
 
         }
+        return winner;
         //check if more players has the same handRank.
     }
     public void setHandRank(int playerId, CardValueEnum cardValue){
@@ -474,6 +475,7 @@ public class GameModel {
 
             for (int i = 0; i < players.size();i++) {
                 setStillInGame(i,true);
+                players.get(i).
             }
             roundStatus = GameStatusEnum.PreFlop;
     }
