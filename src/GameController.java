@@ -15,6 +15,9 @@ public class GameController {
     }
 
     public void callHandler(){
+       if(model.getCurrentPlayer().getMoney() < model.findTable().getMoeny()){
+
+       }
         model.call();
         updateRoundStatus();
         view.updatePlayer();

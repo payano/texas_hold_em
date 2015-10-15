@@ -47,6 +47,11 @@ public class GameView extends BorderPane{
         sliderAmountField.setOnAction(event -> controller.betHandler());
     }
 
+    public void enableBet(boolean enableToBet){
+        if(!enableToBet) {
+            betButton.disableProperty();
+        }
+    }
 
     /**
      * Updates the information in the TextField ned to the
