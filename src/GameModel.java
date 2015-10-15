@@ -272,9 +272,16 @@ public class GameModel {
             if(i >= players.size()){
                 i=0;
             }
+            System.out.println("currentplayer:" + currentPlayer + " bigblind:" + getBigBlind() + " highestbet:" + getHighestBetPlayerId());
             if(players.get(i) instanceof TablePlayer){continue;}
             else if(counter >= 100){throw new NoPlayerInGameException("method SetNextPlayer cannot set the next player, no players still in game!");}
             else if(!getStillInGame(i)){continue;}
+            else if(i == getHighestBetPlayerId() && getBigBlind() == i){
+                //HMM!!
+                System.out.println("here?");
+                setBigBlind(findTable());
+                break;
+            }
             else{currentPlayer = i;break;}
         }
         System.out.println("Player: " + players.get(getCurrentPlayerId()).getName() + " got big blind, amount: " + stake);
