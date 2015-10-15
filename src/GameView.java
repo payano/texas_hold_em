@@ -29,13 +29,16 @@ public class GameView extends BorderPane{
         addEventHandlers(controller);
     }
 
+
+
     private void addEventHandlers(GameController controller) {
         restartItem.setOnAction(event -> controller.startTheGame());
-
+        callButton.setOnAction(event -> updatePlayer());
     }
 
     public void updatePlayer(){
-        //playerNameLabel.setText(model.);
+        playerNameLabel.setText(model.getCurrentPlayer().getName());
+        playerMoneyLabel.setText(((Double) model.getCurrentPlayer().getMoney()).toString());
     }
 
 

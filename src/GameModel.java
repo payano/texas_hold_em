@@ -22,6 +22,7 @@ public class GameModel {
     private ArrayList<Double> roundBet; //change to gameeBet later...
 
 
+
     public GameModel() {
         theDeck = new Deck();
         players = new ArrayList<Player>();
@@ -388,32 +389,32 @@ public class GameModel {
 
             //Give the blinds.
             //smallAndBigBlind(players);
-            smallAndBigBlind();
+            //smallAndBigBlind();
             //Deal the players 2 cards each. One at a time.
-            dealCards(2);
+            //dealCards(2);
 
             //lets bet!
-            betRound();
+            //betRound();
 
             //Deal the flop
-            dealTable(3);
+            //dealTable(3);
 
             //lets bet!
             //betRound();
 
             //Deal one more card to the table
-            dealTable(1);
+            //dealTable(1);
 
             //Lets bet!
             //betRound();
 
             //Deal the river!
-            dealTable(1);
+            //dealTable(1);
 
             //lets bet!
             //betRound();
 
-
+/*
             System.out.println("\n\n\n\n");
             setHandValues();
             setWinner();

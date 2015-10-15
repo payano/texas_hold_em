@@ -17,11 +17,6 @@ public class Main extends Application{
 
     public static void main(String[] args) {
         launch(args);
-        //Game game = new Game();
-        //game.start();
-        //Skapar och startar spelet.
-        //Game game = new Game();
-        //game.playGame();
     }
 
     @Override
@@ -35,7 +30,7 @@ public class Main extends Application{
         rootPane.setCenter(view);
         primaryStage.setTitle("Texas Hold Em");
 
-        Scene scene = new Scene(rootPane,400,400);
+        Scene scene = new Scene(rootPane,400,500);
         primaryStage.setScene(scene);
 
         primaryStage.show();
