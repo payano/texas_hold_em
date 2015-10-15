@@ -100,6 +100,8 @@ public class GameModel {
                 }
             }
         }
+        System.out.println("Player winner: " +players.get(winner.get(0)).getName() + " money: " + players.get(winner.get(0)).getMoney());
+        System.out.println("Player winner: " +players.get(findTable()).getName() + " money: " + players.get(findTable()).getMoney());
         for (int i = 0; i < winner.size(); i++) {
             players.get(i).addMoney(
                     players.get(findTable()).withdrawMoney(
@@ -109,6 +111,9 @@ public class GameModel {
             System.out.println("he/she has: " + getHandRank(winner.get(i)).toString());
 
         }
+        System.out.println("Player winner: " +players.get(winner.get(0)).getName() + " money: " + players.get(winner.get(0)).getMoney());
+        System.out.println("Player winner: " +players.get(findTable()).getName() + " money: " + players.get(findTable()).getMoney());
+
         return winner;
         //check if more players has the same handRank.
     }
