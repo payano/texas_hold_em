@@ -54,7 +54,12 @@ public class GameModel {
     private void setStillInGame(int i,boolean value){stillInGame.set(i,value);}
     public int getHandPoints(int i){return players.get(i).getHandPoints();}
     public CardValueEnum getHandRank(int i){return handRank.get(i);}
-    private void setHighestBetPlayerId(int playerId){highestBetPlayerId = playerId;}
+    private void setHighestBetPlayerId(int playerId){
+        if(playerId >= players.size()){
+            throw new NoSuchPlayerException("no such player with id:" + playerId);
+        }
+        highestBetPlayerId = playerId;
+    }
     private int getHighestBetPlayerId(){return highestBetPlayerId;}
     public int getPlayersInGame(){
         int numberOfplayersLeft = 0;
@@ -288,20 +293,6 @@ public class GameModel {
             if(players.get(i) instanceof TablePlayer){continue;}
             else if(counter >= 100){throw new NoPlayerInGameException("method SetNextPlayer cannot set the next player, no players still in game!");}
             else if(!getStillInGame(i)){continue;}
-            //else if(getBigBlind() == i && getHighestBetPlayerId() == currentPlayer){
-            //    System.out.println("komisi");
-                //set
-                //setBigBlind(findTable());
-                //currentPlayer = i;
-            //    break;
-           // }
-            /*
-            else if(i == getHighestBetPlayerId() && getBigBlind() == i){
-                //HMM!!
-                System.out.println("here?");
-                setBigBlind(findTable());
-                break;
-            }*/
             else{currentPlayer = i;break;}
         }
         System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
@@ -443,7 +434,7 @@ public class GameModel {
     private void setRoundBet(int playerId, double amount){
         roundBet.set(playerId,amount);
     }
-    private int findTable(){
+    public int findTable(){
         for(int i = 0 ; i < players.size();i++) {
             //find the table...
             if (players.get(i) instanceof TablePlayer) {
