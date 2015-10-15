@@ -2,9 +2,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 /**
@@ -14,6 +18,8 @@ import javafx.scene.text.Font;
 public class GameView extends BorderPane{
 
     private final GameModel model;
+    private Canvas canvas;
+    private Image image;
 
     private TextField sliderAmountField;
     private Button callButton, betButton, foldButton, allInButton;
@@ -73,6 +79,8 @@ public class GameView extends BorderPane{
         playerNameLabel.setText(model.getCurrentPlayer().getName());
         playerMoneyLabel.setText(((Double) model.getCurrentPlayer().getMoney()).toString());
         slider.setMin(model.getStake());
+
+        //Update the slider if tha player has more than one money.
         if (model.getCurrentPlayer().getMoney() > 0){
             slider.setMax(model.getCurrentPlayer().getMoney());
             slider.setMajorTickUnit(model.getCurrentPlayer().getMoney()/2);
@@ -81,9 +89,11 @@ public class GameView extends BorderPane{
             slider.setMax(100);
             slider.setMajorTickUnit(10);
         }
+        //Update the slider
         slider.setValue(model.getStake());
         sliderAmountField.setText(((Integer) model.getStake()).toString());
 
+        //If the player have to litte money to call or bet, disable the buttons.
         if(model.getCurrentPlayer().getMoney() < model.getRoundBet(model.findTable())){
             betButton.setDisable(true);
             callButton.setDisable(true);
@@ -111,7 +121,7 @@ public class GameView extends BorderPane{
         menuBar.getMenus().addAll(fileMenu);
         this.setTop(menuBar);
 
-        //Add the buttons
+        //Create the items
         callButton = new Button("Check/Call");
         callButton.setMinWidth(70);
         betButton = new Button("Raise");
@@ -121,21 +131,13 @@ public class GameView extends BorderPane{
         foldButton = new Button("Fold");
         foldButton.setMinWidth(70);
 
-        //Add Player name and moneystack
         currentPlayerLabel = new Label("Player:");
         currentPLayerMoneyLabel = new Label("Money:");
         playerMoneyLabel = new Label("- - -");
         playerNameLabel = new Label("Player");
 
-        //Add the
         sliderAmountField = new TextField("0");
         sliderAmountField.setMaxWidth(100);
-
-
-        //Add the buttom bar with buttons ans slider for beting.
-        GridPane buttonBar = new GridPane();
-        buttonBar.setPadding(new Insets(10, 10, 10, 10));
-        buttonBar.setHgap(8);
 
         //Creat the slider
         slider = new Slider();
@@ -149,8 +151,11 @@ public class GameView extends BorderPane{
         slider.setMinorTickCount(1);
         slider.setBlockIncrement(1);
 
+        //Add the buttom bar with buttons ans slider for beting.
+        GridPane buttonBar = new GridPane();
+        buttonBar.setPadding(new Insets(10, 10, 10, 10));
+        buttonBar.setHgap(8);
 
-        //bet button, slider and label.
         buttonBar.add(currentPlayerLabel, 0, 0);
         buttonBar.add(playerNameLabel, 1, 0);
         buttonBar.add(currentPLayerMoneyLabel, 2, 0);
@@ -162,6 +167,20 @@ public class GameView extends BorderPane{
         buttonBar.add(slider, 4, 1);
         buttonBar.add(sliderAmountField, 5, 1);
         this.setBottom(buttonBar);
+
+        //Image tests
+
+        canvas = new Canvas(700,400);
+
+
+        this.setCenter(canvas);
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        // paint the background
+        gc.setFill(Color.GRAY);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
 
 
 
