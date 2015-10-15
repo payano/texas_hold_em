@@ -242,14 +242,14 @@ public class GameModel {
 
     }
 
-    public boolean getRoundStatus(){
+    public boolean getRoundFinished(){
         //tells controller if the round is done.
         System.out.println("currentplayerid: " + getCurrentPlayerId() + " highestplayeid: " + highestBetPlayerId);
         if(getCurrentPlayerId() == highestBetPlayerId)
         {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private void setBigBlind(int playerId){bigBlind = playerId;}
