@@ -51,7 +51,7 @@ public class GameController {
 
     private void updateRoundStatus(){
        switch (model.getRoundStatus()){
-            case :
+           case PreFlop:
                 PreFlo
     }
 }
