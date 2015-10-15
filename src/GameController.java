@@ -42,6 +42,8 @@ public class GameController {
     }
 
     private void updateRoundStatus(){
-
+        if(model.getRoundFinished()){
+            model.dealTable(3);
+        }
     }
 }
