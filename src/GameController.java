@@ -75,6 +75,11 @@ public class GameController {
                    System.out.println("\nRiver -> River\n");
                    model.setWinner();
 
+                   for(Integer i: model.setWinner()){
+                       System.out.println(model.getHandRank(i));
+                   }
+
+                   startTheGame();
                }
                break;
        }
