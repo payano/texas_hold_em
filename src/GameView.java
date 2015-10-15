@@ -1,3 +1,4 @@
+import CardPackage.Card;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -28,6 +29,7 @@ public class GameView extends BorderPane{
     private Menu fileMenu;
     private MenuItem exitItem, restartItem, highScoreItem;
     private Slider slider;
+
 
     public GameView(GameModel model){
         this.model = model;
@@ -107,6 +109,15 @@ public class GameView extends BorderPane{
             sliderAmountField.setDisable(false);
             slider.setDisable(false);
         }
+
+
+       /* GraphicsContext gc = canvas.getGraphicsContext2D();
+        for(Card c : model.getCurrentPlayer().getCards()) {
+            gc.setFill(Color.rgb(80, 80, 80));
+            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            System.out.println("TEST");
+            c.getImage();
+           */
     }
 
     /**
@@ -181,13 +192,15 @@ public class GameView extends BorderPane{
         this.setCenter(canvas);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
+
         // paint the background
         gc.setFill(Color.rgb(37, 38, 40));
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // Load the image
-        image = new Image(this.getClass().getResource("resources/cards/1.png").toString());
-        gc.drawImage(image, 10, 10);
+        //image = new Image(this.getClass().getResource("resources/cards/1.png").toString());
+        //gc.drawImage(image, 10, 10);
+
 
     }
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javafx.scene.image.Image;
+
 /**
  * Created by arvidbodin on 14/09/15.
  *
@@ -11,6 +13,7 @@ import java.util.List;
  */
 public class Deck {
     private List<Card> theCards = new ArrayList<>();
+    Image image;
     public Deck (){
         createDeck();
     }
@@ -55,10 +58,11 @@ public class Deck {
 
     //Skapar decket utav kort.
     private void createDeck(){
+        image = new Image(this.getClass().getResource("../resources/cards/1.png").toString());
         for (Rank_ r : Rank_.values()){
             if(r == Rank_.One){continue;}
             for (Suit_ s : Suit_.values()){
-                theCards.add(new Card(r,s));
+                theCards.add(new Card(r,s,image));
             }
         }
     }

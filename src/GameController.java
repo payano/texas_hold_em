@@ -80,6 +80,7 @@ public class GameController {
                    }
 
                    startTheGame();
+                   model.setRoundStatus(GameStatusEnum.PreFlop);
                }
                break;
        }
