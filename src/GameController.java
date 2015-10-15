@@ -1,4 +1,5 @@
 
+
 /**
  * Created by Johan Svensson och Arvid Bodin on 2015-15-08.
  *
@@ -7,6 +8,7 @@ public class GameController {
 
     private final GameModel model;
     private final GameView view;
+    private final GameStatusEnum
 
     public GameController(GameModel model, GameView view){
         this.model = model;
@@ -48,11 +50,8 @@ public class GameController {
     }
 
     private void updateRoundStatus(){
-    /*    switch (getRoundStatus){
+       switch (model.getRoundStatus()){
             case :
-                handPoints += 230000000;
-                //TBD
-                break;
-            case StraightFlush:*/
+                PreFlo
     }
 }
