@@ -251,9 +251,12 @@ public class GameModel {
 
     public boolean roundComplete(){
         //tells controller if the round is done.
-        System.out.println("currentplayerid: " + getCurrentPlayerId() + " highestplayeid: " + highestBetPlayerId);
+        System.out.println("currentplayerid: " + getCurrentPlayerId() + " highestplayeid: " + highestBetPlayerId + " bigblind:" + getBigBlind());
         System.out.println("player: " + getCurrentPlayer().getName());
-        if(getCurrentPlayerId() == getHighestBetPlayerId())
+        if(getBigBlind() == getCurrentPlayerId()){
+            setBigBlind(findTable());
+        }
+        else if(getCurrentPlayerId() == getHighestBetPlayerId())
         {
             setNextPlayer(findTable());
             setHighestBetPlayerId(findTable()+1);
@@ -273,9 +276,9 @@ public class GameModel {
         return currentPlayer;
     }
     private void setNextPlayer(){
-        //currentPlayer++;
+        currentPlayer++;
         int counter = 0;
-        for (int i = currentPlayer+1;  ; i++,counter++) {
+        for (int i = currentPlayer;  ; i++,counter++) {
             if(i >= players.size()){
                 i=0;
             }
@@ -283,6 +286,12 @@ public class GameModel {
             if(players.get(i) instanceof TablePlayer){continue;}
             else if(counter >= 100){throw new NoPlayerInGameException("method SetNextPlayer cannot set the next player, no players still in game!");}
             else if(!getStillInGame(i)){continue;}
+            else if(getBigBlind() == i){
+                System.out.println("komisi");
+                //setBigBlind(findTable());
+                currentPlayer = i;
+                break;
+            }
             /*
             else if(i == getHighestBetPlayerId() && getBigBlind() == i){
                 //HMM!!
