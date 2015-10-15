@@ -70,7 +70,7 @@ public class GameModel {
         }
         return numberOfplayersLeft;
     }
-    private void setWinner(){
+    public void setWinner(){
         int highestHandPoints = 0;
         ArrayList<Integer> winner = new ArrayList<Integer>();
 
