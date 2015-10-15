@@ -239,7 +239,11 @@ public class GameModel {
 
     }
     public void setBigBlind(int playerId){bigBlind = playerId;}
-    public int getBigBlind(){return bigBlind;}
+    public int getBigBlind(){return bigBlind;},
+
+    public Player getCurrentPlayer(){
+        return players.get(1);
+    }
 
     public void betCheckFold(int playerId){
         System.out.println("\nyour share in this bettingRound so far: " + getRoundBet(playerId));
