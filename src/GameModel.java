@@ -60,6 +60,12 @@ public class GameModel {
         }
         highestBetPlayerId = playerId;
     }
+    public Player getPlayer(int playerId){
+        return players.get(playerId);
+    }
+    public ArrayList<Player> getPlayers(){
+        return players;
+    }
     private int getHighestBetPlayerId(){return highestBetPlayerId;}
     public int getPlayersInGame(){
         int numberOfplayersLeft = 0;
@@ -477,6 +483,7 @@ public class GameModel {
         System.out.println("SHUFFLING CARDS...");
         theDeck.fillDeck();
         theDeck.shuffleCards();
+        setRoundBet(findTable(),0);
 
 
         System.out.println("Press :1 to start.");
