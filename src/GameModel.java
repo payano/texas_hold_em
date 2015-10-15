@@ -261,7 +261,12 @@ public class GameModel {
         if(getBigBlind() == getCurrentPlayerId() && getHighestBetPlayerId() == getHighestBetPlayerId()){
             setBigBlind(findTable());
             //ful lösning
-            setHighestBetPlayerId(getCurrentPlayerId()+1);
+            if(getCurrentPlayerId()+1 >= players.size()){
+                //fulare lösning bordet roterar aldrig.
+                setHighestBetPlayerId(findTable()+1);
+            }else {
+                setHighestBetPlayerId(getCurrentPlayerId() + 1);
+            }
         }
         else if(getCurrentPlayerId() == getHighestBetPlayerId())
         {
