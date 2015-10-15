@@ -241,6 +241,16 @@ public class GameModel {
         }
 
     }
+
+    public boolean getRoundStatus(){
+        //tells controller if the round is done.
+        if(getCurrentPlayerId() == highestBetPlayerId)
+        {
+            return false;
+        }
+        return true;
+    }
+
     private void setBigBlind(int playerId){bigBlind = playerId;}
     private int getBigBlind(){return bigBlind;}
 
