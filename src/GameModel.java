@@ -40,7 +40,7 @@ public class GameModel {
         //initiate arraylists for users
         for (int i = 0; i < players.size() ; i++) {
             //creating seperate lists for each player to keep track of them.
-            stillInGame.add(false);
+            stillInGame.add(true);
             handRank.add(CardValueEnum.None);
             roundBet.add(0.0);
         }
@@ -252,9 +252,16 @@ public class GameModel {
         return currentPlayer;
     }
     private void setNextPlayer(){
-        currentPlayer++;
-        if(currentPlayer >= players.size()) {
-            currentPlayer = 1;
+        //currentPlayer++;
+        int counter = 0;
+        for (int i = currentPlayer+1;  ; i++,counter++) {
+            if(i >= players.size()){
+                i=0;
+            }
+            if(players.get(i) instanceof TablePlayer){continue;}
+            else if(counter >= 100){throw new NoPlayerInGameException("method SetNextPlayer cannot set the next player, no players still in game!");}
+            else if(!getStillInGame(i)){continue;}
+            else{currentPlayer = i;break;}
         }
     }
     private void setNextPlayer(int nextPlayer){
