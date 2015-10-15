@@ -101,6 +101,10 @@ public class GameModel {
             }
         }
         for (int i = 0; i < winner.size(); i++) {
+            players.get(i).addMoney(
+                    players.get(findTable()).withdrawMoney(
+                            players.get(findTable()).getMoney())/winner.size()
+                    );
             System.out.println("the getPlayersInGame is..... " + players.get(winner.get(i)).getName());
             System.out.println("he/she has: " + getHandRank(winner.get(i)).toString());
 
