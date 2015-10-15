@@ -48,12 +48,12 @@ public class GameModel {
     }
 
     public boolean getStillInGame(int i){return stillInGame.get(i);}
-    public void setStillInGame(int i,boolean value){stillInGame.set(i,value);}
+    private void setStillInGame(int i,boolean value){stillInGame.set(i,value);}
     public int getHandPoints(int i){return players.get(i).getHandPoints();}
     public CardValueEnum getHandRank(int i){return handRank.get(i);}
-    public void setHighestBetPlayerId(int playerId){highestBetPlayerId = playerId;}
-    public int getHighestBetPlayerId(){return highestBetPlayerId;}
-    public int getPlayersInGame(){
+    private void setHighestBetPlayerId(int playerId){highestBetPlayerId = playerId;}
+    private int getHighestBetPlayerId(){return highestBetPlayerId;}
+    private int getPlayersInGame(){
         int numberOfplayersLeft = 0;
         //add all the players that are still in the game.
         for (int i = 0; i < players.size();i++) {
@@ -62,7 +62,7 @@ public class GameModel {
         }
         return numberOfplayersLeft;
     }
-    public void setWinner(){
+    private void setWinner(){
         int highestHandPoints = 0;
         ArrayList<Integer> winner = new ArrayList<Integer>();
 
@@ -100,7 +100,7 @@ public class GameModel {
     }
     private void setHandRank(int playerId, CardValueEnum cardValue){
         handRank.set(playerId, cardValue);}
-    public void setHandValues(){
+    private void setHandValues(){
         //set Hand Values for all players.
         for(int i = 0; i < players.size();i++){
             if(players.get(i) instanceof TablePlayer){continue;}
@@ -110,7 +110,7 @@ public class GameModel {
             setHandPoints(i);
         }
     }
-    public Hand setHandPoints(int playerId){
+    private Hand setHandPoints(int playerId){
         ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
         allPossibleHands.addAll(getAllHands(players.get(playerId).getPlayerHand()));
         int highestHand = 0;
@@ -130,7 +130,7 @@ public class GameModel {
         return allPossibleHands.get(highestHandId);
     }
 
-    public void betRound(){
+    private void betRound(){
         //go to the person to the left of the highest bidder.
         //getHighestBidder is the current bidder.
         for(int i = getHighestBetPlayerId()+1; ;i++){
@@ -241,8 +241,8 @@ public class GameModel {
         }
 
     }
-    public void setBigBlind(int playerId){bigBlind = playerId;}
-    public int getBigBlind(){return bigBlind;}
+    private void setBigBlind(int playerId){bigBlind = playerId;}
+    private int getBigBlind(){return bigBlind;}
 
     public int getStake(){return stake;}
     public Player getCurrentPlayer(){
@@ -299,7 +299,7 @@ public class GameModel {
 */
 
 
-    public void betCheckFold(int playerId){
+    private void betCheckFold(int playerId){
         System.out.println("\nyour share in this bettingRound so far: " + getRoundBet(playerId));
         System.out.println("Table has: " + players.get(findTable()).getMoney() + " money , the roundbet is: " + getRoundBet(findTable()));
         System.out.println("You need to bet at least: " + (getRoundBet(findTable()) - getRoundBet(playerId)));
@@ -386,10 +386,10 @@ public class GameModel {
             }
         }
     }
-    public double getRoundBet(int playerId){
+    private double getRoundBet(int playerId){
         return roundBet.get(playerId);
     }
-    public void setRoundBet(int playerId, double amount){
+    private void setRoundBet(int playerId, double amount){
         roundBet.set(playerId,amount);
     }
     private int findTable(){
@@ -402,7 +402,7 @@ public class GameModel {
         throw new NoPlayerInGameException("Can not find the table.");
     }
 
-    public void rotatePlayers(){
+    private void rotatePlayers(){
         //rotate players one step
         for(int i = 0 ; i < players.size(); i++){
             if(players.get(i) instanceof TablePlayer){continue;}
@@ -411,7 +411,7 @@ public class GameModel {
         }
     }
 
-    public void start(){
+    private void start(){
         System.out.println("SHUFFLING CARDS...");
         theDeck.shuffleCards();
 
