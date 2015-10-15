@@ -33,6 +33,12 @@ public class GameController {
         view.updatePlayer();
     }
 
+    public void allInHandler(){
+        model.bet(model.getCurrentPlayer().getMoney());
+        updateRoundStatus();
+        view.updatePlayer();
+    }
+
 
     public void startTheGame(){
         model.initGame();
@@ -42,8 +48,11 @@ public class GameController {
     }
 
     private void updateRoundStatus(){
-        if(model.getRoundFinished()){
-            model.dealTable(3);
-        }
+    /*    switch (getRoundStatus){
+            case :
+                handPoints += 230000000;
+                //TBD
+                break;
+            case StraightFlush:*/
     }
 }

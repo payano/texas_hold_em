@@ -36,7 +36,6 @@ public class GameView extends BorderPane{
         callButton.setOnAction(event -> controller.callHandler());
         foldButton.setOnAction(event1 -> controller.foldHandler());
         slider.setOnMouseDragged(event -> updateSlierAmountLabel());
-
     }
 
     public void updateSlierAmountLabel(){
