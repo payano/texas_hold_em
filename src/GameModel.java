@@ -20,6 +20,7 @@ public class GameModel {
     private int highestBetPlayerId,bigBlind;
     private ArrayList<CardValueEnum> handRank;
     private ArrayList<Double> roundBet; //change to gameeBet later...
+    private int currentPlayer;
 
 
 
@@ -232,6 +233,7 @@ public class GameModel {
                 //same as above...
                 setHighestBetPlayerId(i);
                 setBigBlind(i);
+                setNextPlayer(i+1);
                 break;
             }else {
                 throw new SmallAndBigBlindException("Small and big blind could not be taken from players on the table.");
@@ -242,9 +244,34 @@ public class GameModel {
     public void setBigBlind(int playerId){bigBlind = playerId;}
     public int getBigBlind(){return bigBlind;}
 
+    public int getStake(){return stake;}
     public Player getCurrentPlayer(){
         return players.get(1);
     }
+    private void setNextPlayer(){currentPlayer++;}
+    private void setNextPlayer(int nextPlayer){currentPlayer = nextPlayer;}
+    public void bet(double betAmount){
+        players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
+        setRoundBet(findTable(), betAmount + getRoundBet(findTable()));
+    }
+    /*
+    public void bet(int playerId){
+        System.out.println("how much? minimum is: " + (stake - getRoundBet(playerId)));
+        double bettedMoney = scan.nextInt();
+        //Make sure the user bet at least the steaks.
+        while (bettedMoney < (stake - getRoundBet(playerId)) ){
+            System.out.println("You need to bet at least: " + stake + "\nTry again, bet: ");
+            bettedMoney = scan.nextInt();
+        }
+        //if you raise before you have paid big blind, you have to pay for that aswell.
+        players.get(findTable()).addMoney(players.get(playerId).withdrawMoney(bettedMoney));
+        setRoundBet(findTable(), bettedMoney + getRoundBet(findTable()));
+        //update the round bet
+        setRoundBet(playerId, bettedMoney + getRoundBet(playerId));
+        setHighestBetPlayerId(playerId);
+    }
+*/
+
 
     public void betCheckFold(int playerId){
         System.out.println("\nyour share in this bettingRound so far: " + getRoundBet(playerId));
@@ -338,21 +365,6 @@ public class GameModel {
     }
     public void setRoundBet(int playerId, double amount){
         roundBet.set(playerId,amount);
-    }
-    public void bet(int playerId){
-        System.out.println("how much? minimum is: " + (stake - getRoundBet(playerId)));
-        double bettedMoney = scan.nextInt();
-        //Make sure the user bet at least the steaks.
-        while (bettedMoney < (stake - getRoundBet(playerId)) ){
-            System.out.println("You need to bet at least: " + stake + "\nTry again, bet: ");
-            bettedMoney = scan.nextInt();
-        }
-        //if you raise before you have paid big blind, you have to pay for that aswell.
-        players.get(findTable()).addMoney(players.get(playerId).withdrawMoney(bettedMoney));
-        setRoundBet(findTable(), bettedMoney + getRoundBet(findTable()));
-        //update the round bet
-        setRoundBet(playerId, bettedMoney + getRoundBet(playerId));
-        setHighestBetPlayerId(playerId);
     }
     private int findTable(){
         for(int i = 0 ; i < players.size();i++) {
