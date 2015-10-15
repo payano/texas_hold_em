@@ -30,7 +30,7 @@ public class GameView extends BorderPane{
     private MenuItem exitItem, restartItem, highScoreItem;
     private Slider slider;
 
-    private int player1X = 100,player1Y,tableX, tableY;
+    private int player1X = -100,player1Y,tableX, tableY;
 
     public GameView(GameModel model){
         this.model = model;
