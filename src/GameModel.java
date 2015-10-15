@@ -248,7 +248,7 @@ public class GameModel {
     public boolean roundComplete(){
         //tells controller if the round is done.
         System.out.println("currentplayerid: " + getCurrentPlayerId() + " highestplayeid: " + highestBetPlayerId);
-        if(getCurrentPlayerId() == highestBetPlayerId)
+        if(getCurrentPlayerId() == getHighestBetPlayerId())
         {
             return true;
         }
