@@ -1,10 +1,9 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
@@ -88,9 +87,13 @@ public class GameView extends BorderPane{
         if(model.getCurrentPlayer().getMoney() < model.getRoundBet(model.findTable())){
             betButton.setDisable(true);
             callButton.setDisable(true);
+            sliderAmountField.setDisable(true);
+            slider.setDisable(true);
         }else{
             betButton.setDisable(false);
             callButton.setDisable(false);
+            sliderAmountField.setDisable(false);
+            slider.setDisable(false);
         }
     }
 
@@ -145,9 +148,9 @@ public class GameView extends BorderPane{
         slider.setMajorTickUnit(100);
         slider.setMinorTickCount(1);
         slider.setBlockIncrement(1);
+
+
         //bet button, slider and label.
-
-
         buttonBar.add(currentPlayerLabel, 0, 0);
         buttonBar.add(playerNameLabel, 1, 0);
         buttonBar.add(currentPLayerMoneyLabel, 2, 0);
@@ -158,8 +161,9 @@ public class GameView extends BorderPane{
         buttonBar.add(betButton, 3, 1);
         buttonBar.add(slider, 4, 1);
         buttonBar.add(sliderAmountField, 5, 1);
-
         this.setBottom(buttonBar);
+
+
 
     }
 }
