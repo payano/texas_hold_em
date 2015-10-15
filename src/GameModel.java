@@ -132,7 +132,7 @@ public class GameModel {
         setHandRank(playerId, checkCardValue(allPossibleHands.get(highestHandId)));
         return allPossibleHands.get(highestHandId);
     }
-
+/*
     private void betRound(){
         //go to the person to the left of the highest bidder.
         //getHighestBidder is the current bidder.
@@ -162,6 +162,7 @@ public class GameModel {
                         //Take the money from the table and give it to the getPlayersInGame.
                         players.get(i).addMoney(players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()));
                     }
+                    System.out.println("dasdsadsadasdsad");
                     setBigBlind(i);
                     if(getRoundBet(i) > stake){
                         //player placed a bet.
@@ -198,13 +199,14 @@ public class GameModel {
         setHighestBetPlayerId(findTable());
 
     }
-
+*/
 
 
     public void smallAndBigBlind(){
         //there has to be a check somewhere that the minimum amount of players(computer + human) >= 2.
         boolean smallBlindPlayer = true;
         for(int i = 0; i < players.size();i++) {
+            System.out.println("i: " + i + " ");
             //skip TablePlayer betting
             if (players.get(i) instanceof TablePlayer) {continue;}
             //kommmer detta fungera?
@@ -214,6 +216,7 @@ public class GameModel {
             }else if(players.get(i).getMoney() >= stake/2 && smallBlindPlayer){
                 //player has taken small blind and is still in game.
                 //this player must also call the stake or the bet.
+                System.out.println("player:" + players.get(i).getName());
                 players.get(findTable()).addMoney(players.get(i).withdrawMoney(stake / 2));
                 setStillInGame(i,true);
                 smallBlindPlayer = false;
@@ -224,7 +227,8 @@ public class GameModel {
             }else if(players.get(i).getMoney() < stake ){
                 //the player is broke, next person must take the big-blind.
                 setStillInGame(i,false);
-            }else if(players.get(i).getMoney() >= stake ){
+            }else if(players.get(i).getMoney() >= stake){
+                System.out.println("player:" + players.get(i).getName());
                 //player has taken the big blind and is still in game.
                 players.get(findTable()).addMoney(players.get(i).withdrawMoney(stake));
                 setStillInGame(i,true);
@@ -241,8 +245,8 @@ public class GameModel {
             }else {
                 throw new SmallAndBigBlindException("Small and big blind could not be taken from players on the table.");
             }
+            setNextPlayer();
         }
-
     }
 
     public boolean roundComplete(){
@@ -279,12 +283,11 @@ public class GameModel {
             else if(i == getHighestBetPlayerId() && getBigBlind() == i){
                 //HMM!!
                 System.out.println("here?");
-                setBigBlind(findTable());
+                //setBigBlind(findTable());
                 break;
             }
             else{currentPlayer = i;break;}
         }
-        System.out.println("Player: " + players.get(getCurrentPlayerId()).getName() + " got big blind, amount: " + stake);
         System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
     }
     private void setNextPlayer(int nextPlayer){
