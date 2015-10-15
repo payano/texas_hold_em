@@ -51,6 +51,7 @@ public class GameView extends BorderPane{
         allInButton.setOnAction(event1 -> controller.allInHandler());
         slider.setOnMouseDragged(event -> updateSlierAmountText());
         sliderAmountField.setOnAction(event -> controller.betHandler());
+
     }
 
 
@@ -185,7 +186,7 @@ public class GameView extends BorderPane{
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // Load the image
-        Image image = new Image(this.getClass().getResource("resources/cards/1.png").toString());
+        image = new Image(this.getClass().getResource("resources/cards/1.png").toString());
         gc.drawImage(image, 10, 10);
 
     }
