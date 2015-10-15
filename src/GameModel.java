@@ -274,6 +274,8 @@ public class GameModel {
             else if(!getStillInGame(i)){continue;}
             else{currentPlayer = i;break;}
         }
+        System.out.println("Player: " + players.get(getCurrentPlayerId()).getName() + " got big blind, amount: " + stake);
+        System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
     }
     private void setNextPlayer(int nextPlayer){
         currentPlayer = nextPlayer;
