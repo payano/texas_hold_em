@@ -428,7 +428,7 @@ public class GameModel {
             }
         }
     }
-    private double getRoundBet(int playerId){
+    public double getRoundBet(int playerId){
         return roundBet.get(playerId);
     }
     private void setRoundBet(int playerId, double amount){
