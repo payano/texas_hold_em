@@ -8,7 +8,6 @@ public class GameController {
 
     private final GameModel model;
     private final GameView view;
-    private final GameStatusEnum
 
     public GameController(GameModel model, GameView view){
         this.model = model;
@@ -50,8 +49,15 @@ public class GameController {
     }
 
     private void updateRoundStatus(){
-       switch (model.getRoundStatus()){
+       switch (model.getRoundStatus()) {
            case PreFlop:
-                PreFlo
+               if (model.roundComplete()) {
+                   model.dealTable(3);
+                   model.setRoundStatus(GameStatusEnum.Flop);
+                   break;
+               }
+
+       }
+
     }
 }
