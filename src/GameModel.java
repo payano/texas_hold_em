@@ -116,7 +116,7 @@ public class GameModel {
             //add the Table hand to the player hands.
             players.get(i).addCard(players.get(findTable()).getCards());
             players.get(i).sortCardsByRank();
-            setHandPoints(i);
+            System.out.println(setHandPoints(i).toString());;
         }
     }
     private Hand setHandPoints(int playerId){
