@@ -307,9 +307,11 @@ public class GameModel {
         setNextPlayer();
     }
     public void bet(double betAmount){
+
         players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
         setRoundBet(findTable(), betAmount + getRoundBet(findTable()));
         System.out.println("roundbet: " + getRoundBet(findTable()));
+        setHighestBetPlayerId(currentPlayer);
         setNextPlayer();
     }
     public void check(){
