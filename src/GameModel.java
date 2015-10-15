@@ -252,6 +252,7 @@ public class GameModel {
     public boolean roundComplete(){
         //tells controller if the round is done.
         System.out.println("currentplayerid: " + getCurrentPlayerId() + " highestplayeid: " + highestBetPlayerId);
+        System.out.println("player: " + getCurrentPlayer().getName());
         if(getCurrentPlayerId() == getHighestBetPlayerId())
         {
             return true;
@@ -280,12 +281,13 @@ public class GameModel {
             if(players.get(i) instanceof TablePlayer){continue;}
             else if(counter >= 100){throw new NoPlayerInGameException("method SetNextPlayer cannot set the next player, no players still in game!");}
             else if(!getStillInGame(i)){continue;}
+            /*
             else if(i == getHighestBetPlayerId() && getBigBlind() == i){
                 //HMM!!
                 System.out.println("here?");
-                //setBigBlind(findTable());
+                setBigBlind(findTable());
                 break;
-            }
+            }*/
             else{currentPlayer = i;break;}
         }
         System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
