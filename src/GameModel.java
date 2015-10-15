@@ -244,17 +244,17 @@ public class GameModel {
         }
 
     }
-/*
-    public GameStatusEnum getRoundStatus(){
+
+    public boolean roundComplete(){
         //tells controller if the round is done.
         System.out.println("currentplayerid: " + getCurrentPlayerId() + " highestplayeid: " + highestBetPlayerId);
         if(getCurrentPlayerId() == highestBetPlayerId)
         {
-            return GameStatusEnum.;
+            return true;
         }
             return false;
     }
-*/
+
     private void setBigBlind(int playerId){bigBlind = playerId;}
     private int getBigBlind(){return bigBlind;}
 
