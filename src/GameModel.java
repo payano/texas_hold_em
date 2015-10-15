@@ -255,6 +255,8 @@ public class GameModel {
         System.out.println("player: " + getCurrentPlayer().getName());
         if(getCurrentPlayerId() == getHighestBetPlayerId())
         {
+            setNextPlayer(findTable());
+            setHighestBetPlayerId(findTable()+1);
             return true;
         }
             return false;
