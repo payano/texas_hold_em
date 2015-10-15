@@ -389,7 +389,7 @@ public class GameModel {
             dealCards(2);
 
             //lets bet!
-            //betRound();
+            betRound();
 
             //Deal the flop
             dealTable(3);

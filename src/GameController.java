@@ -13,6 +13,7 @@ public class GameController {
         this.view = view;
     }
 
+
     public void startTheGame(){
         model.start();
     }

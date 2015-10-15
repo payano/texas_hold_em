@@ -34,6 +34,11 @@ public class GameView extends BorderPane{
 
     }
 
+    public void updatePlayer(){
+        //playerNameLabel.setText(model.);
+    }
+
+
     private void initView() {
         //Add the menu
         fileMenu = new Menu("File");
