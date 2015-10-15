@@ -58,7 +58,8 @@ public class Deck {
 
     //Skapar decket utav kort.
     private void createDeck(){
-        image = new Image(this.getClass().getResource("../resources/cards/1.png").toString());
+        int imgNr = 1;
+        //image = new Image(this.getClass().getResource("../resources/cards/1.png").toString());
         for (int i = Rank_.values().length-1; i >= 0 ; i--) {
             for (int j = Suit_.values().length-1; j >= 0 ; j--) {
                 System.out.println("i: " + i + " j: " + j);
@@ -68,7 +69,8 @@ public class Deck {
         for (Rank_ r : Rank_.values()){
             if(r == Rank_.One){continue;}
             for (Suit_ s : Suit_.values()){
-                theCards.add(new Card(r,s,image));
+                theCards.add(new Card(r,s,new Image(this.getClass().getResource("../resources/cards/"+ imgNr +".png").toString())));
+                imgNr++;
             }
         }
     }
