@@ -286,6 +286,7 @@ public class GameModel {
     }
     public void fold(){
         stillInGame.set(getCurrentPlayerId(),false);
+        setNextPlayer();
     }
     /*
     public void bet(int playerId){
