@@ -71,6 +71,7 @@ public class GameModel {
         return numberOfplayersLeft;
     }
     public void setWinner(){
+        setHandValues();
         int highestHandPoints = 0;
         ArrayList<Integer> winner = new ArrayList<Integer>();
 
@@ -106,9 +107,9 @@ public class GameModel {
         }
         //check if more players has the same handRank.
     }
-    private void setHandRank(int playerId, CardValueEnum cardValue){
+    public void setHandRank(int playerId, CardValueEnum cardValue){
         handRank.set(playerId, cardValue);}
-    private void setHandValues(){
+    public void setHandValues(){
         //set Hand Values for all players.
         for(int i = 0; i < players.size();i++){
             if(players.get(i) instanceof TablePlayer){continue;}
