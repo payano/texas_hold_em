@@ -17,18 +17,31 @@ public class GameController {
 
     public void callHandler(){
         model.call();
+        updateRoundStatus();
         view.updatePlayer();
     }
 
     public void foldHandler(){
         model.fold();
+        updateRoundStatus();
+        view.updatePlayer();
+    }
+
+    public void betHandler(){
+        model.bet(view.getBet());
+        updateRoundStatus();
         view.updatePlayer();
     }
 
 
     public void startTheGame(){
         model.initGame();
+        model.dealCards(2);
         model.smallAndBigBlind();
         view.updatePlayer();
+    }
+
+    private void updateRoundStatus(){
+
     }
 }
