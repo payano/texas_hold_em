@@ -246,13 +246,14 @@ public class GameModel {
 
     public int getStake(){return stake;}
     public Player getCurrentPlayer(){
-        return players.get(1);
+        return players.get(currentPlayer);
     }
     private void setNextPlayer(){currentPlayer++;}
     private void setNextPlayer(int nextPlayer){currentPlayer = nextPlayer;}
     public void bet(double betAmount){
         players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
         setRoundBet(findTable(), betAmount + getRoundBet(findTable()));
+        setNextPlayer();
     }
     /*
     public void bet(int playerId){
