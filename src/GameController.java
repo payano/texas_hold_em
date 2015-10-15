@@ -11,6 +11,8 @@ public class GameController {
     public GameController(GameModel model, GameView view){
         this.model = model;
         this.view = view;
+
+        startTheGame();
     }
 
     public void callHandler(){
@@ -20,7 +22,7 @@ public class GameController {
 
 
     public void startTheGame(){
-        model.start();
+        model.initGame();
         model.smallAndBigBlind();
         view.updatePlayer();
     }

@@ -33,7 +33,13 @@ public class GameView extends BorderPane{
     private void addEventHandlers(GameController controller) {
         restartItem.setOnAction(event -> controller.startTheGame());
         callButton.setOnAction(event -> controller.callHandler());
+        slider.setOnMouseDragged(event -> updateSlierAountLabel());
         //betButton.setOnAction(event -> betHandler());
+    }
+
+    public void updateSlierAountLabel(){
+
+        slierAmountLabel.setText(""+ slider.getValue());
     }
 
     public void updatePlayer(){
@@ -83,8 +89,8 @@ public class GameView extends BorderPane{
         slider.setValue(0);
         slider.setShowTickLabels(true);
         slider.setShowTickMarks(true);
-        //slider.setMajorTickUnit();
-        slider.setMinorTickCount(0);
+        //slider.setMajorTickUnit(1);
+        slider.setMinorTickCount();
         slider.setBlockIncrement(1);
         //bet button, slider and label.
         buttonBar.add(slider, 6, 0);
