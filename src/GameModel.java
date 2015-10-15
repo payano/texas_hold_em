@@ -483,7 +483,6 @@ public class GameModel {
         System.out.println("SHUFFLING CARDS...");
         theDeck.fillDeck();
         theDeck.shuffleCards();
-        setRoundBet(findTable(),0);
 
 
         System.out.println("Press :1 to start.");
@@ -494,6 +493,7 @@ public class GameModel {
             for (int i = 0; i < players.size();i++) {
                 setStillInGame(i,true);
                 players.get(i).removeAllCards();
+                setRoundBet(i,0.0);
             }
             roundStatus = GameStatusEnum.PreFlop;
     }
