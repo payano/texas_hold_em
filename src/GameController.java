@@ -13,8 +13,15 @@ public class GameController {
         this.view = view;
     }
 
+    public void callHandler(){
+        model.call();
+        view.updatePlayer();
+    }
+
 
     public void startTheGame(){
         model.start();
+        model.smallAndBigBlind();
+        view.updatePlayer();
     }
 }

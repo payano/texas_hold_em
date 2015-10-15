@@ -17,9 +17,10 @@ public class GameView extends BorderPane{
 
     private TextArea temp;
     private Button callButton, betButton, foldButton, allInButton;
-    private Label playerNameLabel, playerMoneyLabel;
+    private Label playerNameLabel, playerMoneyLabel, slierAmountLabel;
     private Menu fileMenu;
     private MenuItem exitItem, restartItem, highScoreItem;
+    private Slider slider;
 
     public GameView(GameModel model){
         this.model = model;
@@ -31,13 +32,15 @@ public class GameView extends BorderPane{
 
     private void addEventHandlers(GameController controller) {
         restartItem.setOnAction(event -> controller.startTheGame());
-        callButton.setOnAction(event -> updatePlayer());
+        callButton.setOnAction(event -> controller.callHandler());
         //betButton.setOnAction(event -> betHandler());
     }
 
     public void updatePlayer(){
         playerNameLabel.setText(model.getCurrentPlayer().getName());
         playerMoneyLabel.setText(((Double) model.getCurrentPlayer().getMoney()).toString());
+        slider.setMin(model.getStake());
+        slider.setMax(model.getCurrentPlayer().getMoney());
     }
 
 
@@ -65,26 +68,32 @@ public class GameView extends BorderPane{
         //Add Player name and moneystack
         playerMoneyLabel = new Label("- - -");
         playerNameLabel = new Label("Player");
+        slierAmountLabel = new Label("0");
 
+
+        //Add the buttom bar with buttons ans slider for beting.
         GridPane buttonBar = new GridPane();
         buttonBar.setPadding(new Insets(10, 10, 10, 10));
         buttonBar.setHgap(8);
 
-        Slider slider = new Slider();
+        //Creat the slider
+        slider = new Slider();
         slider.setMin(0);
         slider.setMax(100);
-        slider.setValue(40);
+        slider.setValue(0);
         slider.setShowTickLabels(true);
         slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(50);
-        slider.setMinorTickCount(5);
-        slider.setBlockIncrement(10);
+        //slider.setMajorTickUnit();
+        slider.setMinorTickCount(0);
+        slider.setBlockIncrement(1);
+        //bet button, slider and label.
         buttonBar.add(slider, 6, 0);
+        buttonBar.add(betButton, 5, 0);
+        buttonBar.add(slierAmountLabel, 7, 0);
 
         buttonBar.add(playerNameLabel, 0, 1);
         buttonBar.add(playerMoneyLabel, 1, 1);
         buttonBar.add(callButton, 4, 1);
-        buttonBar.add(betButton, 5, 0);
         buttonBar.add(allInButton, 5, 1);
         buttonBar.add(foldButton, 6, 1);
 
