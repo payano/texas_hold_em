@@ -244,6 +244,7 @@ public class GameModel {
 
     public boolean getRoundStatus(){
         //tells controller if the round is done.
+        System.out.println("currentplayerid: " + getCurrentPlayerId() + " highestplayeid: " + highestBetPlayerId);
         if(getCurrentPlayerId() == highestBetPlayerId)
         {
             return false;
