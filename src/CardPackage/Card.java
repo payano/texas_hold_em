@@ -1,5 +1,7 @@
 package CardPackage;
 
+import javafx.scene.image.Image;
+
 /**
  * Created by arvidbodin on 14/09/15.
  *
@@ -15,10 +17,12 @@ public class Card {
      */
     private final Rank_ rank;
     private final Suit_ suit;
+    private final Image image;
 
-    public Card(Rank_ rank, Suit_ suit) throws java.lang.IllegalArgumentException{
-            this.rank = rank;
-            this.suit = suit;
+    public Card(Rank_ rank, Suit_ suit, Image image) throws java.lang.IllegalArgumentException{
+        this.rank = rank;
+        this.suit = suit;
+        this.image = image;
     }
     public int getRank() {
         return rank.getValue();
@@ -26,6 +30,10 @@ public class Card {
 
     public int getSuit() {
         return suit.getValue();
+    }
+
+    public Image getImage(){
+        return image;
     }
 
     public boolean equals(Card other) {
