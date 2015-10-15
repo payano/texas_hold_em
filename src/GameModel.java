@@ -233,7 +233,7 @@ public class GameModel {
                 //same as above...
                 setHighestBetPlayerId(i);
                 setBigBlind(i);
-                setNextPlayer(i+1);
+                setNextPlayer(i);
                 break;
             }else {
                 throw new SmallAndBigBlindException("Small and big blind could not be taken from players on the table.");
@@ -248,8 +248,16 @@ public class GameModel {
     public Player getCurrentPlayer(){
         return players.get(currentPlayer);
     }
-    private void setNextPlayer(){currentPlayer++;}
-    private void setNextPlayer(int nextPlayer){currentPlayer = nextPlayer;}
+    private void setNextPlayer(){
+        currentPlayer++;
+        if(currentPlayer >= players.size()) {
+            currentPlayer = 0;
+        }
+    }
+    private void setNextPlayer(int nextPlayer){
+        currentPlayer = nextPlayer;
+        setNextPlayer();
+    }
     public void bet(double betAmount){
         players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
         setRoundBet(findTable(), betAmount + getRoundBet(findTable()));
