@@ -74,9 +74,15 @@ public class GameView extends BorderPane{
         playerNameLabel.setText(model.getCurrentPlayer().getName());
         playerMoneyLabel.setText(((Double) model.getCurrentPlayer().getMoney()).toString());
         slider.setMin(model.getStake());
-        if (model.getCurrentPlayer().getMoney() > 0)slider.setMax(model.getCurrentPlayer().getMoney());
+        if (model.getCurrentPlayer().getMoney() > 0){
+            slider.setMax(model.getCurrentPlayer().getMoney());
+            slider.setMajorTickUnit(model.getCurrentPlayer().getMoney()/2);
+        }
+        else {
+            slider.setMax(100);
+            slider.setMajorTickUnit(10);
+        }
         slider.setValue(model.getStake());
-        slider.setMajorTickUnit(model.getCurrentPlayer().getMoney()/2);
         sliderAmountField.setText(((Integer) model.getStake()).toString());
 
         if(model.getCurrentPlayer().getMoney() < model.getRoundBet(model.findTable())){
