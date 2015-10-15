@@ -113,10 +113,9 @@ public class GameView extends BorderPane{
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         for(Card c : model.getCurrentPlayer().getCards()) {
-            gc.setFill(Color.rgb(80, 80, 80));
-            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
             System.out.println("TEST");
-            c.getImage();
+            image = c.getImage();
+            gc.drawImage(image, 10, 10);
         }
 
     }

@@ -73,13 +73,12 @@ public class GameController {
            case River:
                if (model.roundComplete()) {
                    System.out.println("\nRiver -> PreFlop\n");
-                   model.setWinner();
 
                    for(Integer i: model.setWinner()){
                        System.out.println(model.getHandRank(i));
                    }
 
-                   //startTheGame();
+                   startTheGame();
                    model.setRoundStatus(GameStatusEnum.PreFlop);
                }
                break;
