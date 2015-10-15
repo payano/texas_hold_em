@@ -248,10 +248,13 @@ public class GameModel {
     public Player getCurrentPlayer(){
         return players.get(currentPlayer);
     }
+    public int getCurrentPlayerId(){
+        return currentPlayer;
+    }
     private void setNextPlayer(){
         currentPlayer++;
         if(currentPlayer >= players.size()) {
-            currentPlayer = 0;
+            currentPlayer = 1;
         }
     }
     private void setNextPlayer(int nextPlayer){
@@ -262,6 +265,20 @@ public class GameModel {
         players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
         setRoundBet(findTable(), betAmount + getRoundBet(findTable()));
         setNextPlayer();
+    }
+    public void check(){
+        setNextPlayer();
+    }
+    public void call(){
+        double difference = getRoundBet(findTable()) - getRoundBet(getCurrentPlayerId());
+        //withdraw the amount and give it to the table
+        players.get(findTable()).addMoney(players.get(getCurrentPlayerId()).withdrawMoney(difference));
+        //update your getRoundBet
+        setRoundBet(getCurrentPlayerId(), getRoundBet(getCurrentPlayerId()) + difference);
+        setNextPlayer();
+    }
+    public void fold(){
+        stillInGame.set(getCurrentPlayerId(),false);
     }
     /*
     public void bet(int playerId){
