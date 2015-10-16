@@ -18,24 +18,28 @@ public class GameController {
         model.call();
         updateRoundStatus();
         view.updatePlayer();
+        view.updateCards();
     }
 
     public void foldHandler(){
         model.fold();
         updateRoundStatus();
         view.updatePlayer();
+        view.updateCards();
     }
 
     public void betHandler(){
         model.bet(view.getBet());
         updateRoundStatus();
         view.updatePlayer();
+        view.updateCards();
     }
 
     public void allInHandler(){
         model.bet(model.getCurrentPlayer().getMoney());
         updateRoundStatus();
         view.updatePlayer();
+        view.updateCards();
     }
 
 
@@ -43,7 +47,6 @@ public class GameController {
         model.initGame();
         model.dealCards(2);
         model.smallAndBigBlind();
-        //view.updatePlayerCards();
         view.updatePlayer();
     }
 
@@ -52,7 +55,8 @@ public class GameController {
            case PreFlop:
                if (model.roundComplete()) {
                    model.dealTable(3);
-                   view.updateTable();
+                   //view.updateTable();
+                   view.updateCards();
                    model.setRoundStatus(GameStatusEnum.Flop);
                    System.out.println("\nPreFlop -> Flop\n");
                }
@@ -60,7 +64,8 @@ public class GameController {
            case Flop:
                if (model.roundComplete()) {
                    model.dealTable(1);
-                   view.updateTable();
+                   //view.updateTable();
+                   view.updateCards();
                    model.setRoundStatus(GameStatusEnum.Turn);
                    System.out.println("\nFlop -> Turn\n");
                }
@@ -68,7 +73,8 @@ public class GameController {
            case Turn:
                if (model.roundComplete()) {
                    model.dealTable(1);
-                   view.updateTable();
+                   //view.updateTable();
+                   view.updateCards();
                    model.setRoundStatus(GameStatusEnum.River);
                    System.out.println("\nTurn -> River\n");
                }
@@ -76,7 +82,7 @@ public class GameController {
            case River:
                if (model.roundComplete()) {
                    System.out.println("\nRiver -> PreFlop\n");
-
+                   view.updateCards();
                    for(Integer i: model.setWinner()){
                        System.out.println(model.getHandRank(i));
                    }
