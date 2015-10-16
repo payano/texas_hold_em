@@ -86,5 +86,7 @@ public class GameController {
                }
                break;
        }
+        //johan for testing
+        model.setNextPlayer();
     }
 }

@@ -306,7 +306,7 @@ public class GameModel {
     public int getCurrentPlayerId(){
         return currentPlayer;
     }
-    private void setNextPlayer(){
+    public void setNextPlayer(){
         currentPlayer++;
         int counter = 0;
         for (int i = currentPlayer;  ; i++,counter++) {
@@ -331,7 +331,7 @@ public class GameModel {
         setRoundBet(findTable(), betAmount + getRoundBet(findTable()));
         System.out.println("roundbet: " + getRoundBet(findTable()));
         setHighestBetPlayerId(currentPlayer);
-        setNextPlayer();
+        //setNextPlayer();
     }
     public void check(){
         setNextPlayer();
@@ -342,11 +342,11 @@ public class GameModel {
         players.get(findTable()).addMoney(players.get(getCurrentPlayerId()).withdrawMoney(difference));
         //update your getRoundBet
         setRoundBet(getCurrentPlayerId(), getRoundBet(getCurrentPlayerId()) + difference);
-        setNextPlayer();
+        //setNextPlayer();
     }
     public void fold(){
         stillInGame.set(getCurrentPlayerId(),false);
-        setNextPlayer();
+        //setNextPlayer();
     }
     /*
     public void bet(int playerId){
