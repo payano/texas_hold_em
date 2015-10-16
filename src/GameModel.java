@@ -234,7 +234,7 @@ public class GameModel {
         }
         //System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
     }
-    public double getAmount(int playerId){
+    public double getBetAmount(int playerId){
         return getRoundBet(findTable()) - getRoundBet(playerId);
     }
 
