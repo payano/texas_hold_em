@@ -67,7 +67,7 @@ public class GameView extends BorderPane{
         allInButton.setOnAction(event1 -> controller.allInHandler());
         slider.setOnMouseDragged(event -> updateSlierAmountText());
         sliderAmountField.setOnAction(event -> controller.betHandler());
-
+        slider.setOnMouseReleased(event -> updateSlierAmountText());
     }
 
     public void updateCards(){
