@@ -225,6 +225,10 @@ public class GameModel {
             //this is first round bigblind only!!
             setNextPlayer(findTable());
             setHighestBetPlayerId(findTable()+1);
+            //reset roundbet
+            for (int i = 0; i < players.size(); i++) {
+                setRoundBet(i,0);
+            }
             return true;
         }
             return false;
@@ -281,14 +285,20 @@ public class GameModel {
         setNextPlayer();
     }
     public void bet(double betAmount){
+        players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
+        //set the roundBet of table
+        setRoundBet(findTable(), betAmount + getRoundBet(findTable()));
+        //set roundBet of player
+        setRoundBet(getCurrentPlayerId(), betAmount + getRoundBet(getCurrentPlayerId()));
+
         if(players.get(getCurrentPlayerId()).getMoney() == betAmount){
             //player went all in:
             System.out.println("player is all in: " + players.get(currentPlayer).getMoney());
+            //create a pot in the splitPot Array.
+            //subtract all the previous pots
 
         }
 
-        players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
-        setRoundBet(findTable(), betAmount + getRoundBet(findTable()));
         System.out.println("roundbet: " + getRoundBet(findTable()));
         setHighestBetPlayerId(currentPlayer);
         setNextPlayer();
@@ -297,6 +307,7 @@ public class GameModel {
         setNextPlayer();
     }
     public void call(){
+
         double difference = getRoundBet(findTable()) - getRoundBet(getCurrentPlayerId());
         //withdraw the amount and give it to the table
         players.get(findTable()).addMoney(players.get(getCurrentPlayerId()).withdrawMoney(difference));
