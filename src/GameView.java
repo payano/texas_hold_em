@@ -81,6 +81,7 @@ public class GameView extends BorderPane{
         for (Player onePLayer : model.getPlayers()) {
             if(onePLayer instanceof HumanPlayer) {
                 player1X += 140;
+                gc.fillText("Current bet: " + ((Double) model.getRoundBet(model.findTable())).toString(),player1X + 50, player1Y -20);
                 gc.fillText("Player: " + onePLayer.getName(), player1X + 50, player1Y + 110);
                 gc.fillText("Money: " + ((Double) onePLayer.getMoney()).toString(), player1X + 50, player1Y + 125);
 
