@@ -238,6 +238,8 @@ public class GameModel {
     private int getBigBlind(){return bigBlind;}
 
     public int getStake(){return stake;}
+    private void setPlayerAllIn(int playerId,boolean value){playerAllIn.set(playerId,value);}
+    private boolean getPlayerAllIn(int playerId){return playerAllIn.get(playerId);}
     public Player getCurrentPlayer(){
         return players.get(currentPlayer);
     }
@@ -271,9 +273,10 @@ public class GameModel {
             if(i >= players.size()){
                 i=0;
             }
-            //System.out.println("i:" + i + " bigblind:" + getBigBlind() + " highestbet:" + getHighestBetPlayerId());
+            System.out.println("player: " + players.get(i)+ " allin: " + getPlayerAllIn(i) + " i:" + i + " bigblind:" + getBigBlind() + " highestbet:" + getHighestBetPlayerId());
             if(players.get(i) instanceof TablePlayer){continue;}
             else if(counter >= 100){throw new NoPlayerInGameException("method SetNextPlayer cannot set the next player, no players still in game!");}
+            else if(getPlayerAllIn(i)){continue;}
             else if(!getStillInGame(i)){continue;}
             else{currentPlayer = i;break;}
         }
@@ -293,6 +296,7 @@ public class GameModel {
 
         if(players.get(getCurrentPlayerId()).getMoney() == betAmount){
             //player went all in:
+            setPlayerAllIn(getCurrentPlayerId(),true);
             System.out.println("player is all in: " + players.get(currentPlayer).getMoney());
             //create a pot in the splitPot Array.
             //subtract all the previous pots
@@ -381,6 +385,7 @@ public class GameModel {
                 setStillInGame(i,true);
                 players.get(i).removeAllCards();
                 setRoundBet(i,0.0);
+                setPlayerAllIn(i,false);
             }
             roundStatus = GameStatusEnum.PreFlop;
     }
