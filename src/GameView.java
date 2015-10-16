@@ -93,11 +93,7 @@ public class GameView extends BorderPane{
                     gc.drawImage(image, tableX, tableY);
                 }
             }
-
         }
-
-
-
     }
 
 
