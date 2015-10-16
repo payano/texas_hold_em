@@ -3,6 +3,8 @@ import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
 
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.IdentityHashMap;
 import java.util.Scanner;
 
 /**
@@ -23,6 +25,13 @@ public class GameModel {
     private int currentPlayer;
     private GameStatusEnum roundStatus;
 
+    //For split pots:
+    private ArrayList<Integer> splitPot;
+    private ArrayList<ArrayList<Integer>> splitPlayers;
+    private ArrayList<Boolean> playerAllIn;
+
+    //end for split pots
+
 
 
     public GameModel() {
@@ -31,6 +40,19 @@ public class GameModel {
         stillInGame = new ArrayList<Boolean>();
         handRank = new ArrayList<CardValueEnum>();
         roundBet = new ArrayList<Double>();
+        playerAllIn = new ArrayList<Boolean>();
+
+        //for split pots:
+        splitPot = new ArrayList<Integer>();
+        splitPlayers = new ArrayList<ArrayList<Integer>>();
+
+        splitPot.add(2);
+        ArrayList<Integer> temp = new ArrayList<>();
+        temp.add(0);
+        temp.add(1);
+        splitPlayers.add(temp);
+        //end for split pots
+
         //add players temporary:
         players.add(new TablePlayer("TheTable"));
         players.add(new HumanPlayer("Arvid",1080));
@@ -44,6 +66,7 @@ public class GameModel {
             stillInGame.add(true);
             handRank.add(CardValueEnum.None);
             roundBet.add(0.0);
+            playerAllIn.add(false);
         }
 
     }
