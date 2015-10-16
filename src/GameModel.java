@@ -98,16 +98,19 @@ public class GameModel {
         }
         return numberOfplayersLeft;
     }
-    public ArrayList<Integer> setWinner(){
-        if(true ) {
-            //if one player left only...
-            for (int i = 0; i < players.size(); i++) {
-                if(players.get(i) instanceof TablePlayer){continue;}
-                if(!getStillInGame(i)){continue;}
-                players.get(i).addMoney(players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()));
-            }
-            return null;
+    public int winnerByFold(){
+        int thePlayer = 0;
+        for (int i = 0; i < players.size(); i++) {
+            if(players.get(i) instanceof TablePlayer){continue;}
+            if(!getStillInGame(i)){continue;}
+            thePlayer = i;
+            break;
+
         }
+        players.get(thePlayer).addMoney(players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()));
+        return thePlayer;
+    }
+    public ArrayList<Integer> setWinner(){
         setHandValues();
         int highestHandPoints = 0;
         ArrayList<Integer> winner = new ArrayList<Integer>();
