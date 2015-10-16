@@ -3,7 +3,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.applet.Applet;
 
 /**
  * Created by arvidbodin on 14/09/15.
