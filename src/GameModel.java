@@ -98,7 +98,7 @@ public class GameModel {
             //player must still be in game to win
             if(!getStillInGame(i)){continue;}
             //get the first time leader
-            System.out.println("player: " + players.get(i).getName() + ", handPoints: " + getHandPoints(i) + " CardValue: " + getHandRank(i));
+            //System.out.println("player: " + players.get(i).getName() + ", handPoints: " + getHandPoints(i) + " CardValue: " + getHandRank(i));
             if(getHandPoints(i) == highestHandPoints){
                 winner.add(i);
             }
@@ -193,15 +193,14 @@ public class GameModel {
 
     public boolean roundComplete(){
         //tells controller if the round is done.
-        System.out.println("currentplayerid: " + getCurrentPlayerId() + " highestplayeid: " + highestBetPlayerId + " bigblind:" + getBigBlind());
-        System.out.println("player: " + getCurrentPlayer().getName());
+        //System.out.println("currentplayerid: " + getCurrentPlayerId() + " highestplayeid: " + highestBetPlayerId + " bigblind:" + getBigBlind());
+        //System.out.println("player: " + getCurrentPlayer().getName());
         if(getBigBlind() == getCurrentPlayerId()) {
             //special case for first round with blinds.
             setBigBlind(findTable());
             setNextHigestBidPlayer();
         }else if(getCurrentPlayerId() == getHighestBetPlayerId()){
             //this is first round bigblind only!!
-            System.out.println("is this shit?");
             setNextPlayer(findTable());
             setHighestBetPlayerId(findTable()+1);
             return true;
@@ -227,13 +226,13 @@ public class GameModel {
             if(i >= players.size()){
                 i=0;
             }
-            System.out.println("i:" + i + " bigblind:" + getBigBlind() + " highestBetPlayerId:" + highestBetPlayerId);
+            //System.out.println("i:" + i + " bigblind:" + getBigBlind() + " highestBetPlayerId:" + highestBetPlayerId);
             if(players.get(i) instanceof TablePlayer){continue;}
             else if(counter >= 100){throw new NoPlayerInGameException("method highestBetPlayerId cannot set the next player, no players still in game!");}
             else if(!getStillInGame(i)){continue;}
             else{highestBetPlayerId = i;break;}
         }
-        System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
+        //System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
     }
 
     public void setNextPlayer(){
@@ -243,13 +242,13 @@ public class GameModel {
             if(i >= players.size()){
                 i=0;
             }
-            System.out.println("i:" + i + " bigblind:" + getBigBlind() + " highestbet:" + getHighestBetPlayerId());
+            //System.out.println("i:" + i + " bigblind:" + getBigBlind() + " highestbet:" + getHighestBetPlayerId());
             if(players.get(i) instanceof TablePlayer){continue;}
             else if(counter >= 100){throw new NoPlayerInGameException("method SetNextPlayer cannot set the next player, no players still in game!");}
             else if(!getStillInGame(i)){continue;}
             else{currentPlayer = i;break;}
         }
-        System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
+        //System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
     }
     private int getNextPlayer(){return currentPlayer;}
     private void setNextPlayer(int nextPlayer){
