@@ -1,6 +1,7 @@
 import CardPackage.*;
 import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
+import sun.font.FontRunIterator;
 
 import java.util.ArrayList;
 import java.util.Base64;
@@ -22,7 +23,7 @@ public class GameModel {
     private int highestBetPlayerId,bigBlind;
     private ArrayList<CardValueEnum> handRank;
     private ArrayList<Double> roundBet; //change to gameeBet later...
-    private int currentPlayer;
+    private int currentPlayer,lastPlayer;
     private GameStatusEnum roundStatus;
 
     //For split pots:
@@ -54,10 +55,10 @@ public class GameModel {
 
         //add players temporary:
         players.add(new TablePlayer("TheTable"));
-        players.add(new HumanPlayer("Arvid",1080));
+        players.add(new HumanPlayer("Arvid",1000));
         //players.add(new HumanPlayer("Tratten", 550));
         //players.add(new HumanPlayer("TrattVald", 1337));
-        players.add(new HumanPlayer("Johan", 500));
+        players.add(new HumanPlayer("Johan", 200));
 
         //initiate arraylists for users
         for (int i = 0; i < players.size() ; i++) {
@@ -233,6 +234,7 @@ public class GameModel {
             //special case for first round with blinds.
             setBigBlind(findTable());
             setNextHigestBidPlayer();
+        }else if(lastPlayer == currentPlayer){return true;
         }else if(getCurrentPlayerId() == getHighestBetPlayerId()){
             //this is first round bigblind only!!
             setNextPlayer(findTable());
@@ -279,7 +281,7 @@ public class GameModel {
     }
 
     public void setNextPlayer(){
-        currentPlayer++;
+        lastPlayer = currentPlayer++;
         int counter = 0;
         for (int i = currentPlayer;  ; i++,counter++) {
             if(i >= players.size()){
@@ -292,7 +294,11 @@ public class GameModel {
             else{currentPlayer = i;break;}
         }
 
-        //System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
+        System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
+
+        for (int i = 0; i < players.size(); i++) {
+            System.out.println("player: " + players.get(i).getName() + " all-in: " + getPlayerAllIn(i));
+        }
     }
     private int getNextPlayer(){return currentPlayer;}
     private void setNextPlayer(int nextPlayer){
