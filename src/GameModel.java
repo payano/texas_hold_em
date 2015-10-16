@@ -34,8 +34,8 @@ public class GameModel {
         //add players temporary:
         players.add(new TablePlayer("TheTable"));
         players.add(new HumanPlayer("Arvid",1080));
-        players.add(new HumanPlayer("Tratten", 550));
-        players.add(new HumanPlayer("TrattVald", 1337));
+        //players.add(new HumanPlayer("Tratten", 550));
+        //players.add(new HumanPlayer("TrattVald", 1337));
         players.add(new HumanPlayer("Johan", 500));
 
         //initiate arraylists for users
@@ -231,7 +231,7 @@ public class GameModel {
     public int getCurrentPlayerId(){
         return currentPlayer;
     }
-    public void setNextHigestBidPlayer(){
+    private void setNextHigestBidPlayer(){
         //just for the first round, this is a special case
         highestBetPlayerId++;
         int counter = 0;
