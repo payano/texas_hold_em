@@ -52,7 +52,7 @@ public class GameView extends BorderPane{
      * @param controller
      */
     private void addEventHandlers(GameController controller) {
-        restartItem.setOnAction(event -> controller.startTheGame());
+        //restartItem.setOnAction(event -> controller.startTheGame());
         betButton.setOnAction(event2 -> controller.betHandler());
         callButton.setOnAction(event -> controller.callHandler());
         foldButton.setOnAction(event1 -> controller.foldHandler());
@@ -60,7 +60,7 @@ public class GameView extends BorderPane{
         slider.setOnMouseDragged(event -> updateSlierAmountText());
         sliderAmountField.setOnAction(event -> controller.betHandler());
         slider.setOnMouseReleased(event -> updateSlierAmountText());
-        //canvas.setOnMouseReleased();
+        //canvas.setOnMouseReleased(event -> );
     }
 
     public void updateCards(){
