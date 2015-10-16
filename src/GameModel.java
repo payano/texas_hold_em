@@ -184,7 +184,6 @@ public class GameModel {
         //there has to be a check somewhere that the minimum amount of players(computer + human) >= 2.
         boolean smallBlindPlayer = true;
         for(int i = 0; i < players.size();i++) {
-            System.out.println("i: " + i + " ");
             //skip TablePlayer betting
             if (players.get(i) instanceof TablePlayer) {continue;}
             //kommmer detta fungera?
