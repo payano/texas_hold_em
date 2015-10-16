@@ -65,7 +65,7 @@ public class GameController {
                    view.updateCards();
                    model.setRoundStatus(GameStatusEnum.Flop);
                    System.out.println("\nPreFlop -> Flop\n");
-               }
+       }
                break;
            case Flop:
                if (model.roundComplete()) {
