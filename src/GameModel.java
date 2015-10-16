@@ -282,6 +282,10 @@ public class GameModel {
         setNextPlayer();
     }
     public void bet(double betAmount){
+        if(players.get(getCurrentPlayerId()).getMoney() == betAmount){
+            //player went all in:
+            System.out.println("player is all in: " + players.get(currentPlayer).getMoney());
+        }
 
         players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
         setRoundBet(findTable(), betAmount + getRoundBet(findTable()));
