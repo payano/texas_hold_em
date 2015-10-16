@@ -234,7 +234,8 @@ public class GameModel {
             //special case for first round with blinds.
             setBigBlind(findTable());
             setNextHigestBidPlayer();
-        }else if(lastPlayer == currentPlayer){return true;
+        }else if(lastPlayer == currentPlayer){
+            return true;
         }else if(getCurrentPlayerId() == getHighestBetPlayerId()){
             //this is first round bigblind only!!
             setNextPlayer(findTable());
@@ -250,6 +251,16 @@ public class GameModel {
 
     private void setBigBlind(int playerId){bigBlind = playerId;}
     private int getBigBlind(){return bigBlind;}
+    public int getPlayablePlayers(){
+        int result = 0;
+        for (int i = 0; i < players.size(); i++) {
+            if(players.get(i) instanceof TablePlayer){continue;}
+            if(getPlayerAllIn(i)){continue;}
+            if(!getStillInGame(i)){continue;}
+            result++;
+        }
+        return result;
+    }
 
     public int getStake(){return stake;}
     private void setPlayerAllIn(int playerId,boolean value){playerAllIn.set(playerId, value);}
