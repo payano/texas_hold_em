@@ -73,6 +73,7 @@ public class GameView extends BorderPane{
 
         int player1X = -50, player1Y = 230,tableX = 0, tableY = 0;
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setFill(Color.rgb(37, 38, 40));
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setStroke(Color.rgb(152, 158, 168));
         gc.setFill(Color.rgb(152, 158, 168));
@@ -89,11 +90,13 @@ public class GameView extends BorderPane{
                     gc.drawImage(image, player1X, player1Y);
                 }
             }else {
+                    gc.fillText("Pot: " + ((Double) onePLayer.getMoney()).toString(), 80, 110);
                 for (Card c : onePLayer.getCards()) {
                     image = c.getImage();
                     tableX += 80;
                     tableY = 20;
                     gc.drawImage(image, tableX, tableY);
+
                 }
             }
 
