@@ -234,6 +234,9 @@ public class GameModel {
         }
         //System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
     }
+    public double getAmount(int playerId){
+        return getRoundBet(findTable()) - getRoundBet(playerId);
+    }
 
     public void setNextPlayer(){
         currentPlayer++;
@@ -362,6 +365,7 @@ public class GameModel {
         }
         return null;
     }
+
     private CardValueEnum checkCardValue(Hand oneHand){
         int straightCount = 0;
         int lastCardValue = 0;
