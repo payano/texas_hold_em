@@ -393,6 +393,7 @@ public class GameModel {
 
 //        while (scan.nextInt() == 1) {
             //make all players still in game and enabled to check
+        rotatePlayers();
 
             for (int i = 0; i < players.size();i++) {
                 setStillInGame(i,true);
