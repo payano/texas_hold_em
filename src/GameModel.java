@@ -99,7 +99,9 @@ public class GameModel {
         return numberOfplayersLeft;
     }
     public ArrayList<Integer> setWinner(){
-        setHandValues();
+        if(getPlayersInGame() > 1 ) {
+            setHandValues();
+        }
         int highestHandPoints = 0;
         ArrayList<Integer> winner = new ArrayList<Integer>();
 
@@ -238,7 +240,7 @@ public class GameModel {
     private int getBigBlind(){return bigBlind;}
 
     public int getStake(){return stake;}
-    private void setPlayerAllIn(int playerId,boolean value){playerAllIn.set(playerId,value);}
+    private void setPlayerAllIn(int playerId,boolean value){playerAllIn.set(playerId, value);}
     private boolean getPlayerAllIn(int playerId){return playerAllIn.get(playerId);}
     public Player getCurrentPlayer(){
         return players.get(currentPlayer);
@@ -273,13 +275,13 @@ public class GameModel {
             if(i >= players.size()){
                 i=0;
             }
-            System.out.println("player: " + players.get(i)+ " allin: " + getPlayerAllIn(i) + " i:" + i + " bigblind:" + getBigBlind() + " highestbet:" + getHighestBetPlayerId());
             if(players.get(i) instanceof TablePlayer){continue;}
             else if(counter >= 100){throw new NoPlayerInGameException("method SetNextPlayer cannot set the next player, no players still in game!");}
             else if(getPlayerAllIn(i)){continue;}
             else if(!getStillInGame(i)){continue;}
             else{currentPlayer = i;break;}
         }
+
         //System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
     }
     private int getNextPlayer(){return currentPlayer;}
@@ -294,7 +296,7 @@ public class GameModel {
         //set roundBet of player
         setRoundBet(getCurrentPlayerId(), betAmount + getRoundBet(getCurrentPlayerId()));
 
-        if(players.get(getCurrentPlayerId()).getMoney() == betAmount){
+        if(players.get(getCurrentPlayerId()).getMoney() == 0){
             //player went all in:
             setPlayerAllIn(getCurrentPlayerId(),true);
             System.out.println("player is all in: " + players.get(currentPlayer).getMoney());
