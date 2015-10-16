@@ -14,6 +14,10 @@ public class GameController {
         this.view = view;
     }
 
+    public void cardPushedHandler(boolean showCard){
+        view.turnCards(showCard);
+    }
+
     public void callHandler(){
         model.call();
         updateRoundStatus();
