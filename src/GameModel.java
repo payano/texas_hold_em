@@ -101,24 +101,13 @@ public class GameModel {
             System.out.println("player: " + players.get(i).getName() + ", handPoints: " + getHandPoints(i) + " CardValue: " + getHandRank(i));
             if(getHandPoints(i) == highestHandPoints){
                 winner.add(i);
-                if(winner.size() > 1) {
-                    System.out.println("HEY MAN THIS IS A SPLIT!!");
-                }
             }
         }
 
         for (int i = 0; i < winner.size(); i++) {
-
-            System.out.println("Player <" + players.get(winner.get(i)).getName() + "> has money: " + players.get(winner.get(i)).getMoney());
-            System.out.println("Player <" + players.get(findTable()).getName() + "> has money: " + players.get(findTable()).getMoney());
             players.get(winner.get(i)).addMoney(
                     players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()/winner.size())
             );
-            System.out.println("the getPlayersInGame is..... " + players.get(winner.get(i)).getName());
-            System.out.println("he/she has: " + getHandRank(winner.get(i)).toString());
-            System.out.println("Player <" + players.get(winner.get(i)).getName() + "> has money: " + players.get(winner.get(i)).getMoney());
-            System.out.println("Player <" + players.get(findTable()).getName() + "> has money: " + players.get(findTable()).getMoney());
-
         }
 
         return winner;
