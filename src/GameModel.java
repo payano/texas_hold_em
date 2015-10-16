@@ -47,10 +47,9 @@ public class GameModel {
         splitPlayers = new ArrayList<ArrayList<Integer>>();
 
         splitPot.add(2);
-        ArrayList<Integer> temp = new ArrayList<>();
-        temp.add(0);
-        temp.add(1);
-        splitPlayers.add(temp);
+        //
+        splitPlayers.add(new ArrayList<>());
+        System.out.println(splitPlayers.get(0).size());
         //end for split pots
 
         //add players temporary:
@@ -218,7 +217,7 @@ public class GameModel {
         //tells controller if the round is done.
         //System.out.println("currentplayerid: " + getCurrentPlayerId() + " highestplayeid: " + highestBetPlayerId + " bigblind:" + getBigBlind());
         //System.out.println("player: " + getCurrentPlayer().getName());
-        if(getBigBlind() == getCurrentPlayerId()) {
+        if(getBigBlind() == getCurrentPlayerId() && getCurrentPlayerId() == getHighestBetPlayerId()) {
             //special case for first round with blinds.
             setBigBlind(findTable());
             setNextHigestBidPlayer();
@@ -285,6 +284,7 @@ public class GameModel {
         if(players.get(getCurrentPlayerId()).getMoney() == betAmount){
             //player went all in:
             System.out.println("player is all in: " + players.get(currentPlayer).getMoney());
+
         }
 
         players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
