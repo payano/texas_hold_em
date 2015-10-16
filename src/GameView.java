@@ -71,7 +71,7 @@ public class GameView extends BorderPane{
 
     public void updateCards(){
 
-        int player1X = -50, player1Y = 230,tableX = 0, tableY = 0;
+        int player1X = -30, player1Y = 230,tableX = 65, tableY;
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.rgb(37, 38, 40));
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -80,21 +80,21 @@ public class GameView extends BorderPane{
 
         for (Player onePLayer : model.getPlayers()) {
             if(onePLayer instanceof HumanPlayer) {
-                player1X += 120;
-                gc.fillText("Player: " + onePLayer.getName(), player1X + 70, player1Y + 110);
-                gc.fillText("Money: " + ((Double) onePLayer.getMoney()).toString(), player1X + 70, player1Y + 125);
+                player1X += 140;
+                gc.fillText("Player: " + onePLayer.getName(), player1X + 50, player1Y + 110);
+                gc.fillText("Money: " + ((Double) onePLayer.getMoney()).toString(), player1X + 50, player1Y + 125);
 
                 for (Card c : onePLayer.getCards()) {
                     image = c.getImage();
-                    player1X = player1X + 70;
+                    player1X = player1X + 50;
                     gc.drawImage(image, player1X, player1Y);
                 }
             }else {
-                    gc.fillText("Pot: " + ((Double) onePLayer.getMoney()).toString(), 80, 130);
+                    gc.fillText("Pot: " + ((Double) onePLayer.getMoney()).toString(), 145, 150);
                 for (Card c : onePLayer.getCards()) {
                     image = c.getImage();
                     tableX += 80;
-                    tableY = 20;
+                    tableY = 40;
                     gc.drawImage(image, tableX, tableY);
                 }
             }
