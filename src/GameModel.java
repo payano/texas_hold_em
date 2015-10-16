@@ -231,7 +231,7 @@ public class GameModel {
     public int getCurrentPlayerId(){
         return currentPlayer;
     }
-    public void setNextHigestBidPlayer(){
+    private void setNextHigestBidPlayer(){
         //just for the first round, this is a special case
         highestBetPlayerId++;
         int counter = 0;
