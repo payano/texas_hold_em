@@ -1,7 +1,10 @@
 import CardPackage.Card;
+import PlayerPackage.HumanPlayer;
+import PlayerPackage.Player;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -12,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 /**
  * Created by Johan Svensson och Arvid Bodin on 2015-15-08.
@@ -30,16 +34,24 @@ public class GameView extends BorderPane{
     private MenuItem exitItem, restartItem, highScoreItem;
     private Slider slider;
 
-    private int player1X = -100,player1Y,tableX, tableY;
 
     public GameView(GameModel model){
         this.model = model;
 
+        //Creat the controller and the model.
         GameController controller = new GameController(model, this);
+
+        //Draw the scene.
         initView();
+
+        //Add the handerls to all of the items.
         addEventHandlers(controller);
 
+        //Start the game
         controller.startTheGame();
+
+        //Draw the playercards
+        updateCards();
     }
 
     /**
@@ -54,6 +66,40 @@ public class GameView extends BorderPane{
         allInButton.setOnAction(event1 -> controller.allInHandler());
         slider.setOnMouseDragged(event -> updateSlierAmountText());
         sliderAmountField.setOnAction(event -> controller.betHandler());
+
+    }
+
+    public void updateCards(){
+
+        int player1X = -50, player1Y = 230,tableX = 0, tableY = 0;
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.setStroke(Color.rgb(152, 158, 168));
+        gc.setFill(Color.rgb(152, 158, 168));
+
+        for (Player onePLayer : model.getPlayers()) {
+            if(onePLayer instanceof HumanPlayer) {
+                player1X += 60;
+                gc.fillText("Player: " + onePLayer.getName(), player1X + 40, player1Y + 110);
+                gc.fillText("Money: " + ((Double) onePLayer.getMoney()).toString(), player1X + 40, player1Y + 125);
+
+                for (Card c : onePLayer.getCards()) {
+                    image = c.getImage();
+                    player1X = player1X + 40;
+                    gc.drawImage(image, player1X, player1Y);
+                }
+            }else {
+                for (Card c : onePLayer.getCards()) {
+                    image = c.getImage();
+                    tableX += 80;
+                    tableY = 20;
+                    gc.drawImage(image, tableX, tableY);
+                }
+            }
+
+        }
+
+
 
     }
 
@@ -111,27 +157,8 @@ public class GameView extends BorderPane{
             slider.setDisable(false);
         }
 
-
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        player1X += 100;
-        for(Card c : model.getCurrentPlayer().getCards()) {
-            image = c.getImage();
-            player1X=player1X+30;
-            player1Y = 250;
-            gc.drawImage(image, player1X, player1Y);
-        }
-
     }
 
-    public void updateTable(){
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        for(Card c : model.getPlayer(model.findTable()).getCards()) {
-            image = c.getImage();
-            tableX+= 30;
-            tableY = 10;
-            gc.drawImage(image, tableX, tableY);
-        }
-    }
 
     /**
      * Initiates the view.
@@ -206,14 +233,10 @@ public class GameView extends BorderPane{
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
 
+
         // paint the background
         gc.setFill(Color.rgb(37, 38, 40));
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-        // Load the image
-        //image = new Image(this.getClass().getResource("resources/cards/1.png").toString());
-        //gc.drawImage(image, 10, 10);
-
 
     }
 }
