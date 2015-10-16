@@ -51,6 +51,11 @@ public class GameController {
     }
 
     private void updateRoundStatus(){
+        if(model.getPlayersInGame() == 1){
+            startTheGame();
+            model.setRoundStatus(GameStatusEnum.PreFlop);
+        }
+
        switch (model.getRoundStatus()) {
            case PreFlop:
                if (model.roundComplete()) {
