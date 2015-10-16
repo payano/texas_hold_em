@@ -24,12 +24,13 @@ import javafx.scene.text.TextAlignment;
 public class GameView extends BorderPane{
 
     private final GameModel model;
+    private final GameController controller;
     private Canvas canvas;
     private Image image;
 
     private TextField sliderAmountField;
     private Button callButton, betButton, foldButton, allInButton;
-    private Label playerNameLabel, playerMoneyLabel, currentPlayerLabel, currentPLayerMoneyLabel;
+    private Label playerNameLabel, playerMoneyLabel, currentPlayerLabel, currentPLayerMoneyLabel, missingBetAmountLabel;
     private Menu fileMenu;
     private MenuItem exitItem, restartItem, highScoreItem;
     private Slider slider;
@@ -39,7 +40,7 @@ public class GameView extends BorderPane{
         this.model = model;
 
         //Creat the controller and the model.
-        GameController controller = new GameController(model, this);
+        controller = new GameController(model, this);
 
         //Draw the scene.
         initView();
@@ -81,7 +82,7 @@ public class GameView extends BorderPane{
         for (Player onePLayer : model.getPlayers()) {
             if(onePLayer instanceof HumanPlayer) {
                 player1X += 140;
-                gc.fillText("Current bet: " + ((Double) model.getRoundBet(model.findTable())).toString(),player1X + 50, player1Y -20);
+
                 gc.fillText("Player: " + onePLayer.getName(), player1X + 50, player1Y + 110);
                 gc.fillText("Money: " + ((Double) onePLayer.getMoney()).toString(), player1X + 50, player1Y + 125);
 
@@ -133,6 +134,7 @@ public class GameView extends BorderPane{
         playerNameLabel.setText(model.getCurrentPlayer().getName());
         playerMoneyLabel.setText(((Double) model.getCurrentPlayer().getMoney()).toString());
         slider.setMin(model.getStake());
+        missingBetAmountLabel.setText("Call amount: " + model.getMissingBetAmount(model.getCurrentPlayerId()));
 
         //Update the slider if tha player has more than one money.
         if (model.getCurrentPlayer().getMoney() > 0){
@@ -191,6 +193,8 @@ public class GameView extends BorderPane{
         currentPLayerMoneyLabel = new Label("Money:");
         playerMoneyLabel = new Label("- - -");
         playerNameLabel = new Label("Player");
+        missingBetAmountLabel = new Label("Call amount: ");
+        missingBetAmountLabel.setTextFill(Color.rgb(152, 158, 168));
         playerMoneyLabel.setTextFill(Color.rgb(152, 158, 168));
         playerNameLabel.setTextFill(Color.rgb(152, 158, 168));
         currentPLayerMoneyLabel.setTextFill(Color.rgb(152, 158, 168));
@@ -221,6 +225,7 @@ public class GameView extends BorderPane{
         buttonBar.add(playerNameLabel, 1, 0);
         buttonBar.add(currentPLayerMoneyLabel, 2, 0);
         buttonBar.add(playerMoneyLabel, 3, 0);
+        buttonBar.add(missingBetAmountLabel, 4, 0);
         buttonBar.add(callButton, 0, 1);
         buttonBar.add(allInButton, 1, 1);
         buttonBar.add(foldButton, 2, 1);
