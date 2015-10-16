@@ -80,23 +80,22 @@ public class GameView extends BorderPane{
 
         for (Player onePLayer : model.getPlayers()) {
             if(onePLayer instanceof HumanPlayer) {
-                player1X += 60;
-                gc.fillText("Player: " + onePLayer.getName(), player1X + 40, player1Y + 110);
-                gc.fillText("Money: " + ((Double) onePLayer.getMoney()).toString(), player1X + 40, player1Y + 125);
+                player1X += 120;
+                gc.fillText("Player: " + onePLayer.getName(), player1X + 70, player1Y + 110);
+                gc.fillText("Money: " + ((Double) onePLayer.getMoney()).toString(), player1X + 70, player1Y + 125);
 
                 for (Card c : onePLayer.getCards()) {
                     image = c.getImage();
-                    player1X = player1X + 40;
+                    player1X = player1X + 70;
                     gc.drawImage(image, player1X, player1Y);
                 }
             }else {
-                    gc.fillText("Pot: " + ((Double) onePLayer.getMoney()).toString(), 80, 110);
+                    gc.fillText("Pot: " + ((Double) onePLayer.getMoney()).toString(), 80, 130);
                 for (Card c : onePLayer.getCards()) {
                     image = c.getImage();
                     tableX += 80;
                     tableY = 20;
                     gc.drawImage(image, tableX, tableY);
-
                 }
             }
 
@@ -187,7 +186,7 @@ public class GameView extends BorderPane{
         foldButton = new Button("Fold");
         foldButton.setMinWidth(70);
 
-        currentPlayerLabel = new Label("Player:");
+        currentPlayerLabel = new Label("Current Player:");
         currentPLayerMoneyLabel = new Label("Money:");
         playerMoneyLabel = new Label("- - -");
         playerNameLabel = new Label("Player");
