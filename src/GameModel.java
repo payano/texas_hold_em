@@ -199,7 +199,6 @@ public class GameModel {
             }else {
                 throw new SmallAndBigBlindException("Small and big blind could not be taken from players on the table.");
             }
-            setNextPlayer();
         }
     }
 
