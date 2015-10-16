@@ -1,4 +1,4 @@
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
+
 
 /**
  * Created by Johan Svensson och Arvid Bodin on 2015-15-08.
