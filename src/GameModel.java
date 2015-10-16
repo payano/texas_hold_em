@@ -34,8 +34,8 @@ public class GameModel {
         //add players temporary:
         players.add(new TablePlayer("TheTable"));
         players.add(new HumanPlayer("Arvid",1080));
-        players.add(new HumanPlayer("Tratten", 550));
-        players.add(new HumanPlayer("TrattVald", 1337));
+        //players.add(new HumanPlayer("Tratten", 550));
+        //players.add(new HumanPlayer("TrattVald", 1337));
         players.add(new HumanPlayer("Johan", 500));
 
         //initiate arraylists for users
