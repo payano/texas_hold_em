@@ -287,8 +287,10 @@ public class GameModel {
                 setHighestBetPlayerId(getCurrentPlayerId() + 1);
             }
         }
-        else if(getCurrentPlayerId() == getHighestBetPlayerId())
+        else if(getCurrentPlayerId() == getHighestBetPlayerId() && getBigBlind() == getCurrentPlayerId())
         {
+            //this is first round bigblind only!!
+            System.out.println("is this shit?");
             setNextPlayer(findTable());
             setHighestBetPlayerId(findTable()+1);
             return true;
