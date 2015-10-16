@@ -210,8 +210,7 @@ public class GameModel {
             //special case for first round with blinds.
             setBigBlind(findTable());
             setNextHigestBidPlayer();
-        }else if(getCurrentPlayerId() == getHighestBetPlayerId())
-        {
+        }else if(getCurrentPlayerId() == getHighestBetPlayerId()){
             //this is first round bigblind only!!
             System.out.println("is this shit?");
             setNextPlayer(findTable());
