@@ -52,8 +52,8 @@ public class GameController {
 
     private void updateRoundStatus(){
         if(model.getPlayersInGame() == 1){
-            startTheGame();
             System.out.println(model.winnerByFold());
+            startTheGame();
             model.setRoundStatus(GameStatusEnum.PreFlop);
         }
 
