@@ -51,6 +51,7 @@ public class GameController {
         model.initGame();
         model.dealCards(2);
         model.smallAndBigBlind();
+        view.savePLayerCard();
         view.updatePlayer();
     }
 
