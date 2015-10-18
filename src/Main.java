@@ -38,6 +38,7 @@ public class Main extends Application{
 
         Scene scene = new Scene(rootPane,700,500);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
 
         primaryStage.show();
 

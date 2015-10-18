@@ -194,7 +194,7 @@ public class GameView extends BorderPane{
      */
     public int getBet(){
         int bet;
-        boolean betCapped = false;
+
         bet = Integer.parseInt(sliderAmountField.getText());
 
 
@@ -394,7 +394,7 @@ public class GameView extends BorderPane{
         buttonBar.add(foldButton, 2, 1);
         buttonBar.add(betButton, 3, 1);
         buttonBar.add(slider, 4, 1);
-        buttonBar.add(sliderAmountField, 5, 1);
+        buttonBar.add(sliderAmountField, 5+1, 1);
         this.setBottom(buttonBar);
 
         //Image tests
