@@ -4,6 +4,7 @@ import CardPackage.*;
 import ChipPackage.ChipCollection;
 import MoneyPackage.Money;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -11,11 +12,11 @@ import java.util.ArrayList;
  *
  */
 
-abstract public class Player {
+abstract public class Player implements Serializable {
 
     private String userName;
-    private Hand playerHand;
-    private ChipCollection chips;
+    private transient Hand playerHand;
+    private transient ChipCollection chips;
     private Money money;
 
 
@@ -31,19 +32,13 @@ abstract public class Player {
         this.chips = new ChipCollection();
         this.money = new Money(money);
     }
-
-
-
-
     public void removeAllCards(){
+
         playerHand.removeAllCards();
     }
-    //public int getHandValue(){return this.handPoints;}
-    //public CardValueEnum getHandValue(){return handValue;}
-    //public void setHighestBetPlayerId(boolean highestBidder){this.highestBid = highestBidder;}
-    //public boolean getHighestBetPlayerId(){return highestBid;}
-    //public void setBigBlind(boolean bigBlind){this.isBigBlind = bigBlind;}
-    //public boolean getBigBlind(){return isBigBlind;}
+    public void createNewHand(){
+        this.playerHand = new Hand();
+    }
     public int getHandPoints(){return playerHand.getHandValue();}
     public void setHandPoints(int i){playerHand.setHandValue(i);}
     public Hand getPlayerHand(){return this.playerHand;}

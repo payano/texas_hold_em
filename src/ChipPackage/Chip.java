@@ -1,10 +1,12 @@
 package ChipPackage;
 
+import java.io.Serializable;
+
 /**
  * Created by Arvid Bodin and Johan Svensson on 2015-09-15.
  * HEJ
  */
-public class Chip {
+public class Chip implements Serializable {
     private final ChipEnum chipValue;
     Chip(ChipEnum chipValue){
         //constructor

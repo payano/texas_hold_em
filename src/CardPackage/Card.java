@@ -2,6 +2,8 @@ package CardPackage;
 
 import javafx.scene.image.Image;
 
+import java.io.Serializable;
+
 /**
  * Created by arvidbodin on 14/09/15.
  *

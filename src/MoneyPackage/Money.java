@@ -1,12 +1,12 @@
 package MoneyPackage;
 
-import java.util.DoubleSummaryStatistics;
+import java.io.Serializable;
 
 /**
  * Created by Arvid Bodin and Johan Svensson on 2015-09-15.
  *
  */
-public class Money {
+public class Money implements Serializable {
     //Hej Johan
     double moneyValue;
     public Money(double moneyValue){

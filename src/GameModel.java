@@ -2,15 +2,16 @@ import CardPackage.*;
 import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 
 /**
  * Created by Arvid and Johan Svensson on 2015-09-15.
  *
  */
-public class GameModel {
+public class GameModel implements Serializable {
 
     //private datamembers in game class:
     private ArrayList<Player> players;
@@ -68,13 +69,54 @@ public class GameModel {
         }
 
     }
-
-    public void saveGame(File file){
-
+    public void createNewHands(){
+        for(Player onePlayer : players){
+            onePlayer.createNewHand();
+        }
     }
-    public void loadGame(File file){
 
+    protected void saveGame(String filename) throws IOException {
+
+        ObjectOutputStream out = null;
+
+        try {
+            out = new ObjectOutputStream(
+                    new FileOutputStream(filename));
+            out.writeObject(players);
+        }
+        finally {
+            try {
+                if(out != null)	out.close();
+            } catch(Exception e) {}
+        }
     }
+    /**
+     * deSerializeFromFile reads in the book collection and stores it in an arraylist
+     * @param filename
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    @SuppressWarnings("unchecked")
+    protected void loadGame(String filename) throws IOException, ClassNotFoundException {
+        ObjectInputStream in = null;
+        try {
+            in = new ObjectInputStream(
+                    new FileInputStream(filename));
+            // readObject returns a reference of type Object, hence the down-cast
+            players = (ArrayList<Player>) in.readObject();
+        }
+        catch(java.io.FileNotFoundException e){
+            //if no file found...
+            System.out.println("The filename: " + filename + " does not exist, creating new.");
+        }
+        finally {
+            try {
+                if(in != null)	in.close();
+            } catch(Exception e) {}
+        }
+    }
+
+
     public void loadHighScore(File file){
 
     }

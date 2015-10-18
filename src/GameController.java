@@ -1,6 +1,7 @@
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Johan Svensson och Arvid Bodin on 2015-15-08.
@@ -65,8 +66,11 @@ public class GameController {
         File userDirectory = new File(userDirectoryString);
         fileChooser.setInitialDirectory(userDirectory);
         File selectedFile = fileChooser.showSaveDialog(null);
-        model.saveGame(selectedFile);
-
+        try {
+            model.saveGame(selectedFile.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public void loadGame(){
         // https://docs.oracle.com/javase/8/javafx/api/javafx/stage/FileChooser.html
@@ -77,8 +81,18 @@ public class GameController {
         File userDirectory = new File(userDirectoryString);
         fileChooser.setInitialDirectory(userDirectory);
         File selectedFile = fileChooser.showOpenDialog(null);
-        model.loadGame(selectedFile);
-
+        try {
+            model.loadGame(selectedFile.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        model.createNewHands();
+        model.initGame();
+        model.dealCards(2);
+        view.updateCards();
+        view.updatePlayer();
     }
     public void showHighScore(){
         System.out.println("highscore");

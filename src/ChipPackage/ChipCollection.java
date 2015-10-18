@@ -1,12 +1,13 @@
 package ChipPackage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Arvid Bodin and Johan Svensson on 2015-09-15.
  * ChipCollection class holds an arrayList of chips and methods for accessing them.
  */
-public class ChipCollection {
+public class ChipCollection implements Serializable {
     ArrayList<Chip> theChips;
     /**
      * Constructor
