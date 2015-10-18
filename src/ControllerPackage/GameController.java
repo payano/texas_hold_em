@@ -8,12 +8,14 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
  *
  */
-public class GameController {
+public class GameController implements Observer{
 
     private final GameModel model;
     private final GameView view;
@@ -184,5 +186,10 @@ public class GameController {
                }
                break;
        }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }
