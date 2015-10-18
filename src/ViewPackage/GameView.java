@@ -378,7 +378,6 @@ public class GameView extends BorderPane{
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
 
-
         // paint the background
         gc.setFill(Color.rgb(37, 38, 40));
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
