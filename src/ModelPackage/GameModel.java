@@ -500,9 +500,10 @@ public class GameModel implements Serializable {
         //set the roundBet of table
         setRoundBet(findTable(), betAmount + getRoundBet(findTable()));
         //set roundBet of player
-        setRoundBet(getCurrentPlayerId(), betAmount + getRoundBet(getCurrentPlayerId()));
+        setRoundBet(getCurrentPlayerId(), betAmount + difference);
         //setRoundBet(getCurrentPlayerId(), betAmount + getRoundBet(getCurrentPlayerId()));
 
+        System.out.println("Player is the shit: " + getRoundBet(getCurrentPlayerId()));
         if(players.get(getCurrentPlayerId()).getMoney() == 0){
             //player went all in:
             setPlayerAllIn(getCurrentPlayerId(),true);
