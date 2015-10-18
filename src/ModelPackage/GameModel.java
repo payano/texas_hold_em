@@ -99,7 +99,6 @@ public class GameModel implements Serializable {
     }
     /**
      * This is from collection of books lab
-     * This is from collection of books lab
      * loadGame reads in the Player collection and stores it in an array list
      * @param filename is the file to be loaded
      * @throws IOException ObjectOutputStream might throw an exception that needs to be taken care of
