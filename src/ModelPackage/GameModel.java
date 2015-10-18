@@ -465,7 +465,7 @@ public class GameModel implements Serializable {
             }
             if(players.get(i) instanceof TablePlayer){continue;}
             else if(counter >= 100){throw new NoPlayerInGameException("method SetNextPlayer cannot set the next player, no players still in game!");}
-            else if(getPlayerAllIn(i)){continue;}
+            //else if(getPlayerAllIn(i)){continue;}
             else if(!getStillInGame(i)){continue;}
             else{currentPlayer = i;break;}
         }
