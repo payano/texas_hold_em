@@ -236,7 +236,8 @@ public class GameView extends BorderPane{
             for (int i = 0; i < model.getPlayers().size(); i++) {
                 if (model.getPlayer(i) instanceof HumanPlayer){
                     System.out.println(maxBet);
-                    maxBet.add((int) model.getPlayer(i).getMoney());
+
+                    maxBet.add((int) model.getPlayer(i).getMoney() - (int) model.getRoundBet(model.findTable()) + (int) model.getRoundBet(i));
                 }
             }
 
