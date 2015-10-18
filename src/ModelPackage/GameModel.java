@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 public class GameModel implements Serializable {
 
-    //private datamembers in game class:
+    //private data members in game class:
     private ArrayList<Player> players;
     private final int stake = 50; //this is the minimum bet for all rounds in the game.
     private Deck theDeck;
