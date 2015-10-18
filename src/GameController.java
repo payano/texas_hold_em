@@ -53,6 +53,16 @@ public class GameController {
         model.smallAndBigBlind();
         view.updatePlayer();
     }
+    public void saveGame(){
+        System.out.println("save game");
+
+    }
+    public void loadGame(){
+        System.out.println("load game");
+    }
+    public void showHighScore(){
+        System.out.println("highscore");
+    }
 
     private void updateRoundStatus(){
         if(model.getPlayersInGame() == 1){

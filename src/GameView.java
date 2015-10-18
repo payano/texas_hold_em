@@ -24,7 +24,7 @@ public class GameView extends BorderPane{
     private Button callButton, betButton, foldButton, allInButton;
     private Label playerNameLabel, playerMoneyLabel, currentPlayerLabel, currentPLayerMoneyLabel, missingBetAmountLabel;
     private Menu fileMenu;
-    private MenuItem exitItem, restartItem, highScoreItem;
+    private MenuItem exitItem, restartItem, highScoreItem, loadItem, saveItem;
     private Slider slider;
 
     private int player1X = -30, player1Y = 230,tableX = 65, tableY;
@@ -64,6 +64,9 @@ public class GameView extends BorderPane{
         slider.setOnMouseReleased(event -> updateSlierAmountText());
         canvas.setOnMousePressed(event -> controller.cardPushedHandler(true));
         canvas.setOnMouseReleased(event -> controller.cardPushedHandler(false));
+        saveItem.setOnAction(event -> controller.saveGame());
+        loadItem.setOnAction(event -> controller.loadGame());
+        highScoreItem.setOnAction(event -> controller.showHighScore());
     }
 
     public void turnCards(boolean turnCard){
@@ -188,8 +191,10 @@ public class GameView extends BorderPane{
         fileMenu = new Menu("File");
         exitItem = new MenuItem("Exit");
         restartItem = new MenuItem("Restart");
+        saveItem = new MenuItem("Save Game");
+        loadItem = new MenuItem("Load Game");
         highScoreItem = new MenuItem("Highscore");
-        fileMenu.getItems().addAll(highScoreItem, restartItem, exitItem);
+        fileMenu.getItems().addAll(highScoreItem, loadItem,saveItem,restartItem, exitItem);
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(fileMenu);
         this.setTop(menuBar);
