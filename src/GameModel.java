@@ -2,6 +2,7 @@ import CardPackage.*;
 import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -68,6 +69,15 @@ public class GameModel {
 
     }
 
+    public void saveGame(File file){
+
+    }
+    public void loadGame(File file){
+
+    }
+    public void loadHighScore(File file){
+
+    }
     public void setRoundStatus(GameStatusEnum status){roundStatus = status;}
     public GameStatusEnum getRoundStatus(){return roundStatus;}
     public boolean getStillInGame(int i){return stillInGame.get(i);}

@@ -1,4 +1,6 @@
+import javafx.stage.FileChooser;
 
+import java.io.File;
 
 /**
  * Created by Johan Svensson och Arvid Bodin on 2015-15-08.
@@ -55,14 +57,32 @@ public class GameController {
         view.updatePlayer();
     }
     public void saveGame(){
-        System.out.println("save game");
+        // https://docs.oracle.com/javase/8/javafx/api/javafx/stage/FileChooser.html
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save File");
+        String userDirectoryString = System.getProperty("user.home") + "/Documents/";
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Saved Games", "*.gsv"));
+        File userDirectory = new File(userDirectoryString);
+        fileChooser.setInitialDirectory(userDirectory);
+        File selectedFile = fileChooser.showSaveDialog(null);
+        model.saveGame(selectedFile);
 
     }
     public void loadGame(){
-        System.out.println("load game");
+        // https://docs.oracle.com/javase/8/javafx/api/javafx/stage/FileChooser.html
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open File");
+        String userDirectoryString = System.getProperty("user.home") + "/Documents/";
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Saved Games", "*.gsv"));
+        File userDirectory = new File(userDirectoryString);
+        fileChooser.setInitialDirectory(userDirectory);
+        File selectedFile = fileChooser.showOpenDialog(null);
+        model.loadGame(selectedFile);
+
     }
     public void showHighScore(){
         System.out.println("highscore");
+
     }
 
     private void updateRoundStatus(){
