@@ -2,69 +2,61 @@ package CardPackage;
 
 import javafx.scene.image.Image;
 
-import java.io.Serializable;
-
 /**
- * Created by arvidbodin on 14/09/15.
+ * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
  *
  * Objects of this class represents cards in a deck (of cards). A card is
  * immutable, i.e. once created its rank or suit cannot be changed.
  */
 
 public class Card {
-
-    /**
-     * @param rank 1 = Ace, 2 = 2, ...
-     * @param suit 1 = spades, 2 = hearts, 3 = diamonds, 4 = clubs
-     */
     private final Rank_ rank;
     private final Suit_ suit;
     private final Image image;
-
     /**
      * 
-     * @param rank
-     * @param suit
-     * @param image
+     * @param rank is the card value
+     * @param suit is the suit of the card
+     * @param image is the image representing the card and the suit.
      * @throws java.lang.IllegalArgumentException 
      */
-    public Card(Rank_ rank, Suit_ suit, Image image) throws java.lang.IllegalArgumentException{
+    public Card(Rank_ rank, Suit_ suit, Image image){
         this.rank = rank;
         this.suit = suit;
         this.image = image;
     }
     /**
-     * 
-     * @return 
+     * getRank gets the current rank value of the card.
+     * @return the value of the card
      */
     public int getRank() {
         return rank.getValue();
     }
     /**
-     * 
+     * getSuit returns the current suitvalue of the card
      * @return 
      */
     public int getSuit() {
         return suit.getValue();
     }
     /**
-     * 
-     * @return 
+     * getImage returns the image representing the card.
+     * @return the image of the created card.
      */
     public Image getImage(){
         return image;
     }
     /**
-     * 
-     * @param other
-     * @return 
+     * equals check if the current card is equal to the matching card.
+     * @param other  is the other card
+     * @return a boolean if they are the same.
      */
     public boolean equals(Card other) {
         return this.rank == other.rank && this.suit == other.suit;
     }
     /**
-     * 
-     * @return 
+     * toString returns the string of the current card
+     * @return a string of the rank and suit value
      */
     @Override
     public String toString() {

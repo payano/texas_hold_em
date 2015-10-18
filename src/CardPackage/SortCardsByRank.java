@@ -2,22 +2,18 @@ package CardPackage;
 
 import java.util.Comparator;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
+ *
+ * SortCardsByRank sorts the cards in an arraylist by rank
  */
 
-/**
- *
- * Class that sorts the Book by Title
- */
 public class SortCardsByRank implements Comparator<Card> {
     /**
-     * 
-     * @param a
-     * @param b
-     * @return 
+     * compare - compares two cards
+     * @param a is an card
+     * @param b is an card
+     * @return an int
      */
     @Override
     public int compare(Card a, Card b){

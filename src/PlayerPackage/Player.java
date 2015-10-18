@@ -16,7 +16,7 @@ abstract public class Player implements Serializable {
 
     private String userName;
     private transient Hand playerHand;
-    private transient ChipCollection chips;
+    //private transient ChipCollection chips;
     private Money money;
 
     /**
@@ -26,7 +26,7 @@ abstract public class Player implements Serializable {
     public Player(String userName){
         this.userName = userName;
         this.playerHand = new Hand();
-        this.chips = new ChipCollection();
+        //this.chips = new ChipCollection();
         this.money = new Money();
     }
     /**
@@ -37,7 +37,7 @@ abstract public class Player implements Serializable {
     public Player(String userName,double money){
         this.userName = userName;
         this.playerHand = new Hand();
-        this.chips = new ChipCollection();
+        //this.chips = new ChipCollection();
         this.money = new Money(money);
     }
     /**

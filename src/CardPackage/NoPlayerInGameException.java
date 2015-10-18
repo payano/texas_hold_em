@@ -1,20 +1,21 @@
 package CardPackage;
 
 /**
+ * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
  *
- * Created by arvidbodin on 28/09/15.
- *
+ * NoPlayerInGameException is used if there is no player in game this exception is thrown,
+ * at least two players is needed for playing texas hold em
  */
 public class NoPlayerInGameException extends RuntimeException {
     /**
-     * 
-     * @param msg 
+     * Constructor sends the message further on to the parent class constructor
+     * @param msg
      */
     public NoPlayerInGameException(String msg){
         super(msg);
     }
     /**
-     * 
+     * Constructor that calls the parent constructor
      */
     public NoPlayerInGameException(){
         super();

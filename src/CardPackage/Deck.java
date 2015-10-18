@@ -1,6 +1,5 @@
 package CardPackage;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,40 +7,35 @@ import java.util.List;
 import javafx.scene.image.Image;
 
 /**
- * Created by arvidbodin on 14/09/15.
- *
- *
+ * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
+ * The Deck class represents all playable cards (52) in the game.
  */
 public class Deck {
     private List<Card> theCards = new ArrayList<>();
-    Image image;
     /**
-     * 
+     * Deck constructor creates a new deck with 52 cards.
      */
     public Deck (){
         createDeck();
     }
     /**
-     * 
+     * shuffleCards shuffles the cards in the arraylist
      */
-    //Blandar leken.
     public void shuffleCards(){
         Collections.shuffle(theCards);
     }
     /**
-     * 
+     * fillDeck removes all cards and creates a new deck of cards.
      */
-    //Fyller leken med NYA kort.
     public void fillDeck(){
         theCards.removeAll(theCards);
         createDeck();
     }
     /**
-     * 
-     * @return
+     * dealCard takes a card from the deck and returns it
+     * @return a card
      * @throws NoSuchCardException 
      */
-    //Returnerar det "översta" kortet.
     public Card dealCard() throws NoSuchCardException {
         if(theCards.isEmpty()){
             throw new NoSuchCardException("No cards left to deal!!");
@@ -50,17 +44,16 @@ public class Deck {
         theCards.remove(0);
         return temp;
     }
-    //Returnerar antaler kort som är kvar i deck.
     /**
-     * 
-     * @return 
+     * getNoOfCards returns the remain cards
+     * @return an int of remaining cards
      */
     public int getNoOfCards() {
         return theCards.size();
     }
     /**
-     * 
-     * @return 
+     * toString creates a string of all available cards and returns it.
+     * @return a string of remaining cards
      */
     public String toString(){
         String info = new String();
@@ -73,31 +66,19 @@ public class Deck {
         }
         return info;
     }
-
-    //Skapar decket utav kort.
     /**
-     * 
+     * createDeck creates a new Deck of cards.
      */
     private void createDeck(){
-        int imgNr = 52;
-
-        for (int i = Rank_.values().length-1; i >= 0 ; i--) {
-            for (int j = Suit_.values().length-1; j >= 0 ; j--) {
-                //System.out.println("i: " + i + " j: " + j);
-                //theCards.add(new Card(i,j,new Image(this.getClass().getResource("../resources/cards/" + imgNr + ".png").toString())));
-                //imgNr++;
-            }
-
-        }
+        int imgNr = 52; //used for getting the image to card.
         for (Rank_ r : Rank_.values()){
-            if(r == Rank_.One){continue;}
+            if(r == Rank_.One){continue;} //if dont do anything
             for (Suit_ s : Suit_.values()){
                 theCards.add(new Card(r,s,new Image(this.getClass().getResource("../resources/cards/" + imgNr + ".png").toString())));
                 imgNr--;
             }
         }
     }
-
 }
 
 
