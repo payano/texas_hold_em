@@ -225,7 +225,7 @@ public class GameModel implements Serializable {
      * @return an arraylist of winners
      */
     public ArrayList<Integer> setWinner(){
-        addTableCardsAndSortThem(); //sets the best hand of each player
+        addTableCardsToPlayers(); //sets the best hand of each player
         int highestHandPoints = 0;
         ArrayList<Integer> winner = new ArrayList<>();
 
@@ -268,9 +268,9 @@ public class GameModel implements Serializable {
      */
     public void getHandPoints(int playerId, CardValueEnum cardValue){handRank.set(playerId, cardValue);}
     /**
-     * addTableCardsAndSortThem adds table cards to the player hand and sorts them
+     * addTableCardsToPlayers adds table cards to the player hand and sorts them
      */
-    public void addTableCardsAndSortThem(){
+    public void addTableCardsToPlayers(){
         for(int i = 0; i < players.size();i++){
             if(players.get(i) instanceof TablePlayer){continue;}
             //add the Table hand to the player hands.
