@@ -495,6 +495,7 @@ public class GameModel implements Serializable {
         }
         setHighestBetPlayerId(currentPlayer);
         setNextPlayer();
+        setBigBlind(findTable());
     }
     /**
      * check is the method if the player checks
