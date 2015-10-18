@@ -218,6 +218,11 @@ public class GameView extends BorderPane{
      * Updates all the items that needs updates.
      */
     public void updatePlayer(){
+
+        for (int i = 0; i < model.getPlayers().size(); i++) {
+            System.out.println(model.getRoundBet(i));
+        }
+
         playerNameLabel.setText(model.getCurrentPlayer().getName());
         playerMoneyLabel.setText(((Double) model.getCurrentPlayer().getMoney()).toString());
         slider.setMin(model.getStake());
@@ -225,19 +230,19 @@ public class GameView extends BorderPane{
 
         //Update the slider if tha player has more than one money.
         if (model.getCurrentPlayer().getMoney() > 0){
+
             ArrayList<Integer> maxBet = new ArrayList<>();
 
             for (int i = 0; i < model.getPlayers().size(); i++) {
-                if (model.getPlayer(i) instanceof HumanPlayer){
-                    System.out.println(maxBet);
-                    maxBet.add((int) model.getPlayer(i).getMoney() + (int) model.getRoundBet(i));
-                    System.out.println(maxBet);
+                if (model.getPlayer(i) instanceof HumanPlayer && (int) model.getPlayer(i).getMoney() != 0){
+                    //System.out.println(maxBet);
+                    maxBet.add((int) model.getPlayer(i).getMoney());
                 }
             }
 
             Collections.sort(maxBet);
 
-            System.out.println(maxBet.get(0));
+            //System.out.println(maxBet.get(0));
             if(maxBet.get(0) == 0) maxBet.remove(0);
             slider.setMax(maxBet.get(0));
             slider.setMajorTickUnit(maxBet.get(0)/2);
