@@ -30,12 +30,14 @@ public class GameModel implements Serializable {
     //For split pots:
     private ArrayList<Integer> splitPot;
     private ArrayList<ArrayList<Integer>> splitPlayers;
+    //never implemented
+
     private ArrayList<Boolean> playerAllIn;
 
     //end for split pots
 
     /**
-     * 
+     * GameModel constructor - initializes the game
      */
     public GameModel() {
         theDeck = new Deck();
@@ -45,21 +47,9 @@ public class GameModel implements Serializable {
         roundBet = new ArrayList<Double>();
         playerAllIn = new ArrayList<Boolean>();
 
-        //for split pots:
-        splitPot = new ArrayList<Integer>();
-        splitPlayers = new ArrayList<ArrayList<Integer>>();
-
-        splitPot.add(2);
-        //
-        splitPlayers.add(new ArrayList<>());
-        System.out.println(splitPlayers.get(0).size());
-        //end for split pots
-
         //add players temporary:
         players.add(new TablePlayer("TheTable"));
         players.add(new HumanPlayer("Arvid",1000));
-        //players.add(new HumanPlayer("Tratten", 550));
-        //players.add(new HumanPlayer("TrattVald", 1337));
         players.add(new HumanPlayer("Johan", 200));
 
         //initiate arraylists for users
@@ -73,7 +63,10 @@ public class GameModel implements Serializable {
 
     }
     /**
-     * 
+     * createNewHands creates new hands for players
+     * This is used when the game is loaded from a previous state.
+     * the Hand is not serialized and is created as a null reference
+     * This creates a hand for the players again.
      */
     public void createNewHands(){
         for(Player onePlayer : players){
@@ -81,10 +74,10 @@ public class GameModel implements Serializable {
         }
     }
     /**
-     * This is from collection of books laboration
+     * This is from collection of books lab
      * saveGame saves the Player collection to file
-     * @param filename
-     * @throws IOException
+     * @param filename is the filename to be saved
+     * @throws IOException ObjectOutputStream might throw an exception that needs to be taken care of
      */
     public void saveGame(String filename) throws IOException {
 
@@ -98,15 +91,19 @@ public class GameModel implements Serializable {
         finally {
             try {
                 if(out != null)	out.close();
-            } catch(Exception e) {}
+            } catch(Exception e) {
+                //throw exception upwards
+                throw new IOException(e);
+            }
         }
     }
     /**
-     * * This is from collection of books laboration
-     * loadGame reads in the Player collection and stores it in an arraylist
-     * @param filename
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * This is from collection of books lab
+     * This is from collection of books lab
+     * loadGame reads in the Player collection and stores it in an array list
+     * @param filename is the file to be loaded
+     * @throws IOException ObjectOutputStream might throw an exception that needs to be taken care of
+     * @throws ClassNotFoundException might be thrown then readObject method is called
      */
     @SuppressWarnings("unchecked")
     public void loadGame(String filename) throws IOException, ClassNotFoundException {
@@ -119,58 +116,54 @@ public class GameModel implements Serializable {
         }
         catch(java.io.FileNotFoundException e){
             //if no file found...
-            System.out.println("The filename: " + filename + " does not exist, creating new.");
+            throw new FileNotFoundException(e.getMessage());
         }
         finally {
             try {
                 if(in != null)	in.close();
-            } catch(Exception e) {}
+            } catch(Exception e) {
+                //throw exception upwards
+                throw new IOException(e);
+            }
         }
     }
     /**
-     * 
-     * @param file 
-     */
-    public void loadHighScore(File file){
-
-    }
-    /**
-     * 
-     * @param status 
+     * setRoundStatus sets the current status of the game (which round is running)
+     * @param status sets the current status of the game (which round is running)
      */
     public void setRoundStatus(GameStatusEnum status){roundStatus = status;}
     /**
-     * 
-     * @return 
+     * getRoundStatus gets the current status of the game (which round is running)
+     * @return gets the current status of the game (which round is running)
      */
     public GameStatusEnum getRoundStatus(){return roundStatus;}
     /**
-     * 
-     * @param i
-     * @return 
+     * getStillInGame returns a boolean if the current player is still in game
+     * @param playerStillInGame is the index of the player
+     * @return an boolean if the player is currently in this game
      */
-    public boolean getStillInGame(int i){return stillInGame.get(i);}
+    public boolean getStillInGame(int playerStillInGame){return stillInGame.get(playerStillInGame);}
     /**
-     * 
-     * @param i
-     * @param value 
+     * setStillInGame sets the player to be in the game
+     * @param playerStillInGame is the index of the player
+     * @param value is the value to be set
      */
-    private void setStillInGame(int i,boolean value){stillInGame.set(i,value);}
+    private void setStillInGame(int playerStillInGame,boolean value){stillInGame.set(playerStillInGame,value);}
     /**
-     * 
-     * @param i
-     * @return 
+     * getHandPoints gets the player handPoints
+     * @param player is the index of the player
+     * @return an int of the current handPoint value
      */
-    public int getHandPoints(int i){return players.get(i).getHandPoints();}
+    public int getHandPoints(int player){return players.get(player).getHandPoints();}
     /**
-     * 
-     * @param i
-     * @return 
+     * getHandRank gets the current handRank of the player
+     * @param player is the index of the player
+     * @return an CardValueEnum of the rank.
      */
-    public CardValueEnum getHandRank(int i){return handRank.get(i);}
+    public CardValueEnum getHandRank(int player){return handRank.get(player);}
     /**
-     * 
-     * @param playerId 
+     * setHighestBetPlayerId sets the player who made the highest bet
+     * @param playerId is the index of the player
      */
     private void setHighestBetPlayerId(int playerId){
         if(playerId >= players.size()){
@@ -179,28 +172,28 @@ public class GameModel implements Serializable {
         highestBetPlayerId = playerId;
     }
     /**
-     * 
-     * @param playerId
-     * @return 
+     * getPlayer gets a player object
+     * @param playerId is the index of the player
+     * @return a player object
      */
     public Player getPlayer(int playerId){
         return players.get(playerId);
     }
     /**
-     * 
-     * @return 
+     * getPlayers returns an array list of players
+     * @return an array list of players
      */
     public ArrayList<Player> getPlayers(){
         return players;
     }
     /**
-     * 
-     * @return 
+     * getHighestBetPlayerId returns the id of the player who has the highest bet.
+     * @return an index to the player who has the highest bet.
      */
     private int getHighestBetPlayerId(){return highestBetPlayerId;}
     /**
-     * 
-     * @return 
+     * getPlayersInGame returns an int of playersStill in game
+     * @return an integer of the players still in game
      */
     public int getPlayersInGame(){
         int numberOfplayersLeft = 0;
@@ -212,11 +205,12 @@ public class GameModel implements Serializable {
         return numberOfplayersLeft;
     }
     /**
-     * 
-     * @return 
+     * winnerByFold if all players folded except one this method gets called and the money is taken from
+     * the table and given to the winner
+     * @return the index of the winning player
      */
     public int winnerByFold(){
-        int thePlayer = 0;
+        int thePlayer = -1;
         for (int i = 0; i < players.size(); i++) {
             if(players.get(i) instanceof TablePlayer){continue;}
             if(!getStillInGame(i)){continue;}
@@ -224,25 +218,30 @@ public class GameModel implements Serializable {
             break;
 
         }
+        if(thePlayer == -1){
+            throw new NoSuchPlayerException("No player is left to collect money from the winning game.");
+        }
         players.get(thePlayer).addMoney(players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()));
         return thePlayer;
     }
     /**
-     * 
-     * @return 
+     * setWinner sets the winner of the game
+     * @return an arraylist of winners
      */
     public ArrayList<Integer> setWinner(){
-        setHandValues();
+        addTableCardsAndSortThem(); //sets the best hand of each player
         int highestHandPoints = 0;
         ArrayList<Integer> winner = new ArrayList<Integer>();
 
         //loop through the players and get the current leader:
         for (int i = 0 ; i < players.size();i++){
+            //table can not win.
+            if(players.get(i) instanceof TablePlayer){continue;}
+            //player must still be in game to win
+            if(!getStillInGame(i)){continue;}
+            //set hand points on every player
+            setHandPoints(i);
             if(getHandPoints(i) > highestHandPoints){
-                //table can not win.
-                if(players.get(i) instanceof TablePlayer){continue;}
-                //player must still be in game to win
-                if(!getStillInGame(i)){continue;}
                 highestHandPoints = getHandPoints(i);
             }
         }
@@ -253,13 +252,11 @@ public class GameModel implements Serializable {
             //player must still be in game to win
             if(!getStillInGame(i)){continue;}
             //get the first time leader
-            //System.out.println("player: " + players.get(i).getName() + ", handPoints: " + getHandPoints(i) + " CardValue: " + getHandRank(i));
             if(getHandPoints(i) == highestHandPoints){
                 winner.add(i);
             }
         }
-
-
+        //give the winners their money
         for (int i = 0; i < winner.size(); i++) {
             players.get(winner.get(i)).addMoney(
                     players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney() / winner.size()));
@@ -267,33 +264,31 @@ public class GameModel implements Serializable {
         }
 
         return winner;
-        //check if more players has the same handRank.
     }
     /**
-     * 
-     * @param playerId
-     * @param cardValue 
+     * setHandRank sets the HandRank (pair, two pairs .. and so on) to the handRank of the player
+     * @param playerId is the index of the player
+     * @param cardValue is the CardValue
      */
-    public void setHandRank(int playerId, CardValueEnum cardValue){
-        handRank.set(playerId, cardValue);}
+    public void setHandRank(int playerId, CardValueEnum cardValue){handRank.set(playerId, cardValue);}
     /**
-     * 
+     * addTableCardsAndSortThem adds table cards to the player hand and sorts them
      */
-    public void setHandValues(){
-        //set Hand Values for all players.
+    public void addTableCardsAndSortThem(){
         for(int i = 0; i < players.size();i++){
             if(players.get(i) instanceof TablePlayer){continue;}
             //add the Table hand to the player hands.
             players.get(i).addCard(players.get(findTable()).getCards());
             players.get(i).sortCardsByRank();
-            //setHandPoints(i);
-            System.out.println("spelare: " + players.get(i).getName() + " Kort: " + setHandPoints(i).toString());;
         }
     }
     /**
-     * 
-     * @param playerId
-     * @return 
+     * setHandPoints sets the highest handpoints of the player
+     * the player has seven cards ( 5 community cards and 2 own)
+     * 21 hands are populated and compared with each other and the
+     * highest hand will be returned.
+     * @param playerId is the index of the player
+     * @return returns the best hand of the player
      */
     private Hand setHandPoints(int playerId){
         ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
@@ -315,7 +310,7 @@ public class GameModel implements Serializable {
         return allPossibleHands.get(highestHandId);
     }
     /**
-     * 
+     * smallAndBigBlind takes money from players that has the small and big blind
      */
     public void smallAndBigBlind(){
         //there has to be a check somewhere that the minimum amount of players(computer + human) >= 2.
@@ -323,34 +318,28 @@ public class GameModel implements Serializable {
         for(int i = 0; i < players.size();i++) {
             //skip TablePlayer betting
             if (players.get(i) instanceof TablePlayer) {continue;}
-            //kommmer detta fungera?
             if(players.get(i).getMoney() < stake/2 && smallBlindPlayer){
                 //the player is broke, next person must take the smallblind.
                 setStillInGame(i, false);
             }else if(players.get(i).getMoney() >= stake/2 && smallBlindPlayer){
                 //player has taken small blind and is still in game.
                 //this player must also call the stake or the bet.
-                System.out.println("player:" + players.get(i).getName());
                 players.get(findTable()).addMoney(players.get(i).withdrawMoney(stake / 2));
                 setStillInGame(i,true);
                 smallBlindPlayer = false;
                 //add the amount to roundBet.
                 setRoundBet(i,(stake/2)+getRoundBet(i));
-                System.out.println("Player: " + players.get(i).getName() + " got small blind, amount: " + stake / 2);
                 setHighestBetPlayerId(i);
             }else if(players.get(i).getMoney() < stake ){
                 //the player is broke, next person must take the big-blind.
                 setStillInGame(i,false);
             }else if(players.get(i).getMoney() >= stake){
-                System.out.println("player:" + players.get(i).getName());
                 //player has taken the big blind and is still in game.
                 players.get(findTable()).addMoney(players.get(i).withdrawMoney(stake));
                 setStillInGame(i,true);
                 //add the amount to roundbet.
                 setRoundBet(i,getRoundBet(i)+stake);
                 setRoundBet(findTable(),getRoundBet(findTable())+stake);
-                System.out.println("Player: " + players.get(i).getName() + " got big blind, amount: " + stake);
-                System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
                 //same as above...
                 setHighestBetPlayerId(i);
                 setBigBlind(i);
@@ -362,18 +351,18 @@ public class GameModel implements Serializable {
         }
     }
     /**
-     * 
-     * @return 
+     * roundComplete tells the controller if the game round is completed.
+     * @return a boolean if the game round is completed.
      */
     public boolean roundComplete(){
         //tells controller if the round is done.
-        //System.out.println("currentplayerid: " + getCurrentPlayerId() + " highestplayeid: " + highestBetPlayerId + " bigblind:" + getBigBlind());
-        //System.out.println("player: " + getCurrentPlayer().getName());
         if(getBigBlind() == getCurrentPlayerId() && getCurrentPlayerId() == getHighestBetPlayerId()) {
             //special case for first round with blinds.
+            //the highest better might call its own bet, special case in the first round
             setBigBlind(findTable());
-            setNextHigestBidPlayer();
+            setNextHighestBetPlayer();
         }else if(lastPlayer == currentPlayer){
+            //if all all players except one is all in, then the round is complete
             return true;
         }else if(getCurrentPlayerId() == getHighestBetPlayerId()){
             //this is first round bigblind only!!
@@ -388,18 +377,19 @@ public class GameModel implements Serializable {
             return false;
     }
     /**
-     * 
-     * @param playerId 
+     * setBigBlind sets the player who got the big blind
+     * @param playerId index of the player id
      */
     private void setBigBlind(int playerId){bigBlind = playerId;}
     /**
-     * 
-     * @return 
+     * getBigBlind get the player id of the big blind player
+     * @return index of the player
      */
     private int getBigBlind(){return bigBlind;}
     /**
-     * 
-     * @return 
+     * getPlayablePlayers returns an int of how many playable players that is left
+     * if one player is all in he is not "playable" because he cannot fold, check or raise anymore
+     * @return how many players that can make decisions.
      */
     public int getPlayablePlayers(){
         int result = 0;
@@ -412,32 +402,32 @@ public class GameModel implements Serializable {
         return result;
     }
     /**
-     * 
-     * @return 
+     * getStake gets the stake that is for the game
+     * @return the stake value.
      */
     public int getStake(){return stake;}
     /**
-     * 
-     * @param playerId
-     * @param value 
+     * setPlayerAllIn sets the player to be all-in
+     * @param playerId index of the player
+     * @param value sets if the player is all in or not.
      */
     private void setPlayerAllIn(int playerId,boolean value){playerAllIn.set(playerId, value);}
     /**
-     * 
-     * @param playerId
-     * @return 
+     * getPlayerAllIn gets the status if the player is all in or not
+     * @param playerId index of the player
+     * @return the value of the all in status.
      */
     private boolean getPlayerAllIn(int playerId){return playerAllIn.get(playerId);}
     /**
-     * 
-     * @return 
+     * getCurrentPlayer gets the current player that need to make a decision in the game.
+     * @return the player object
      */
     public Player getCurrentPlayer(){
         return players.get(currentPlayer);
     }
     /**
-     * 
-     * @return 
+     * getCurrentPlayerId returns the current player id
+     * @return index of the player
      */
     public int getCurrentPlayerId(){
         return currentPlayer;
@@ -445,7 +435,7 @@ public class GameModel implements Serializable {
     /**
      * 
      */
-    private void setNextHigestBidPlayer(){
+    private void setNextHighestBetPlayer(){
         //just for the first round, this is a special case
         highestBetPlayerId++;
         int counter = 0;
@@ -453,13 +443,11 @@ public class GameModel implements Serializable {
             if(i >= players.size()){
                 i=0;
             }
-            //System.out.println("i:" + i + " bigblind:" + getBigBlind() + " highestBetPlayerId:" + highestBetPlayerId);
             if(players.get(i) instanceof TablePlayer){continue;}
             else if(counter >= 100){throw new NoPlayerInGameException("method highestBetPlayerId cannot set the next player, no players still in game!");}
             else if(!getStillInGame(i)){continue;}
             else{highestBetPlayerId = i;break;}
         }
-        //System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
     }
     /**
      * 
