@@ -280,7 +280,7 @@ public class GameModel implements Serializable {
         }
     }
     /**
-     * setHandPoints sets the highest handpoints of the player
+     * setHandPoints sets the highest hand points of the player
      * the player has seven cards ( 5 community cards and 2 own)
      * 21 hands are populated and compared with each other and the
      * highest hand will be returned.
