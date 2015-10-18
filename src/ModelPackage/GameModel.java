@@ -495,11 +495,13 @@ public class GameModel implements Serializable {
      * @param betAmount is the amount that will player bet is
      */
     public void bet(double betAmount){
-        players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
+        double difference = getRoundBet(findTable()) - getRoundBet(getCurrentPlayerId());
+        players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount + difference));
         //set the roundBet of table
         setRoundBet(findTable(), betAmount + getRoundBet(findTable()));
         //set roundBet of player
         setRoundBet(getCurrentPlayerId(), betAmount + getRoundBet(getCurrentPlayerId()));
+        //setRoundBet(getCurrentPlayerId(), betAmount + getRoundBet(getCurrentPlayerId()));
 
         if(players.get(getCurrentPlayerId()).getMoney() == 0){
             //player went all in:
