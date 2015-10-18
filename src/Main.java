@@ -14,20 +14,20 @@ import javafx.stage.Stage;
 
 public class Main extends Application{
     /**
-     * 
-     * @param args 
+     * Main constructor
+     * @param args is arguments from the user input, not used.
      */
     public static void main(String[] args) {
         launch(args);
     }
     /**
-     * 
-     * @param primaryStage
-     * @throws Exception 
+     * start starts the GUI application
+     * @param primaryStage is an argument
+     * @throws Exception might throw exceptions
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //Creat the gameModel and the view (this also creates the controller);
+        //Create the gameModel and the view (this also creates the controller);
         GameModel model = new GameModel();
         GameView view = new GameView(model, primaryStage);
 
