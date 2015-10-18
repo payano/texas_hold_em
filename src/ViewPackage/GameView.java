@@ -256,7 +256,7 @@ public class GameView extends BorderPane{
         sliderAmountField.setText(((Integer) model.getStake()).toString());
 
         //allin
-        if(model.getCurrentPlayer().getMoney() == 0 || model.getCurrentPlayer().getMoney() == model.getRoundBet(model.findTable()) || model.getLastPlayer().getMoney() == 0){
+        if(model.getCurrentPlayer().getMoney() == 0 || model.getCurrentPlayer().getMoney() == model.getRoundBet(model.findTable()) || model.getLastPlayer().getMoney() == 0 || model.getRoundBet(model.findTable()) >= model.getCurrentPlayer().getMoney()){
             allInButton.setDisable(true);
             betButton.setDisable(true);
             sliderAmountField.setDisable(true);
