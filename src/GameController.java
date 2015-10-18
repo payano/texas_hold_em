@@ -66,10 +66,12 @@ public class GameController {
         File userDirectory = new File(userDirectoryString);
         fileChooser.setInitialDirectory(userDirectory);
         File selectedFile = fileChooser.showSaveDialog(null);
-        try {
-            model.saveGame(selectedFile.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(selectedFile != null) {
+            try {
+                model.saveGame(selectedFile.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     public void loadGame(){
@@ -81,18 +83,20 @@ public class GameController {
         File userDirectory = new File(userDirectoryString);
         fileChooser.setInitialDirectory(userDirectory);
         File selectedFile = fileChooser.showOpenDialog(null);
-        try {
-            model.loadGame(selectedFile.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        if(selectedFile != null) {
+            try {
+                model.loadGame(selectedFile.toString());
+                model.createNewHands();
+                model.initGame();
+                model.dealCards(2);
+                view.updateCards();
+                view.updatePlayer();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
-        model.createNewHands();
-        model.initGame();
-        model.dealCards(2);
-        view.updateCards();
-        view.updatePlayer();
     }
     public void showHighScore(){
         System.out.println("highscore");
