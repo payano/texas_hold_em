@@ -357,7 +357,7 @@ public class GameModel implements Serializable {
             //special case for first round with blinds.
             //the highest better might call its own bet, special case in the first round
             setBigBlind(findTable());
-            setNextHighestBetPlayer();
+            setHighestBetPlayerId();
         }else if(lastPlayer == currentPlayer){
             //if all all players except one is all in, then the round is complete
             return true;
@@ -430,14 +430,14 @@ public class GameModel implements Serializable {
         return currentPlayer;
     }
     /**
-     * setNextHighestBetPlayer is used for the first round.
+     * setHighestBetPlayerId is used for the first round.
      * This is used to make the player call his own bet.
      * In the first round the player with big blind calls
      * his owns bet and the game logic is that you never have
      * to call your own bet, this is a trick to go around that
      * logic
      */
-    private void setNextHighestBetPlayer(){
+    private void setHighestBetPlayerId(){
         //just for the first round, this is a special case
         highestBetPlayerId++;
         int counter = 0;
