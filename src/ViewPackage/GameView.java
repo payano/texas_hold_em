@@ -94,7 +94,7 @@ public class GameView extends BorderPane{
         slider.setOnMouseDragged(event -> updateSlierAmountText());
         sliderAmountField.setOnAction(event -> controller.betHandler());
         slider.setOnMouseReleased(event -> updateSlierAmountText());
-        canvas.setOnMousePressed(event -> {
+        canvas.setOnMouseReleased(event -> {
             mouseX = event.getX();
             mouseY =  event.getY();
             controller.cardPushedHandler();
@@ -107,10 +107,10 @@ public class GameView extends BorderPane{
     /**
      *
      */
-    public void turnCards(){
+    /*public void turnCards(){
         GraphicsContext gc = canvas.getGraphicsContext2D();
         drawPlayerCard(gc);
-    }
+    }*/
     /**
      * 
      */
@@ -127,7 +127,7 @@ public class GameView extends BorderPane{
         gc.fillText("Player: " + model.getPlayer(2).getName(), player2X, player2Y + 110);
         gc.fillText("Money: " + ((Double) model.getPlayer(2).getMoney()).toString(), player2X, player2Y + 125);
 
-        drawPlayerCard(gc);
+        drawPlayerCard();
 
         if(model.getPlayer(model.findTable()) instanceof TablePlayer){
             double tableX = 65, tableY;
@@ -150,10 +150,10 @@ public class GameView extends BorderPane{
         player2Card2 = model.getPlayer(2).getCards().get(1).getImage();
     }
     /**
-     * 
-     * @param gc
+     *
      */
-    public void drawPlayerCard(GraphicsContext gc){
+    public void drawPlayerCard(){
+        GraphicsContext gc = canvas.getGraphicsContext2D();
         if(mouseY > 230 && mouseY < 330 && mouseX > 100 && mouseX < 222) showPlayer1Cards = !showPlayer1Cards;
         if(mouseY > 230 && mouseY < 330 && mouseX > 300 && mouseX < 422) showPlayer2Cards = !showPlayer2Cards;
 
@@ -173,6 +173,8 @@ public class GameView extends BorderPane{
             gc.drawImage(image, player2X, player1Y);
             gc.drawImage(image, player2X + 50, player1Y);
         }
+        mouseX = 0;
+        mouseY = 0;
     }
 
 

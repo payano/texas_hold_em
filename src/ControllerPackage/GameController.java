@@ -33,7 +33,7 @@ public class GameController implements Observer{
      * @param
      */
     public void cardPushedHandler(){
-        view.turnCards();
+        view.drawPlayerCard();
     }
     /**
      * 
