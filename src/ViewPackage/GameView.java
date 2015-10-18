@@ -225,7 +225,7 @@ public class GameView extends BorderPane{
 
         playerNameLabel.setText(model.getCurrentPlayer().getName());
         playerMoneyLabel.setText(((Double) model.getCurrentPlayer().getMoney()).toString());
-        slider.setMin(model.getStake());
+        slider.setMin(model.getMissingBetAmount(model.getCurrentPlayerId()));
         missingBetAmountLabel.setText("Call amount: " + model.getMissingBetAmount(model.getCurrentPlayerId()));
 
         //Update the slider if tha player has more than one money.
