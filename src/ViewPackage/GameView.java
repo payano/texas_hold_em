@@ -188,7 +188,7 @@ public class GameView extends BorderPane{
         int bet;
         bet = Integer.parseInt(sliderAmountField.getText());
         for(Player onePlayer : model.getPlayers()){
-            if(bet > model.getRoundBet() && onePlayer instanceof HumanPlayer) bet = (int) onePlayer.getMoney();
+            if(bet > onePlayer.getMoney() && onePlayer instanceof HumanPlayer) bet = (int) onePlayer.getMoney();
         }
         return bet;
     }
@@ -243,6 +243,23 @@ public class GameView extends BorderPane{
             betButton.setDisable(true);
         }else betButton.setDisable(false);
 
+
+        for(Player onePlayer : model.getPlayers()){
+            if(onePlayer.getMoney() == 0){
+                betButton.setDisable(true);
+                sliderAmountField.setDisable(true);
+                slider.setDisable(true);
+                betButton.setDisable(true);
+                allInButton.setDisable(true);
+                break;
+            }else {
+                betButton.setDisable(false);
+                sliderAmountField.setDisable(false);
+                slider.setDisable(false);
+                betButton.setDisable(false);
+                allInButton.setDisable(false);
+            }
+        }
         /*
         //If the player have to litte money to call or bet, disable the buttons.
         if(model.getCurrentPlayer().getMoney() < model.getRoundBet(model.findTable())){
