@@ -9,7 +9,7 @@ package CardPackage;
 public class NoPlayerInGameException extends RuntimeException {
     /**
      * Constructor sends the message further on to the parent class constructor
-     * @param msg
+     * @param msg sends message to parent class constructor
      */
     public NoPlayerInGameException(String msg){
         super(msg);

@@ -11,7 +11,7 @@ public enum CardValueEnum {
     private int cardValue;
     /**
      * CardValueEnum constructor creats and set the cardValue.
-     * @param cardValue 
+     * @param cardValue sets the cardValue variable
      */
     CardValueEnum(int cardValue){
         this.cardValue = cardValue;

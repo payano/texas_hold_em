@@ -8,7 +8,7 @@ package MoneyPackage;
 public class NegativeFundException extends RuntimeException {
     /**
      * Constructor sends the message further on to the parent class constructor
-     * @param msg
+     * @param msg sends the message to the parent class
      */
     public NegativeFundException(String msg){
         super(msg);

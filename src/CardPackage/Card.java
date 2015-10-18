@@ -60,7 +60,6 @@ public class Card {
      */
     @Override
     public String toString() {
-        String info = rank.toString() + " of " + suit.toString();
-        return info;
+        return rank.toString() + " of " + suit.toString();
     }
 }

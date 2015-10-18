@@ -10,7 +10,7 @@ package CardPackage;
 public class NoMatchingCardException extends RuntimeException {
     /**
      * Constructor sends the message further on to the parent class constructor
-     * @param msg
+     * @param msg sends message to parent class constructor
      */
     public NoMatchingCardException(String msg){
         super(msg);

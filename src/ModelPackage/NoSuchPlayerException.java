@@ -14,7 +14,7 @@ public class NoSuchPlayerException extends RuntimeException {
         super(msg);
     }
     /**
-     * 
+     * Constructor that calls the parent constructor
      */
     public NoSuchPlayerException(){
         super();
