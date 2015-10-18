@@ -1,3 +1,5 @@
+import ModelPackage.GameModel;
+import ViewPackage.GameView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;

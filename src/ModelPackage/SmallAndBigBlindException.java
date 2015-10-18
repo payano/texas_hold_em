@@ -1,3 +1,5 @@
+package ModelPackage;
+
 /**
  *
  * Created by arvidbodin on 28/09/15.

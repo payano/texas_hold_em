@@ -2,7 +2,7 @@ package CardPackage;
 /**
  *
  * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
- * If GameModel found a straight and later on did not find it.
+ * If ModelPackage.GameModel found a straight and later on did not find it.
  */
 public class NoCardValueStraightException extends RuntimeException {
     /**

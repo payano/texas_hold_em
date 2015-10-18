@@ -1,6 +1,7 @@
+package ViewPackage;
+
 import CardPackage.Card;
-import PlayerPackage.HumanPlayer;
-import PlayerPackage.Player;
+import ModelPackage.GameModel;
 import PlayerPackage.TablePlayer;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
@@ -17,8 +18,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.awt.*;
 
 /**
  * Created by Johan Svensson och Arvid Bodin on 2015-15-08.

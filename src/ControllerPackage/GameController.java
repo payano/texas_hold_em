@@ -1,3 +1,8 @@
+package ControllerPackage;
+
+import ModelPackage.GameModel;
+import ModelPackage.GameStatusEnum;
+import ViewPackage.GameView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 

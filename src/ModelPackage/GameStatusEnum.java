@@ -1,3 +1,5 @@
+package ModelPackage;
+
 /**
  * Created by Arvid Bodin and Johan Svensson on 2015-09-15.
  *

@@ -1,3 +1,5 @@
+package ModelPackage;
+
 import CardPackage.*;
 import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
