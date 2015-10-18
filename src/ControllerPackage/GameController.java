@@ -81,7 +81,7 @@ public class GameController implements Observer{
         model.initGame();
         for(Player onePlayer : model.getPlayers()){
             if(onePlayer.getMoney() == 0 && onePlayer instanceof HumanPlayer) {
-                onePlayer.addMoney(1000);
+                onePlayer.addMoney(10*model.getStake());
                 view.showAlert("Player: " + onePlayer.getName() + " is out of money, gave him 1000", "Out of money!");
             }
         }

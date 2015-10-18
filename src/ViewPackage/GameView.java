@@ -24,6 +24,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -195,22 +197,7 @@ public class GameView extends BorderPane{
         boolean betCapped = false;
         bet = Integer.parseInt(sliderAmountField.getText());
 
-        if (model.getRoundBet(model.findTable()) <= model.getStake()) {
-            for (Player onePlayer : model.getPlayers()) {
-                if (bet > onePlayer.getMoney() && onePlayer instanceof HumanPlayer) {
-                    bet = (int) onePlayer.getMoney();
-                    betCapped = true;
-                }
-            }
-        }
 
-        if (!betCapped){
-            for (Player onePlayer : model.getPlayers()) {
-                System.out.println(model.getRoundBet(model.findTable()));
-                if (bet > onePlayer.getMoney()+model.getRoundBet(model.findTable()) && onePlayer instanceof HumanPlayer)
-                    bet = (int) onePlayer.getMoney();
-            }
-        }
         return bet;
     }
 
@@ -221,25 +208,9 @@ public class GameView extends BorderPane{
      */
     public int allIn(){
         int bet;
-        boolean betCapped = false;
-        bet = (int) model.getCurrentPlayer().getMoney();
 
-        if (model.getRoundBet(model.findTable()) <= model.getStake()) {
-            for (Player onePlayer : model.getPlayers()) {
-                if (bet > onePlayer.getMoney() && onePlayer instanceof HumanPlayer) {
-                    bet = (int) onePlayer.getMoney();
-                    betCapped = true;
-                }
-            }
-        }
+        bet = (int) slider.getMax();
 
-        if (!betCapped){
-            for (Player onePlayer : model.getPlayers()) {
-                System.out.println(model.getRoundBet(model.findTable()));
-                if (bet > onePlayer.getMoney()+model.getRoundBet(model.findTable()) && onePlayer instanceof HumanPlayer)
-                    bet = (int) onePlayer.getMoney();
-            }
-        }
         return bet;
     }
 
@@ -254,8 +225,22 @@ public class GameView extends BorderPane{
 
         //Update the slider if tha player has more than one money.
         if (model.getCurrentPlayer().getMoney() > 0){
-            slider.setMax(model.getCurrentPlayer().getMoney());
-            slider.setMajorTickUnit(model.getCurrentPlayer().getMoney()/2);
+            ArrayList<Integer> maxBet = new ArrayList<>();
+
+            for (int i = 0; i < model.getPlayers().size(); i++) {
+                if (model.getPlayer(i) instanceof HumanPlayer){
+                    System.out.println(maxBet);
+                    maxBet.add((int) model.getPlayer(i).getMoney() + (int) model.getRoundBet(i));
+                    System.out.println(maxBet);
+                }
+            }
+
+            Collections.sort(maxBet);
+
+            System.out.println(maxBet.get(0));
+            if(maxBet.get(0) == 0) maxBet.remove(0);
+            slider.setMax(maxBet.get(0));
+            slider.setMajorTickUnit(maxBet.get(0)/2);
         }
         else {
             slider.setMax(100);
