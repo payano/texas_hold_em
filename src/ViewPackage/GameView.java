@@ -234,7 +234,7 @@ public class GameView extends BorderPane{
             ArrayList<Integer> maxBet = new ArrayList<>();
 
             for (int i = 0; i < model.getPlayers().size(); i++) {
-                if (model.getPlayer(i) instanceof HumanPlayer && (int) model.getPlayer(i).getMoney() != 0){
+                if (model.getPlayer(i) instanceof HumanPlayer){
                     System.out.println(maxBet);
                     maxBet.add((int) model.getPlayer(i).getMoney());
                 }
@@ -243,9 +243,19 @@ public class GameView extends BorderPane{
             Collections.sort(maxBet);
 
             System.out.println(maxBet);
-            if(maxBet.get(0) == 0) maxBet.remove(0);
-            slider.setMax(maxBet.get(0));
-            slider.setMajorTickUnit(maxBet.get(0)/2);
+            if(maxBet.get(0) == 0) {
+                allInButton.setDisable(true);
+                betButton.setDisable(true);
+                sliderAmountField.setDisable(true);
+                slider.setDisable(true);
+                slider.setMax(0);
+                //slider.setMajorTickUnit();
+
+            }
+            else {
+                slider.setMax(maxBet.get(0));
+                slider.setMajorTickUnit(maxBet.get(0) / 2);
+            }
         }
         else {
             slider.setMax(100);
@@ -256,7 +266,10 @@ public class GameView extends BorderPane{
         sliderAmountField.setText(((Integer) model.getStake()).toString());
 
         //allin
-        if(model.getCurrentPlayer().getMoney() == 0 || model.getCurrentPlayer().getMoney() == model.getRoundBet(model.findTable()) || model.getLastPlayer().getMoney() == 0 || model.getRoundBet(model.findTable()) >= model.getCurrentPlayer().getMoney()){
+        if(model.getCurrentPlayer().getMoney() == 0 ||
+                model.getCurrentPlayer().getMoney() == model.getRoundBet(model.findTable()) ||
+                model.getLastPlayer().getMoney() == 0 ||
+                model.getRoundBet(model.findTable()) >= model.getCurrentPlayer().getMoney()){
             allInButton.setDisable(true);
             betButton.setDisable(true);
             sliderAmountField.setDisable(true);
