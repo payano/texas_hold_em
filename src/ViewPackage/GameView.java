@@ -31,7 +31,7 @@ import java.util.Observer;
  * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
  *
  */
-public class GameView extends BorderPane implements Observer{
+public class GameView extends BorderPane{
 
     private final GameModel model;
     private final Stage stage;
@@ -52,6 +52,9 @@ public class GameView extends BorderPane implements Observer{
     private double player2X = 300, player2Y = 230;
 
     private double mouseX, mouseY;
+    private boolean showPlayer1Cards, showPlayer2Cards;
+
+    private final Alert alert = new Alert(Alert.AlertType.INFORMATION);
     /**
      * 
      * @param model 
@@ -92,21 +95,19 @@ public class GameView extends BorderPane implements Observer{
         canvas.setOnMousePressed(event -> {
             mouseX = event.getX();
             mouseY =  event.getY();
-            controller.cardPushedHandler(true);
+            controller.cardPushedHandler();
 
         });
-        canvas.setOnMouseReleased(event -> controller.cardPushedHandler(false));
         saveItem.setOnAction(event -> controller.saveGame(stage));
         loadItem.setOnAction(event -> controller.loadGame(stage));
         highScoreItem.setOnAction(event -> controller.showHighScore());
     }
     /**
-     * 
-     * @param turnCard 
+     *
      */
-    public void turnCards(boolean turnCard){
+    public void turnCards(){
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        drawPlayerCard(gc, turnCard);
+        drawPlayerCard(gc);
     }
     /**
      * 
@@ -124,7 +125,7 @@ public class GameView extends BorderPane implements Observer{
         gc.fillText("Player: " + model.getPlayer(2).getName(), player2X, player2Y + 110);
         gc.fillText("Money: " + ((Double) model.getPlayer(2).getMoney()).toString(), player2X, player2Y + 125);
 
-        drawPlayerCard(gc, false);
+        drawPlayerCard(gc);
 
         if(model.getPlayer(model.findTable()) instanceof TablePlayer){
             double tableX = 65, tableY;
@@ -149,27 +150,26 @@ public class GameView extends BorderPane implements Observer{
     /**
      * 
      * @param gc
-     * @param faceSideUp 
      */
-    public void drawPlayerCard(GraphicsContext gc, boolean faceSideUp){
-        if (faceSideUp){
-            if(mouseY > 230 && mouseY < 330 && mouseX > 100 && mouseX < 222) {
-                gc.drawImage(player1Card1, player1X, player1Y);
-                gc.drawImage(player1Card2, player1X + 50, player1Y);
-            }
-            else if(mouseY > 230 && mouseY < 330 && mouseX > 200 && mouseX < 422) {
+    public void drawPlayerCard(GraphicsContext gc){
+        if(mouseY > 230 && mouseY < 330 && mouseX > 100 && mouseX < 222) showPlayer1Cards = !showPlayer1Cards;
+        if(mouseY > 230 && mouseY < 330 && mouseX > 300 && mouseX < 422) showPlayer2Cards = !showPlayer2Cards;
 
-                gc.drawImage(player2Card1, player2X, player2Y);
-                gc.drawImage(player2Card2, player2X + 50, player2Y);
-            }
-
-        }
-        else{
+        if(showPlayer1Cards) {
+            gc.drawImage(player1Card1, player1X, player1Y);
+            gc.drawImage(player1Card2, player1X + 50, player1Y);
+        } else {
             image = new Image(this.getClass().getResource("/resources/cards/b1fv.png").toString());
             gc.drawImage(image, player1X, player1Y);
             gc.drawImage(image, player1X+50, player1Y);
+        }
+        if(showPlayer2Cards) {
+            gc.drawImage(player2Card1, player2X, player2Y);
+            gc.drawImage(player2Card2, player2X + 50, player2Y);
+        }else {
+            image = new Image(this.getClass().getResource("/resources/cards/b1fv.png").toString());
             gc.drawImage(image, player2X, player1Y);
-            gc.drawImage(image, player2X+50, player1Y);
+            gc.drawImage(image, player2X + 50, player1Y);
         }
     }
 
@@ -314,8 +314,10 @@ public class GameView extends BorderPane implements Observer{
 
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-
+    public void showAlert(String message) {
+        alert.setHeaderText("");
+        alert.setTitle("Winner!!");
+        alert.setContentText(message);
+        alert.show();
     }
 }
