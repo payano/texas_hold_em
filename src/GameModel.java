@@ -74,7 +74,12 @@ public class GameModel implements Serializable {
             onePlayer.createNewHand();
         }
     }
-
+    /**
+     * This is from collection of books laboration
+     * saveGame saves the Player collection to file
+     * @param filename
+     * @throws IOException
+     */
     protected void saveGame(String filename) throws IOException {
 
         ObjectOutputStream out = null;
@@ -91,7 +96,8 @@ public class GameModel implements Serializable {
         }
     }
     /**
-     * deSerializeFromFile reads in the book collection and stores it in an arraylist
+     * * This is from collection of books laboration
+     * loadGame reads in the Player collection and stores it in an arraylist
      * @param filename
      * @throws IOException
      * @throws ClassNotFoundException
