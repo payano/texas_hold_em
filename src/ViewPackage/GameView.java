@@ -225,7 +225,7 @@ public class GameView extends BorderPane{
 
         playerNameLabel.setText(model.getCurrentPlayer().getName());
         playerMoneyLabel.setText(((Double) model.getCurrentPlayer().getMoney()).toString());
-        slider.setMin(model.getMissingBetAmount(model.getCurrentPlayerId()));
+        slider.setMin(model.getStake());
         missingBetAmountLabel.setText("Call amount: " + model.getMissingBetAmount(model.getCurrentPlayerId()));
 
         //Update the slider if tha player has more than one money.
@@ -256,20 +256,35 @@ public class GameView extends BorderPane{
         sliderAmountField.setText(((Integer) model.getStake()).toString());
 
         //allin
-        if(model.getCurrentPlayer().getMoney() == 0){
+        if(model.getCurrentPlayer().getMoney() == 0 || model.getCurrentPlayer().getMoney() == model.getRoundBet(model.findTable())){
             allInButton.setDisable(true);
-        }else allInButton.setDisable(false);
+            sliderAmountField.setDisable(true);
+            slider.setDisable(true);
+        }else {
+            allInButton.setDisable(false);
+            sliderAmountField.setDisable(false);
+            slider.setDisable(false);
+        }
 
         //fold
         if(model.getCurrentPlayer().getMoney() == 0){
             foldButton.setDisable(true);
         }else foldButton.setDisable(false);
 
-        if(model.getCurrentPlayer().getMoney() == 0){
+        //raise
+        if(model.getCurrentPlayer().getMoney() == 0  || model.getCurrentPlayer().getMoney() == model.getRoundBet(model.findTable())){
             betButton.setDisable(true);
-        }else betButton.setDisable(false);
+            sliderAmountField.setDisable(true);
+            slider.setDisable(true);
+        }else {
+            betButton.setDisable(false);
+            sliderAmountField.setDisable(false);
+            slider.setDisable(false);
+        }
 
 
+
+/*
         for(Player onePlayer : model.getPlayers()){
             if(onePlayer.getMoney() == 0){
                 betButton.setDisable(true);
@@ -285,7 +300,7 @@ public class GameView extends BorderPane{
                 betButton.setDisable(false);
                 allInButton.setDisable(false);
             }
-        }
+        }*/
         /*
         //If the player have to litte money to call or bet, disable the buttons.
         if(model.getCurrentPlayer().getMoney() < model.getRoundBet(model.findTable())){
@@ -399,7 +414,7 @@ public class GameView extends BorderPane{
 
         //Image tests
 
-        canvas = new Canvas(800,500);
+        canvas = new Canvas(700,500);
         this.setCenter(canvas);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
