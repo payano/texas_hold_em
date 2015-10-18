@@ -266,11 +266,11 @@ public class GameModel implements Serializable {
         return winner;
     }
     /**
-     * setHandRank sets the HandRank (pair, two pairs .. and so on) to the handRank of the player
+     * getHandPoints sets the HandRank (pair, two pairs .. and so on) to the handRank of the player
      * @param playerId is the index of the player
      * @param cardValue is the CardValue
      */
-    public void setHandRank(int playerId, CardValueEnum cardValue){handRank.set(playerId, cardValue);}
+    public void getHandPoints(int playerId, CardValueEnum cardValue){handRank.set(playerId, cardValue);}
     /**
      * addTableCardsAndSortThem adds table cards to the player hand and sorts them
      */
@@ -298,15 +298,15 @@ public class GameModel implements Serializable {
         //loop through hands and get the best value.
         for (int i = 0; i < allPossibleHands.size();i++) {
             //
-            if(setHandRank(allPossibleHands.get(i)) > highestHand){
+            if(getHandPoints(allPossibleHands.get(i)) > highestHand){
                 highestHandId = i;
-                highestHand = setHandRank(allPossibleHands.get(i));
+                highestHand = getHandPoints(allPossibleHands.get(i));
             }
 
         }
         //handpoints and handvalues are closely connected, update them both here.
         players.get(playerId).setHandPoints(highestHand);
-        setHandRank(playerId, setHandValue(allPossibleHands.get(highestHandId)));
+        getHandPoints(playerId, setHandValue(allPossibleHands.get(highestHandId)));
         return allPossibleHands.get(highestHandId);
     }
     /**
@@ -484,7 +484,7 @@ public class GameModel implements Serializable {
     }
     /**
      * bet is the method that gets called when the player makes a bet
-     * @param betAmount 
+     * @param betAmount is the amount that will player bet is
      */
     public void bet(double betAmount){
         players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
@@ -797,11 +797,13 @@ public class GameModel implements Serializable {
         return result;
     }
     /**
-     * setHandRank checks
-     * @param oneHand
-     * @return 
+     * getHandPoints sets the value of the player hand
+     * the hand points are value based, so that the higher ranked CardValue enum is always higher
+     * than the lower one.
+     * @param oneHand is the player hand
+     * @return the handRank of the hand
      */
-    private int setHandRank(Hand oneHand){
+    private int getHandPoints(Hand oneHand){
         int handPoints = 0;
         ArrayList<Rank_> tempCardRanks = new ArrayList<Rank_>();
         CardValueEnum tempCardValueEnum;
@@ -809,27 +811,27 @@ public class GameModel implements Serializable {
 
         switch (tempCardValueEnum){
             case RoyalFlush:
+                //if royal flush get the highest score available
                 handPoints += 230000000;
-                //TBD
                 break;
             case StraightFlush:
+                //if straight flush multiply the value to the lowest card in straight
                 handPoints += 15000000 * getLowestCardInStraight(oneHand).getValue();
                 break;
             case FourOfAKind:
-                //handPoints += i * 264500; //four of a kind
-                //handPoints += i; //fifth cared
+                //if four of a kind, multiply with the value of the rank of four of a kind
+                //add the last card to the value
                 handPoints += 2000000 * getMatchingCards(oneHand,4,1).get(0).getValue();
                 handPoints += getMatchingCards(oneHand,1,1).get(0).getValue();
                 break;
             case FullHouse:
-                //handPoints += 264000 * i; //three of a kind
-                //handPoints += 10 * i; //highest pair
+                //if full house, multiply the three of a kind with an constant
+                //and multiply the pair with an constant
                 handPoints += 264000 * getMatchingCards(oneHand,3,1).get(0).getValue();
                 handPoints += 10 * getMatchingCards(oneHand,2,1).get(0).getValue();
                 break;
             case Flush:
-                //handPoints += 527000; //for flush
-                //handPoints += i; //add the 5 cards together
+                //flush gives this much handpoints
                 handPoints += 527000;
                 //add the values for each card to handpoints
                 for(int i = 0; i < oneHand.getNoOfCards();i++){
@@ -875,34 +877,21 @@ public class GameModel implements Serializable {
                 }
                 break;
         }
-        //DO MAGIC here..
-        //oneHand.setHandRank(handPoints);
         return handPoints;
     }
     /**
-     * 
-     * @param playerHand
-     * @return 
+     * generateHands generates all hands and returns them
+     * @param playerHand is the hand of the player
+     * @return all possible hands
      */
     private ArrayList<Hand> getAllHands(Hand playerHand){
-        ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
-        //get all possible hands from generateHands.
-        allPossibleHands.addAll(generateHands(playerHand));
-        return allPossibleHands;
-    }
-    /**
-     * 
-     * @param playerHand
-     * @return 
-     */
-    private ArrayList<Hand> generateHands(Hand playerHand){
         //this generates 21 hands.
         //n choose k => 7 choose 5
         //http://stackoverflow.com/questions/8375452/how-to-loop-through-all-the-combinations-of-e-g-48-choose-5
         //for loop stolen:
         ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
         Hand tempHand;
-        int n = 7; //might change in tha future...
+        int n = playerHand.getNoOfCards();
         for ( int i = 0; i < n; i++ ) {
             for ( int j = i + 1; j < n; j++ ) {
                 for ( int k = j + 1; k < n; k++ ) {
@@ -916,7 +905,7 @@ public class GameModel implements Serializable {
                             tempHand.addCard(playerHand.getCard(l));
                             tempHand.addCard(playerHand.getCard(m));
 
-                            //try to get the list in order:
+                            //get the list in order:
                             tempHand.sortCardsBySuit();
                             tempHand.sortCardsByRank();
                             tempHand.sortCardsBySuit();
