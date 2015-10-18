@@ -5,11 +5,16 @@ package MoneyPackage;
  *
  */
 public class NegativeFundException extends RuntimeException {
-
+    /**
+     * 
+     * @param msg 
+     */
     public NegativeFundException(String msg){
         super(msg);
     }
-
+    /**
+     * 
+     */
     public NegativeFundException(){
         super();
     }

@@ -43,7 +43,10 @@ public class GameView extends BorderPane{
     private double player2X = 300, player2Y = 230;
 
     private double mouseX, mouseY;
-
+    /**
+     * 
+     * @param model 
+     */
     public GameView(GameModel model){
         this.model = model;
 
@@ -87,12 +90,17 @@ public class GameView extends BorderPane{
         loadItem.setOnAction(event -> controller.loadGame());
         highScoreItem.setOnAction(event -> controller.showHighScore());
     }
-
+    /**
+     * 
+     * @param turnCard 
+     */
     public void turnCards(boolean turnCard){
         GraphicsContext gc = canvas.getGraphicsContext2D();
         drawPlayerCard(gc, turnCard);
     }
-
+    /**
+     * 
+     */
     public void updateCards(){
         //Paint the whole screen black and reset the colors.
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -138,14 +146,20 @@ public class GameView extends BorderPane{
             }
         }*/
     }
-
+    /**
+     * 
+     */
     public void savePLayerCard(){
         player1Card1 = model.getPlayer(1).getCards().get(0).getImage();
         player1Card2 = model.getPlayer(1).getCards().get(1).getImage();
         player2Card1 = model.getPlayer(2).getCards().get(0).getImage();
         player2Card2 = model.getPlayer(2).getCards().get(1).getImage();
     }
-
+    /**
+     * 
+     * @param gc
+     * @param faceSideUp 
+     */
     public void drawPlayerCard(GraphicsContext gc, boolean faceSideUp){
         if (faceSideUp){
             if(mouseY > 230 && mouseY < 330 && mouseX > 100 && mouseX < 222) {
@@ -224,8 +238,6 @@ public class GameView extends BorderPane{
         }
 
     }
-
-
     /**
      * Initiates the view.
      */

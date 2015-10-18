@@ -5,11 +5,16 @@ package ChipPackage;
  *
  */
 public class ChipsOutOfRangeException extends RuntimeException {
-
+    /**
+     * 
+     * @param msg 
+     */
     public ChipsOutOfRangeException(String msg){
         super(msg);
     }
-
+    /**
+     * 
+     */
     public ChipsOutOfRangeException(){
         super();
     }

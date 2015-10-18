@@ -4,11 +4,16 @@
  *
  */
 public class HighestBidderNotFoundException extends RuntimeException {
-
+    /**
+     * 
+     * @param msg 
+     */
     public HighestBidderNotFoundException(String msg){
         super(msg);
     }
-
+    /**
+     * 
+     */
     public HighestBidderNotFoundException(){
         super();
     }

@@ -21,27 +21,51 @@ public class Card {
     private final Suit_ suit;
     private final Image image;
 
+    /**
+     * 
+     * @param rank
+     * @param suit
+     * @param image
+     * @throws java.lang.IllegalArgumentException 
+     */
     public Card(Rank_ rank, Suit_ suit, Image image) throws java.lang.IllegalArgumentException{
         this.rank = rank;
         this.suit = suit;
         this.image = image;
     }
+    /**
+     * 
+     * @return 
+     */
     public int getRank() {
         return rank.getValue();
     }
-
+    /**
+     * 
+     * @return 
+     */
     public int getSuit() {
         return suit.getValue();
     }
-
+    /**
+     * 
+     * @return 
+     */
     public Image getImage(){
         return image;
     }
-
+    /**
+     * 
+     * @param other
+     * @return 
+     */
     public boolean equals(Card other) {
         return this.rank == other.rank && this.suit == other.suit;
     }
-
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String toString() {
         String info = rank.toString() + " of " + suit.toString();

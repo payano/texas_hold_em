@@ -5,11 +5,16 @@ package CardPackage;
  *
  */
 public class NoSuchCardException extends java.lang.RuntimeException {
-
+    /**
+     * 
+     * @param msg 
+     */
     public NoSuchCardException(String msg){
         super(msg);
     }
-
+    /**
+     * 
+     */
     public NoSuchCardException(){
         super();
     }

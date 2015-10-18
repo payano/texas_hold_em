@@ -5,11 +5,16 @@ package ChipPackage;
  *
  */
 public class EmptyChipsException extends RuntimeException {
-
+    /**
+     * 
+     * @param msg 
+     */
     public EmptyChipsException(String msg){
         super(msg);
     }
-
+    /**
+     * 
+     */
     public EmptyChipsException(){
         super();
     }

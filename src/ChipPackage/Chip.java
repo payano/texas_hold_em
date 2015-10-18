@@ -8,13 +8,25 @@ import java.io.Serializable;
  */
 public class Chip implements Serializable {
     private final ChipEnum chipValue;
+    /**
+     * 
+     * @param chipValue 
+     */
     Chip(ChipEnum chipValue){
         //constructor
         this.chipValue = chipValue;
     }
+    /**
+     * 
+     * @return 
+     */
     public int getChipValue(){
         return this.chipValue.getChip();
     }
+    /**
+     * 
+     * @return 
+     */
     public String toString(){
         return chipValue.toString();
     }

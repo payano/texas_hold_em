@@ -5,10 +5,16 @@
  */
 public class NoSuchPlayerException extends RuntimeException {
 
+    /**
+     * 
+     * @param msg 
+     */
     public NoSuchPlayerException(String msg){
         super(msg);
     }
-
+    /**
+     * 
+     */
     public NoSuchPlayerException(){
         super();
     }

@@ -5,11 +5,16 @@ package CardPackage;
  *
  */
 public class NoMatchingCardException extends RuntimeException {
-
+    /**
+     * 
+     * @param msg 
+     */
     public NoMatchingCardException(String msg){
         super(msg);
     }
-
+    /**
+     * 
+     */
     public NoMatchingCardException(){
         super();
     }

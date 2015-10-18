@@ -5,9 +5,18 @@ package PlayerPackage;
  *
  */
 public class HumanPlayer extends Player {
+    /**
+     * 
+     * @param username 
+     */
     public HumanPlayer(String username){
         super(username);
     }
+    /**
+     * 
+     * @param username
+     * @param money 
+     */
     public HumanPlayer(String username,double money){
         super(username,money);
     }

@@ -5,11 +5,16 @@ package CardPackage;
  *
  */
 public class NoCardValueStraightException extends RuntimeException {
-
+    /**
+     * 
+     * @param msg 
+     */
     public NoCardValueStraightException(String msg){
         super(msg);
     }
-
+    /**
+     * 
+     */
     public NoCardValueStraightException(){
         super();
     }

@@ -6,11 +6,16 @@ package CardPackage;
  *
  */
 public class NoBigBlindPersonException extends RuntimeException {
-
+    /**
+     * 
+     * @param msg 
+     */
     public NoBigBlindPersonException(String msg){
         super(msg);
     }
-
+    /**
+     * 
+     */
     public NoBigBlindPersonException(){
         super();
     }

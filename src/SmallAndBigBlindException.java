@@ -5,10 +5,16 @@
  */
 public class SmallAndBigBlindException extends RuntimeException {
 
+    /**
+     * 
+     * @param msg 
+     */
     public SmallAndBigBlindException(String msg){
         super(msg);
     }
-
+    /**
+     * 
+     */
     public SmallAndBigBlindException(){
         super();
     }

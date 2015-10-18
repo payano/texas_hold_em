@@ -32,8 +32,9 @@ public class GameModel implements Serializable {
 
     //end for split pots
 
-
-
+    /**
+     * 
+     */
     public GameModel() {
         theDeck = new Deck();
         players = new ArrayList<Player>();
@@ -69,6 +70,9 @@ public class GameModel implements Serializable {
         }
 
     }
+    /**
+     * 
+     */
     public void createNewHands(){
         for(Player onePlayer : players){
             onePlayer.createNewHand();
@@ -121,30 +125,81 @@ public class GameModel implements Serializable {
             } catch(Exception e) {}
         }
     }
-
-
+    /**
+     * 
+     * @param file 
+     */
     public void loadHighScore(File file){
 
     }
+    /**
+     * 
+     * @param status 
+     */
     public void setRoundStatus(GameStatusEnum status){roundStatus = status;}
+    /**
+     * 
+     * @return 
+     */
     public GameStatusEnum getRoundStatus(){return roundStatus;}
+    /**
+     * 
+     * @param i
+     * @return 
+     */
     public boolean getStillInGame(int i){return stillInGame.get(i);}
+    /**
+     * 
+     * @param i
+     * @param value 
+     */
     private void setStillInGame(int i,boolean value){stillInGame.set(i,value);}
+    /**
+     * 
+     * @param i
+     * @return 
+     */
     public int getHandPoints(int i){return players.get(i).getHandPoints();}
+    /**
+     * 
+     * @param i
+     * @return 
+     */
     public CardValueEnum getHandRank(int i){return handRank.get(i);}
+    /**
+     * 
+     * @param playerId 
+     */
     private void setHighestBetPlayerId(int playerId){
         if(playerId >= players.size()){
             throw new NoSuchPlayerException("no such player with id:" + playerId);
         }
         highestBetPlayerId = playerId;
     }
+    /**
+     * 
+     * @param playerId
+     * @return 
+     */
     public Player getPlayer(int playerId){
         return players.get(playerId);
     }
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Player> getPlayers(){
         return players;
     }
+    /**
+     * 
+     * @return 
+     */
     private int getHighestBetPlayerId(){return highestBetPlayerId;}
+    /**
+     * 
+     * @return 
+     */
     public int getPlayersInGame(){
         int numberOfplayersLeft = 0;
         //add all the players that are still in the game.
@@ -154,6 +209,10 @@ public class GameModel implements Serializable {
         }
         return numberOfplayersLeft;
     }
+    /**
+     * 
+     * @return 
+     */
     public int winnerByFold(){
         int thePlayer = 0;
         for (int i = 0; i < players.size(); i++) {
@@ -166,6 +225,10 @@ public class GameModel implements Serializable {
         players.get(thePlayer).addMoney(players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney()));
         return thePlayer;
     }
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<Integer> setWinner(){
         setHandValues();
         int highestHandPoints = 0;
@@ -204,8 +267,16 @@ public class GameModel implements Serializable {
         return winner;
         //check if more players has the same handRank.
     }
+    /**
+     * 
+     * @param playerId
+     * @param cardValue 
+     */
     public void setHandRank(int playerId, CardValueEnum cardValue){
         handRank.set(playerId, cardValue);}
+    /**
+     * 
+     */
     public void setHandValues(){
         //set Hand Values for all players.
         for(int i = 0; i < players.size();i++){
@@ -217,6 +288,11 @@ public class GameModel implements Serializable {
             System.out.println("spelare: " + players.get(i).getName() + " Kort: " + setHandPoints(i).toString());;
         }
     }
+    /**
+     * 
+     * @param playerId
+     * @return 
+     */
     private Hand setHandPoints(int playerId){
         ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
         allPossibleHands.addAll(getAllHands(players.get(playerId).getPlayerHand()));
@@ -236,6 +312,9 @@ public class GameModel implements Serializable {
         setHandRank(playerId, checkCardValue(allPossibleHands.get(highestHandId)));
         return allPossibleHands.get(highestHandId);
     }
+    /**
+     * 
+     */
     public void smallAndBigBlind(){
         //there has to be a check somewhere that the minimum amount of players(computer + human) >= 2.
         boolean smallBlindPlayer = true;
@@ -280,7 +359,10 @@ public class GameModel implements Serializable {
             }
         }
     }
-
+    /**
+     * 
+     * @return 
+     */
     public boolean roundComplete(){
         //tells controller if the round is done.
         //System.out.println("currentplayerid: " + getCurrentPlayerId() + " highestplayeid: " + highestBetPlayerId + " bigblind:" + getBigBlind());
@@ -303,9 +385,20 @@ public class GameModel implements Serializable {
         }
             return false;
     }
-
+    /**
+     * 
+     * @param playerId 
+     */
     private void setBigBlind(int playerId){bigBlind = playerId;}
+    /**
+     * 
+     * @return 
+     */
     private int getBigBlind(){return bigBlind;}
+    /**
+     * 
+     * @return 
+     */
     public int getPlayablePlayers(){
         int result = 0;
         for (int i = 0; i < players.size(); i++) {
@@ -316,16 +409,40 @@ public class GameModel implements Serializable {
         }
         return result;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public int getStake(){return stake;}
+    /**
+     * 
+     * @param playerId
+     * @param value 
+     */
     private void setPlayerAllIn(int playerId,boolean value){playerAllIn.set(playerId, value);}
+    /**
+     * 
+     * @param playerId
+     * @return 
+     */
     private boolean getPlayerAllIn(int playerId){return playerAllIn.get(playerId);}
+    /**
+     * 
+     * @return 
+     */
     public Player getCurrentPlayer(){
         return players.get(currentPlayer);
     }
+    /**
+     * 
+     * @return 
+     */
     public int getCurrentPlayerId(){
         return currentPlayer;
     }
+    /**
+     * 
+     */
     private void setNextHigestBidPlayer(){
         //just for the first round, this is a special case
         highestBetPlayerId++;
@@ -342,10 +459,17 @@ public class GameModel implements Serializable {
         }
         //System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
     }
+    /**
+     * 
+     * @param playerId
+     * @return 
+     */
     public double getMissingBetAmount(int playerId){
         return getRoundBet(findTable()) - getRoundBet(playerId);
     }
-
+    /**
+     * 
+     */
     public void setNextPlayer(){
         lastPlayer = currentPlayer++;
         int counter = 0;
@@ -366,11 +490,23 @@ public class GameModel implements Serializable {
             System.out.println("player: " + players.get(i).getName() + " all-in: " + getPlayerAllIn(i));
         }
     }
+    /**
+     * 
+     * @return 
+     */
     private int getNextPlayer(){return currentPlayer;}
+    /**
+     * 
+     * @param nextPlayer 
+     */
     private void setNextPlayer(int nextPlayer){
         currentPlayer = nextPlayer;
         setNextPlayer();
     }
+    /**
+     * 
+     * @param betAmount 
+     */
     public void bet(double betAmount){
         players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
         //set the roundBet of table
@@ -391,9 +527,15 @@ public class GameModel implements Serializable {
         setHighestBetPlayerId(currentPlayer);
         setNextPlayer();
     }
+    /**
+     * 
+     */
     public void check(){
         setNextPlayer();
     }
+    /**
+     * 
+     */
     public void call(){
 
         double difference = getRoundBet(findTable()) - getRoundBet(getCurrentPlayerId());
@@ -403,10 +545,17 @@ public class GameModel implements Serializable {
         setRoundBet(getCurrentPlayerId(), getRoundBet(getCurrentPlayerId()) + difference);
         setNextPlayer();
     }
+    /**
+     * 
+     */
     public void fold(){
         stillInGame.set(getCurrentPlayerId(),false);
             setNextPlayer();
     }
+    /**
+     * 
+     * @param numberOfCards 
+     */
     public void dealCards(int numberOfCards) {
         for (int i = 0; i < numberOfCards; i++) {
             for (int j = 0;j < players.size();j++) {
@@ -418,6 +567,10 @@ public class GameModel implements Serializable {
             }
         }
     }
+    /**
+     * 
+     * @param numberOfCards 
+     */
     public void dealTable(int numberOfCards) {
         for (int i = 0; i < numberOfCards; i++) {
             for (int j = 0; j < players.size();j++) {
@@ -429,12 +582,26 @@ public class GameModel implements Serializable {
             }
         }
     }
+    /**
+     * 
+     * @param playerId
+     * @return 
+     */
     public double getRoundBet(int playerId){
         return roundBet.get(playerId);
     }
+    /**
+     * 
+     * @param playerId
+     * @param amount 
+     */
     private void setRoundBet(int playerId, double amount){
         roundBet.set(playerId,amount);
     }
+    /**
+     * 
+     * @return 
+     */
     public int findTable(){
         for(int i = 0 ; i < players.size();i++) {
             //find the table...
@@ -444,7 +611,9 @@ public class GameModel implements Serializable {
         }
         throw new NoPlayerInGameException("Can not find the table.");
     }
-
+    /**
+     * 
+     */
     private void rotatePlayers(){
         //rotate players one step
         for(int i = 0 ; i < players.size(); i++){
@@ -453,7 +622,9 @@ public class GameModel implements Serializable {
             break;
         }
     }
-
+    /**
+     * 
+     */
     public void initGame(){
         System.out.println("SHUFFLING CARDS...");
         theDeck.fillDeck();
@@ -493,7 +664,11 @@ public class GameModel implements Serializable {
         }
         return null;
     }
-
+    /**
+     * 
+     * @param oneHand
+     * @return 
+     */
     private CardValueEnum checkCardValue(Hand oneHand){
         int straightCount = 0;
         int lastCardValue = 0;
@@ -546,6 +721,11 @@ public class GameModel implements Serializable {
         }
         return CardValueEnum.None;
     }
+    /**
+     * 
+     * @param oneHand
+     * @return 
+     */
     private Rank_ getLowestCardInStraight(Hand oneHand){
         //lets first check if there is a straight here:
         //check for straight here
@@ -581,6 +761,11 @@ public class GameModel implements Serializable {
         throw new NoCardValueStraightException("There is no straight in the list.");
 
     }
+    /**
+     * 
+     * @param oneHand
+     * @return 
+     */
     private CardValueEnum checkRankAndSuitValue(Hand oneHand){
         CardValueEnum cardRank;
         Suit_ flush;
@@ -601,6 +786,13 @@ public class GameModel implements Serializable {
         }
         return cardRank;
     }
+    /**
+     * 
+     * @param oneHand
+     * @param numberOfMCards
+     * @param occurrences
+     * @return 
+     */
     private ArrayList<Rank_> getMatchingCards(Hand oneHand,int numberOfMCards,int occurrences){
         //returns the highest matching pair, three of a kind or four of a kind
         ArrayList<Rank_> result = new ArrayList<Rank_>();
@@ -630,6 +822,11 @@ public class GameModel implements Serializable {
         }
         return result;
     }
+    /**
+     * 
+     * @param oneHand
+     * @return 
+     */
     private int checkHandRank(Hand oneHand){
         int handPoints = 0;
         ArrayList<Rank_> tempCardRanks = new ArrayList<Rank_>();
@@ -708,12 +905,22 @@ public class GameModel implements Serializable {
         //oneHand.setHandRank(handPoints);
         return handPoints;
     }
+    /**
+     * 
+     * @param playerHand
+     * @return 
+     */
     private ArrayList<Hand> getAllHands(Hand playerHand){
         ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
         //get all possible hands from generateHands.
         allPossibleHands.addAll(generateHands(playerHand));
         return allPossibleHands;
     }
+    /**
+     * 
+     * @param playerHand
+     * @return 
+     */
     private ArrayList<Hand> generateHands(Hand playerHand){
         //this generates 21 hands.
         //n choose k => 7 choose 5

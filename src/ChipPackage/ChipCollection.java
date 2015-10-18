@@ -15,7 +15,15 @@ public class ChipCollection implements Serializable {
     public ChipCollection(){
         theChips = new ArrayList<>();
     }
+    /**
+     * 
+     * @param newChips 
+     */
     public ChipCollection(ArrayList newChips){this.theChips.addAll(newChips);}
+    /**
+     * 
+     * @param newChips 
+     */
     public ChipCollection(Chip newChips){this.theChips.add(newChips);}
     /**
      * getChipsValue

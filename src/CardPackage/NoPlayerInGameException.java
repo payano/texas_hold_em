@@ -6,11 +6,16 @@ package CardPackage;
  *
  */
 public class NoPlayerInGameException extends RuntimeException {
-
+    /**
+     * 
+     * @param msg 
+     */
     public NoPlayerInGameException(String msg){
         super(msg);
     }
-
+    /**
+     * 
+     */
     public NoPlayerInGameException(){
         super();
     }

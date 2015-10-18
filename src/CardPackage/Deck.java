@@ -15,21 +15,32 @@ import javafx.scene.image.Image;
 public class Deck {
     private List<Card> theCards = new ArrayList<>();
     Image image;
+    /**
+     * 
+     */
     public Deck (){
         createDeck();
     }
-
+    /**
+     * 
+     */
     //Blandar leken.
     public void shuffleCards(){
         Collections.shuffle(theCards);
     }
-
+    /**
+     * 
+     */
     //Fyller leken med NYA kort.
     public void fillDeck(){
         theCards.removeAll(theCards);
         createDeck();
     }
-
+    /**
+     * 
+     * @return
+     * @throws NoSuchCardException 
+     */
     //Returnerar det "översta" kortet.
     public Card dealCard() throws NoSuchCardException {
         if(theCards.isEmpty()){
@@ -39,12 +50,18 @@ public class Deck {
         theCards.remove(0);
         return temp;
     }
-
     //Returnerar antaler kort som är kvar i deck.
+    /**
+     * 
+     * @return 
+     */
     public int getNoOfCards() {
         return theCards.size();
     }
-
+    /**
+     * 
+     * @return 
+     */
     public String toString(){
         String info = new String();
         if(theCards.isEmpty()) {
@@ -58,6 +75,9 @@ public class Deck {
     }
 
     //Skapar decket utav kort.
+    /**
+     * 
+     */
     private void createDeck(){
         int imgNr = 52;
 

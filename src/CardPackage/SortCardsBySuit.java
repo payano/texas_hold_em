@@ -13,6 +13,12 @@ import java.util.Comparator;
  * Class that sorts the Book by Title
  */
 public class SortCardsBySuit implements Comparator<Card> {
+    /**
+     * 
+     * @param a
+     * @param b
+     * @return 
+     */
     @Override
     public int compare(Card a, Card b){
         //sort the list, the highest card gets listed first

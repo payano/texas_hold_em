@@ -11,45 +11,61 @@ public class GameController {
 
     private final GameModel model;
     private final GameView view;
-
+    /**
+     * 
+     * @param model
+     * @param view 
+     */
     public GameController(GameModel model, GameView view){
         this.model = model;
         this.view = view;
     }
-
+    /**
+     * 
+     * @param showCard 
+     */
     public void cardPushedHandler(boolean showCard){
         view.turnCards(showCard);
     }
-
+    /**
+     * 
+     */
     public void callHandler(){
         model.call();
         updateRoundStatus();
         view.updatePlayer();
         view.updateCards();
     }
-
+    /**
+     * 
+     */
     public void foldHandler(){
         model.fold();
         updateRoundStatus();
         view.updatePlayer();
         view.updateCards();
     }
-
+    /**
+     * 
+     */
     public void betHandler(){
         model.bet(view.getBet());
         updateRoundStatus();
         view.updatePlayer();
         view.updateCards();
     }
-
+    /**
+     * 
+     */
     public void allInHandler(){
         model.bet(model.getCurrentPlayer().getMoney());
         updateRoundStatus();
         view.updatePlayer();
         view.updateCards();
     }
-
-
+    /**
+     * 
+     */
     public void startTheGame(){
         model.initGame();
         model.dealCards(2);
@@ -57,6 +73,9 @@ public class GameController {
         view.savePLayerCard();
         view.updatePlayer();
     }
+    /**
+     * 
+     */
     public void saveGame(){
         // https://docs.oracle.com/javase/8/javafx/api/javafx/stage/FileChooser.html
         FileChooser fileChooser = new FileChooser();
@@ -74,6 +93,9 @@ public class GameController {
             }
         }
     }
+    /**
+     * 
+     */
     public void loadGame(){
         // https://docs.oracle.com/javase/8/javafx/api/javafx/stage/FileChooser.html
         FileChooser fileChooser = new FileChooser();
@@ -98,11 +120,16 @@ public class GameController {
             }
         }
     }
+    /**
+     * 
+     */
     public void showHighScore(){
         System.out.println("highscore");
 
     }
-
+    /**
+     * 
+     */
     private void updateRoundStatus(){
         if(model.getPlayersInGame() == 1){
             System.out.println(model.winnerByFold());

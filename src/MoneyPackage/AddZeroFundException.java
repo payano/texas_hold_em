@@ -5,11 +5,16 @@ package MoneyPackage;
  *
  */
 public class AddZeroFundException extends RuntimeException {
-
+    /**
+     * 
+     * @param msg 
+     */
     public AddZeroFundException(String msg){
         super(msg);
     }
-
+    /**
+     * 
+     */
     public AddZeroFundException(){
         super();
     }
