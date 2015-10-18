@@ -235,14 +235,14 @@ public class GameView extends BorderPane{
 
             for (int i = 0; i < model.getPlayers().size(); i++) {
                 if (model.getPlayer(i) instanceof HumanPlayer && (int) model.getPlayer(i).getMoney() != 0){
-                    //System.out.println(maxBet);
+                    System.out.println(maxBet);
                     maxBet.add((int) model.getPlayer(i).getMoney());
                 }
             }
 
             Collections.sort(maxBet);
 
-            //System.out.println(maxBet.get(0));
+            System.out.println(maxBet);
             if(maxBet.get(0) == 0) maxBet.remove(0);
             slider.setMax(maxBet.get(0));
             slider.setMajorTickUnit(maxBet.get(0)/2);
