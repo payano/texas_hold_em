@@ -459,6 +459,12 @@ public class GameModel implements Serializable {
     public double getMissingBetAmount(int playerId){
         return getRoundBet(findTable()) - getRoundBet(playerId);
     }
+
+    /**
+     *
+     * @return
+     */
+    public Player getLastPlayer(){return players.get(lastPlayer);}
     /**
      * setNextPlayer sets the next player in line.
      */
