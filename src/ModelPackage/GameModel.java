@@ -254,7 +254,6 @@ public class GameModel implements Serializable {
         }
         //give the winners their money
         for (int i = 0; i < winner.size(); i++) {
-            if(players.get(winner.get(i)) instanceof TablePlayer){continue;}
             players.get(winner.get(i)).addMoney(
                     players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney() / winner.size()));
                     System.out.println("player: " + players.get(winner.get(i)).getName() + ", handPoints: " + getHandPoints(winner.get(i)) + " CardValue: " + getHandRank(winner.get(i)));
