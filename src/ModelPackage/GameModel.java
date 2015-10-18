@@ -3,11 +3,8 @@ package ModelPackage;
 import CardPackage.*;
 import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
-
-import javax.security.auth.Subject;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 /**
@@ -20,7 +17,6 @@ public class GameModel implements Serializable {
     private ArrayList<Player> players;
     private final int stake = 50; //this is the minimum bet for all rounds in the game.
     private Deck theDeck;
-    private Scanner scan = new Scanner(System.in);
     private ArrayList<Boolean> stillInGame;
     private int highestBetPlayerId,bigBlind;
     private ArrayList<CardValueEnum> handRank;
@@ -523,7 +519,7 @@ public class GameModel implements Serializable {
      */
     public void fold(){
         stillInGame.set(getCurrentPlayerId(),false);
-            setNextPlayer();
+        setNextPlayer();
     }
     /**
      * dealCards deals cards to the players
