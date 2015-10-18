@@ -256,14 +256,16 @@ public class GameView extends BorderPane{
         sliderAmountField.setText(((Integer) model.getStake()).toString());
 
         //allin
-        if(model.getCurrentPlayer().getMoney() == 0 || model.getCurrentPlayer().getMoney() == model.getRoundBet(model.findTable())){
+        if(model.getCurrentPlayer().getMoney() == 0 || model.getCurrentPlayer().getMoney() == model.getRoundBet(model.findTable()) || model.getLastPlayer().getMoney() == 0){
             allInButton.setDisable(true);
+            betButton.setDisable(true);
             sliderAmountField.setDisable(true);
             slider.setDisable(true);
         }else {
             allInButton.setDisable(false);
             sliderAmountField.setDisable(false);
             slider.setDisable(false);
+            betButton.setDisable(false);
         }
 
         //fold
@@ -271,16 +273,6 @@ public class GameView extends BorderPane{
             foldButton.setDisable(true);
         }else foldButton.setDisable(false);
 
-        //raise
-        if(model.getCurrentPlayer().getMoney() == 0  || model.getCurrentPlayer().getMoney() == model.getRoundBet(model.findTable())){
-            betButton.setDisable(true);
-            sliderAmountField.setDisable(true);
-            slider.setDisable(true);
-        }else {
-            betButton.setDisable(false);
-            sliderAmountField.setDisable(false);
-            slider.setDisable(false);
-        }
 
 
 
