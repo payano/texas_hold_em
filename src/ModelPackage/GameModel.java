@@ -10,6 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
  *
+ * GameModel is the player logic in the game texas hold em.
  */
 public class GameModel implements Serializable {
 
@@ -495,6 +496,7 @@ public class GameModel implements Serializable {
         }
         setHighestBetPlayerId(currentPlayer);
         setNextPlayer();
+        setBigBlind(findTable());
     }
     /**
      * check is the method if the player checks

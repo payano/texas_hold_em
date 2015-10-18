@@ -47,7 +47,6 @@ public class GameView extends BorderPane{
     private MenuItem exitItem, restartItem, highScoreItem, loadItem, saveItem;
     private Slider slider;
 
-
     private double player1X = 100, player1Y = 230;
     private double player2X = 300, player2Y = 230;
 
@@ -101,11 +100,6 @@ public class GameView extends BorderPane{
         saveItem.setOnAction(event -> controller.saveGame(stage));
         loadItem.setOnAction(event -> controller.loadGame(stage));
         highScoreItem.setOnAction(event -> controller.showHighScore());
-    }
-
-    public void turnDownCards(){
-        showPlayer1Cards = false;
-        showPlayer2Cards = false;
     }
 
     /**
@@ -192,24 +186,9 @@ public class GameView extends BorderPane{
      */
     public int getBet(){
         int bet;
-        boolean betCapped = false;
         bet = Integer.parseInt(sliderAmountField.getText());
-
-        if (model.getRoundBet(model.findTable()) <= model.getStake()) {
-            for (Player onePlayer : model.getPlayers()) {
-                if (bet > onePlayer.getMoney() && onePlayer instanceof HumanPlayer) {
-                    bet = (int) onePlayer.getMoney();
-                    betCapped = true;
-                }
-            }
-        }
-
-        if (!betCapped){
-            for (Player onePlayer : model.getPlayers()) {
-                System.out.println(model.getRoundBet(model.findTable()));
-                if (bet > onePlayer.getMoney()+model.getRoundBet(model.findTable()) && onePlayer instanceof HumanPlayer)
-                    bet = (int) onePlayer.getMoney();
-            }
+        for(Player onePlayer : model.getPlayers()){
+            //if(bet > model.getRoundBet() && onePlayer instanceof HumanPlayer) bet = (int) onePlayer.getMoney();
         }
         return bet;
     }
@@ -221,24 +200,9 @@ public class GameView extends BorderPane{
      */
     public int allIn(){
         int bet;
-        boolean betCapped = false;
         bet = (int) model.getCurrentPlayer().getMoney();
-
-            if (model.getRoundBet(model.findTable()) <= model.getStake()) {
-                for (Player onePlayer : model.getPlayers()) {
-                    if (bet > onePlayer.getMoney() && onePlayer instanceof HumanPlayer) {
-                        bet = (int) onePlayer.getMoney();
-                        betCapped = true;
-                    }
-                }
-            }
-
-        if (!betCapped){
-            for (Player onePlayer : model.getPlayers()) {
-                System.out.println(model.getRoundBet(model.findTable()));
-                if (bet > onePlayer.getMoney()+model.getRoundBet(model.findTable()) && onePlayer instanceof HumanPlayer)
-                    bet = (int) onePlayer.getMoney();
-            }
+        for(Player onePlayer : model.getPlayers()){
+            if(bet > onePlayer.getMoney() && onePlayer instanceof HumanPlayer) bet = (int) onePlayer.getMoney();
         }
         return bet;
     }
@@ -279,23 +243,6 @@ public class GameView extends BorderPane{
             betButton.setDisable(true);
         }else betButton.setDisable(false);
 
-
-        for(Player onePlayer : model.getPlayers()){
-            if(onePlayer.getMoney() == 0){
-                betButton.setDisable(true);
-                sliderAmountField.setDisable(true);
-                slider.setDisable(true);
-                betButton.setDisable(true);
-                allInButton.setDisable(true);
-                break;
-            }else {
-                betButton.setDisable(false);
-                sliderAmountField.setDisable(false);
-                slider.setDisable(false);
-                betButton.setDisable(false);
-                allInButton.setDisable(false);
-            }
-        }
         /*
         //If the player have to litte money to call or bet, disable the buttons.
         if(model.getCurrentPlayer().getMoney() < model.getRoundBet(model.findTable())){
