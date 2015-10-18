@@ -399,7 +399,7 @@ public class GameView extends BorderPane{
 
         //Image tests
 
-        canvas = new Canvas(700,400);
+        canvas = new Canvas(800,500);
         this.setCenter(canvas);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 

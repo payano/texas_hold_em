@@ -36,7 +36,7 @@ public class Main extends Application{
         rootPane.setCenter(view);
         primaryStage.setTitle("Texas Hold Em");
 
-        Scene scene = new Scene(rootPane,700,500);
+        Scene scene = new Scene(rootPane,700,600);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
 
