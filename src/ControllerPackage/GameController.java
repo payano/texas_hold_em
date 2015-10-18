@@ -30,7 +30,7 @@ public class GameController implements Observer{
     }
     /**
      * 
-     *
+     * @param
      */
     public void cardPushedHandler(){
         view.turnCards();
@@ -141,7 +141,7 @@ public class GameController implements Observer{
     private void updateRoundStatus(){
         if(model.getPlayersInGame() == 1){
             view.showAlert(model.getPlayer(model.winnerByFold()).getName() +
-                    " is the winnder by all the other players folding!!");
+                    " is the winnder by all the other players folding!!", "Winner!!");
             startTheGame();
             model.setRoundStatus(GameStatusEnum.PreFlop);
         }
@@ -185,7 +185,7 @@ public class GameController implements Observer{
                       wonWith += model.getHandRank(i);
                        winners = model.getPlayer(i).getName();
                    }
-                   view.showAlert("Player: " + winners + " won with " + wonWith + "!!");
+                   view.showAlert("Player: " + winners + " won with " + wonWith + "!!","Winner!!");
 
                    startTheGame();
                    model.setRoundStatus(GameStatusEnum.PreFlop);

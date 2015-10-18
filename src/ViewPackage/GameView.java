@@ -5,6 +5,7 @@ import CardPackage.Card;
 import ControllerPackage.GameController;
 import ModelPackage.GameModel;
 
+import PlayerPackage.Player;
 import PlayerPackage.TablePlayer;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
@@ -23,6 +24,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
+import java.lang.management.PlatformLoggingMXBean;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -187,10 +189,15 @@ public class GameView extends BorderPane{
     /**
      * Get the value from the text field to bet with.
      *
-     * @return betAmount
+     * @retrun bet;
      */
     public int getBet(){
-        return Integer.parseInt(sliderAmountField.getText());
+        int bet;
+        bet = Integer.parseInt(sliderAmountField.getText());
+        for(Player onePlayer : model.getPlayers()){
+            if(bet > onePlayer.getMoney()) bet = (int) onePlayer.getMoney();
+        }
+        return bet;
     }
 
     /**
@@ -226,6 +233,24 @@ public class GameView extends BorderPane{
             callButton.setDisable(false);
             sliderAmountField.setDisable(false);
             slider.setDisable(false);
+        }
+
+        //If one player has 0 money, you cant bet more.
+        for(Player onePlayer : model.getPlayers()){
+            if(onePlayer.getMoney() == 0){
+                betButton.setDisable(true);
+                sliderAmountField.setDisable(true);
+                slider.setDisable(true);
+                betButton.setDisable(true);
+                allInButton.setDisable(true);
+                break;
+            }else {
+                betButton.setDisable(false);
+                sliderAmountField.setDisable(false);
+                slider.setDisable(false);
+                betButton.setDisable(false);
+                allInButton.setDisable(false);
+            }
         }
 
     }
@@ -314,9 +339,9 @@ public class GameView extends BorderPane{
 
     }
 
-    public void showAlert(String message) {
+    public void showAlert(String message, String title) {
         alert.setHeaderText("");
-        alert.setTitle("Winner!!");
+        alert.setTitle(title);
         alert.setContentText(message);
         alert.show();
     }
