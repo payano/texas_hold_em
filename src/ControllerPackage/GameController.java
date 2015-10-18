@@ -2,6 +2,9 @@ package ControllerPackage;
 
 import ModelPackage.GameModel;
 import ModelPackage.GameStatusEnum;
+import PlayerPackage.HumanPlayer;
+import PlayerPackage.Player;
+import PlayerPackage.TablePlayer;
 import ViewPackage.GameView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -76,6 +79,12 @@ public class GameController implements Observer{
      */
     public void startTheGame(){
         model.initGame();
+        for(Player onePlayer : model.getPlayers()){
+            if(onePlayer.getMoney() == 0 && onePlayer instanceof HumanPlayer) {
+                onePlayer.addMoney(1000);
+                view.showAlert("Player: " + onePlayer.getName() + " is out of money, gave him 1000", "Out of money!");
+            }
+        }
         model.dealCards(2);
         model.smallAndBigBlind();
         view.savePLayerCard();
@@ -141,7 +150,7 @@ public class GameController implements Observer{
     private void updateRoundStatus(){
         if(model.getPlayersInGame() == 1){
             view.showAlert(model.getPlayer(model.winnerByFold()).getName() +
-                    " is the winnder by all the other players folding!!", "Winner!!");
+                    " is the winner by all the other players folding!!", "Winner!!");
             startTheGame();
             model.setRoundStatus(GameStatusEnum.PreFlop);
         }

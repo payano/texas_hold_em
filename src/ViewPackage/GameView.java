@@ -24,10 +24,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
-import java.lang.management.PlatformLoggingMXBean;
-import java.util.Observable;
-import java.util.Observer;
-
 
 /**
  * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
@@ -104,13 +100,7 @@ public class GameView extends BorderPane{
         loadItem.setOnAction(event -> controller.loadGame(stage));
         highScoreItem.setOnAction(event -> controller.showHighScore());
     }
-    /**
-     *
-     */
-    /*public void turnCards(){
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        drawPlayerCard(gc);
-    }*/
+
     /**
      * 
      */
@@ -235,6 +225,12 @@ public class GameView extends BorderPane{
             callButton.setDisable(false);
             sliderAmountField.setDisable(false);
             slider.setDisable(false);
+        }
+
+        if(model.getCurrentPlayer().getMoney() == 0 ){
+            foldButton.setDisable(true);
+        }else {
+            foldButton.setDisable(false);
         }
 
         //If one player has 0 money, you cant bet more.
