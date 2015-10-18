@@ -1,8 +1,10 @@
 package ViewPackage;
 
 import CardPackage.Card;
+
 import ControllerPackage.GameController;
 import ModelPackage.GameModel;
+
 import PlayerPackage.TablePlayer;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
@@ -21,11 +23,15 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
+import java.util.Observable;
+import java.util.Observer;
+
+
 /**
  * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
  *
  */
-public class GameView extends BorderPane{
+public class GameView extends BorderPane implements Observer{
 
     private final GameModel model;
     private final Stage stage;
@@ -130,25 +136,6 @@ public class GameView extends BorderPane{
                 gc.drawImage(image, tableX, tableY);
             }
         }
-
-        /*for (Player onePLayer : model.getPlayers()) {
-            if(onePLayer instanceof HumanPlayer) {
-
-                gc.fillText("Player: " + onePLayer.getName(), player1X + 50, player1Y + 110);
-                gc.fillText("Money: " + ((Double) onePLayer.getMoney()).toString(), player1X + 50, player1Y + 125);
-
-                drawPlayerCard(gc , false);
-
-            }else {
-                    gc.fillText("Pot: " + ((Double) onePLayer.getMoney()).toString(), 145, 150);
-                for (Card c : onePLayer.getCards()) {
-                    image = c.getImage();
-                    tableX += 80;
-                    tableY = 40;
-                    gc.drawImage(image, tableX, tableY);
-                }
-            }
-        }*/
     }
     /**
      * 
@@ -324,6 +311,11 @@ public class GameView extends BorderPane{
         // paint the background
         gc.setFill(Color.rgb(37, 38, 40));
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
 
     }
 }
