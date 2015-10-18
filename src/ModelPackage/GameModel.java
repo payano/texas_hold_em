@@ -86,7 +86,7 @@ public class GameModel implements Serializable {
      * @param filename
      * @throws IOException
      */
-    protected void saveGame(String filename) throws IOException {
+    public void saveGame(String filename) throws IOException {
 
         ObjectOutputStream out = null;
 
@@ -109,7 +109,7 @@ public class GameModel implements Serializable {
      * @throws ClassNotFoundException
      */
     @SuppressWarnings("unchecked")
-    protected void loadGame(String filename) throws IOException, ClassNotFoundException {
+    public void loadGame(String filename) throws IOException, ClassNotFoundException {
         ObjectInputStream in = null;
         try {
             in = new ObjectInputStream(

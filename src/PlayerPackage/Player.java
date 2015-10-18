@@ -1,7 +1,6 @@
 package PlayerPackage;
 
 import CardPackage.*;
-import ChipPackage.ChipCollection;
 import MoneyPackage.Money;
 
 import java.io.Serializable;

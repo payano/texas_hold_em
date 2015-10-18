@@ -1,6 +1,7 @@
 package ViewPackage;
 
 import CardPackage.Card;
+import ControllerPackage.GameController;
 import ModelPackage.GameModel;
 import PlayerPackage.TablePlayer;
 import javafx.geometry.Insets;
@@ -18,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
 
 /**
  * Created by Johan Svensson och Arvid Bodin on 2015-15-08.
