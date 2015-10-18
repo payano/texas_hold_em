@@ -1,4 +1,5 @@
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,7 +77,7 @@ public class GameController {
     /**
      * 
      */
-    public void saveGame(){
+    public void saveGame(Stage stage){
         // https://docs.oracle.com/javase/8/javafx/api/javafx/stage/FileChooser.html
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save File");
@@ -84,7 +85,7 @@ public class GameController {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Saved Games", "*.gsv"));
         File userDirectory = new File(userDirectoryString);
         fileChooser.setInitialDirectory(userDirectory);
-        File selectedFile = fileChooser.showSaveDialog(null);
+        File selectedFile = fileChooser.showSaveDialog(stage);
         if(selectedFile != null) {
             try {
                 model.saveGame(selectedFile.toString());
@@ -96,7 +97,7 @@ public class GameController {
     /**
      * 
      */
-    public void loadGame(){
+    public void loadGame(Stage stage){
         // https://docs.oracle.com/javase/8/javafx/api/javafx/stage/FileChooser.html
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open File");
@@ -104,7 +105,7 @@ public class GameController {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Saved Games", "*.gsv"));
         File userDirectory = new File(userDirectoryString);
         fileChooser.setInitialDirectory(userDirectory);
-        File selectedFile = fileChooser.showOpenDialog(null);
+        File selectedFile = fileChooser.showOpenDialog(stage);
         if(selectedFile != null) {
             try {
                 model.loadGame(selectedFile.toString());

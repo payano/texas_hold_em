@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.awt.*;
 
@@ -26,6 +27,7 @@ import java.awt.*;
 public class GameView extends BorderPane{
 
     private final GameModel model;
+    private final Stage stage;
     private final GameController controller;
     private Canvas canvas;
     private Image image;
@@ -47,8 +49,9 @@ public class GameView extends BorderPane{
      * 
      * @param model 
      */
-    public GameView(GameModel model){
+    public GameView(GameModel model, Stage stage){
         this.model = model;
+        this.stage = stage;
 
         //Creat the controller and the model.
         controller = new GameController(model, this);
@@ -86,8 +89,8 @@ public class GameView extends BorderPane{
 
         });
         canvas.setOnMouseReleased(event -> controller.cardPushedHandler(false));
-        saveItem.setOnAction(event -> controller.saveGame());
-        loadItem.setOnAction(event -> controller.loadGame());
+        saveItem.setOnAction(event -> controller.saveGame(stage));
+        loadItem.setOnAction(event -> controller.loadGame(stage));
         highScoreItem.setOnAction(event -> controller.showHighScore());
     }
     /**

@@ -27,7 +27,7 @@ public class Main extends Application{
     public void start(Stage primaryStage) throws Exception {
         //Creat the gameModel and the view (this also creates the controller);
         GameModel model = new GameModel();
-        GameView view = new GameView(model);
+        GameView view = new GameView(model, primaryStage);
 
 
         BorderPane rootPane = new BorderPane();
