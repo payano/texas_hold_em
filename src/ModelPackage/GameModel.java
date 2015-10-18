@@ -497,8 +497,8 @@ public class GameModel implements Serializable {
     public void bet(double betAmount){
         double difference = getRoundBet(findTable()) - getRoundBet(getCurrentPlayerId());
         System.out.println("YEYEYEYEEE");
-        players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
-        //players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount + difference));
+        //players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
+        players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount + difference));
         //set the roundBet of table
         //setRoundBet(findTable(), betAmount + getRoundBet(findTable()) );
         setRoundBet(findTable(), betAmount + getRoundBet(findTable()) );
