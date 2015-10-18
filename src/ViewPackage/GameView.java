@@ -150,7 +150,7 @@ public class GameView extends BorderPane{
         player2Card2 = model.getPlayer(2).getCards().get(1).getImage();
     }
     /**
-     *
+     * Draws the playercards.
      */
     public void drawPlayerCard(){
         GraphicsContext gc = canvas.getGraphicsContext2D();
