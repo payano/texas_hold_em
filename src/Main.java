@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 
 /**
- * Created by arvidbodin on 14/09/15.
+ * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
  *
  *
  */

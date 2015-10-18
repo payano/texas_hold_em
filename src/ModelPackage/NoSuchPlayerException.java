@@ -2,7 +2,7 @@ package ModelPackage;
 
 /**
  *
- * Created by arvidbodin on 28/09/15.
+ * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
  *
  */
 public class NoSuchPlayerException extends RuntimeException {

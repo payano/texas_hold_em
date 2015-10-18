@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 
 
 /**
- * Created by Johan Svensson och Arvid Bodin on 2015-15-08.
+ * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
  *
  */
 public class GameView extends BorderPane{

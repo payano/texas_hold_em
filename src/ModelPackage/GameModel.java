@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 
 /**
- * Created by Arvid and Johan Svensson on 2015-09-15.
+ * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
  *
  */
 public class GameModel implements Serializable {
