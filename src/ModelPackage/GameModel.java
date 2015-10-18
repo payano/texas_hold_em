@@ -469,7 +469,8 @@ public class GameModel implements Serializable {
      * setNextPlayer sets the next player in line.
      */
     public void setNextPlayer(){
-        lastPlayer = currentPlayer++;
+        lastPlayer = currentPlayer;
+        currentPlayer++;
         int counter = 0;
         for (int i = currentPlayer;  ; i++,counter++) {
             if(i >= players.size()){
@@ -497,7 +498,9 @@ public class GameModel implements Serializable {
     public void bet(double betAmount){
         double difference = getRoundBet(findTable()) - getRoundBet(getCurrentPlayerId());
         System.out.println("YEYEYEYEEE");
+
         //players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
+
         players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount + difference));
         //set the roundBet of table
         //setRoundBet(findTable(), betAmount + getRoundBet(findTable()) );
