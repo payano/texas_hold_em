@@ -41,18 +41,18 @@ public class GameModel implements Serializable {
      */
     public GameModel() {
         theDeck = new Deck();
-        players = new ArrayList<Player>();
-        stillInGame = new ArrayList<Boolean>();
-        handRank = new ArrayList<CardValueEnum>();
-        roundBet = new ArrayList<Double>();
-        playerAllIn = new ArrayList<Boolean>();
+        players = new ArrayList<>();
+        stillInGame = new ArrayList<>();
+        handRank = new ArrayList<>();
+        roundBet = new ArrayList<>();
+        playerAllIn = new ArrayList<>();
 
         //add players temporary:
         players.add(new TablePlayer("TheTable"));
         players.add(new HumanPlayer("Arvid",1000));
         players.add(new HumanPlayer("Johan", 200));
 
-        //initiate arraylists for users
+        //initiate array lists for users
         for (int i = 0; i < players.size() ; i++) {
             //creating seperate lists for each player to keep track of them.
             stillInGame.add(true);
@@ -230,7 +230,7 @@ public class GameModel implements Serializable {
     public ArrayList<Integer> setWinner(){
         addTableCardsAndSortThem(); //sets the best hand of each player
         int highestHandPoints = 0;
-        ArrayList<Integer> winner = new ArrayList<Integer>();
+        ArrayList<Integer> winner = new ArrayList<>();
 
         //loop through the players and get the current leader:
         for (int i = 0 ; i < players.size();i++){
@@ -290,7 +290,7 @@ public class GameModel implements Serializable {
      * @return returns the best hand of the player
      */
     private Hand setHandPoints(int playerId){
-        ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
+        ArrayList<Hand> allPossibleHands = new ArrayList<>();
         allPossibleHands.addAll(getAllHands(players.get(playerId).getPlayerHand()));
         int highestHand = 0;
         int highestHandId = 0;
@@ -766,7 +766,7 @@ public class GameModel implements Serializable {
      */
     private ArrayList<Rank_> getMatchingCards(Hand oneHand,int numberOfMCards,int occurrences){
         //returns the highest matching pair, three of a kind or four of a kind
-        ArrayList<Rank_> result = new ArrayList<Rank_>();
+        ArrayList<Rank_> result = new ArrayList<>();
         int rankArray[] = new int[Rank_.values().length+1];
         int match;
         int checkOccurences=0;
@@ -804,7 +804,7 @@ public class GameModel implements Serializable {
      */
     private int getHandPoints(Hand oneHand){
         int handPoints = 0;
-        ArrayList<Rank_> tempCardRanks = new ArrayList<Rank_>();
+        ArrayList<Rank_> tempCardRanks = new ArrayList<>();
         CardValueEnum tempCardValueEnum;
         tempCardValueEnum = checkRankAndSuitValue(oneHand);
 
@@ -888,7 +888,7 @@ public class GameModel implements Serializable {
         //n choose k => 7 choose 5
         //http://stackoverflow.com/questions/8375452/how-to-loop-through-all-the-combinations-of-e-g-48-choose-5
         //for loop stolen:
-        ArrayList<Hand> allPossibleHands = new ArrayList<Hand>();
+        ArrayList<Hand> allPossibleHands = new ArrayList<>();
         Hand tempHand;
         int n = playerHand.getNoOfCards();
         for ( int i = 0; i < n; i++ ) {
