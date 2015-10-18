@@ -188,7 +188,7 @@ public class GameView extends BorderPane{
         int bet;
         bet = Integer.parseInt(sliderAmountField.getText());
         for(Player onePlayer : model.getPlayers()){
-            if(bet > onePlayer.getMoney() && onePlayer instanceof HumanPlayer) bet = (int) onePlayer.getMoney();
+            if(bet > model.getRoundBet() && onePlayer instanceof HumanPlayer) bet = (int) onePlayer.getMoney();
         }
         return bet;
     }
