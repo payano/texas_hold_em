@@ -69,7 +69,7 @@ public class GameController implements Observer{
      * 
      */
     public void allInHandler(){
-        model.bet(model.getCurrentPlayer().getMoney());
+        model.bet(view.allIn());
         updateRoundStatus();
         view.updatePlayer();
         view.updateCards();

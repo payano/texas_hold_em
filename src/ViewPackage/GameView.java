@@ -5,6 +5,7 @@ import CardPackage.Card;
 import ControllerPackage.GameController;
 import ModelPackage.GameModel;
 
+import PlayerPackage.HumanPlayer;
 import PlayerPackage.Player;
 import PlayerPackage.TablePlayer;
 import javafx.geometry.Insets;
@@ -92,7 +93,7 @@ public class GameView extends BorderPane{
         slider.setOnMouseReleased(event -> updateSlierAmountText());
         canvas.setOnMouseReleased(event -> {
             mouseX = event.getX();
-            mouseY =  event.getY();
+            mouseY = event.getY();
             controller.cardPushedHandler();
 
         });
@@ -187,7 +188,21 @@ public class GameView extends BorderPane{
         int bet;
         bet = Integer.parseInt(sliderAmountField.getText());
         for(Player onePlayer : model.getPlayers()){
-            if(bet > onePlayer.getMoney()) bet = (int) onePlayer.getMoney();
+            if(bet > onePlayer.getMoney() && onePlayer instanceof HumanPlayer) bet = (int) onePlayer.getMoney();
+        }
+        return bet;
+    }
+
+    /**
+     * Get the value from the text field to bet with.
+     *
+     * @retrun bet;
+     */
+    public int allIn(){
+        int bet;
+        bet = (int) model.getCurrentPlayer().getMoney();
+        for(Player onePlayer : model.getPlayers()){
+            if(bet > onePlayer.getMoney() && onePlayer instanceof HumanPlayer) bet = (int) onePlayer.getMoney();
         }
         return bet;
     }
