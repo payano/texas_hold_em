@@ -756,7 +756,7 @@ public class GameModel implements Serializable {
         return cardRank;
     }
     /**
-     * getMatchingCards serarches through the hand for matching cards and how many occurrences of them
+     * getMatchingCards searches through the hand for matching cards and how many occurrences of them
      * @param oneHand is the player hand
      * @param numberOfMCards how many. 1 = single card, 2 = pair, 3 = three of a kind, 4 = four of a kind.
      * @param occurrences you can search for 2 occurrences of pair: tha will be:
@@ -790,7 +790,7 @@ public class GameModel implements Serializable {
             }
         }
         if(checkOccurences != occurrences || result.size() != occurrences){
-            throw new NoMatchingCardException("Occurences: " + occurrences + " did not match checkOccurences:" + checkOccurences);
+            throw new NoMatchingCardException("Occurrences: " + occurrences + " did not match checkOccurrences:" + checkOccurences);
         }
         return result;
     }
