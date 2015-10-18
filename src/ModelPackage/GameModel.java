@@ -15,7 +15,7 @@ public class GameModel implements Serializable {
 
     //private data members in game class:
     private ArrayList<Player> players;
-    private final int stake = 50; //this is the minimum bet for all rounds in the game.
+    private final int stake = 1000; //this is the minimum bet for all rounds in the game.
     private Deck theDeck;
     private ArrayList<Boolean> stillInGame;
     private int highestBetPlayerId,bigBlind;
@@ -46,8 +46,8 @@ public class GameModel implements Serializable {
 
         //add players temporary:
         players.add(new TablePlayer("TheTable"));
-        players.add(new HumanPlayer("Arvid",1000));
-        players.add(new HumanPlayer("Johan", 200));
+        players.add(new HumanPlayer("Arvid",50000));
+        players.add(new HumanPlayer("Johan", 50000));
 
         //initiate array lists for users
         for (int i = 0; i < players.size() ; i++) {
