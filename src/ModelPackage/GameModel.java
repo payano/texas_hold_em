@@ -431,6 +431,11 @@ public class GameModel implements Serializable {
     }
     /**
      * setNextHighestBetPlayer is used for the first round.
+     * This is used to make the player call his own bet.
+     * In the first round the player with big blind calls
+     * his owns bet and the game logic is that you never have
+     * to call your own bet, this is a trick to go around that
+     * logic
      */
     private void setNextHighestBetPlayer(){
         //just for the first round, this is a special case
