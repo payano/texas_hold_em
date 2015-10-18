@@ -298,15 +298,15 @@ public class GameModel implements Serializable {
         //loop through hands and get the best value.
         for (int i = 0; i < allPossibleHands.size();i++) {
             //
-            if(checkHandRank(allPossibleHands.get(i)) > highestHand){
+            if(setHandRank(allPossibleHands.get(i)) > highestHand){
                 highestHandId = i;
-                highestHand = checkHandRank(allPossibleHands.get(i));
+                highestHand = setHandRank(allPossibleHands.get(i));
             }
 
         }
         //handpoints and handvalues are closely connected, update them both here.
         players.get(playerId).setHandPoints(highestHand);
-        setHandRank(playerId, checkCardValue(allPossibleHands.get(highestHandId)));
+        setHandRank(playerId, setHandValue(allPossibleHands.get(highestHandId)));
         return allPossibleHands.get(highestHandId);
     }
     /**
@@ -433,7 +433,7 @@ public class GameModel implements Serializable {
         return currentPlayer;
     }
     /**
-     * 
+     * setNextHighestBetPlayer is used for the first round.
      */
     private void setNextHighestBetPlayer(){
         //just for the first round, this is a special case
@@ -450,15 +450,15 @@ public class GameModel implements Serializable {
         }
     }
     /**
-     * 
-     * @param playerId
-     * @return 
+     * getMissingBetAmount this returns the missing bet amount to call
+     * @param playerId is the player index
+     * @return the amount that is needed for the player to call
      */
     public double getMissingBetAmount(int playerId){
         return getRoundBet(findTable()) - getRoundBet(playerId);
     }
     /**
-     * 
+     * setNextPlayer sets the next player in line.
      */
     public void setNextPlayer(){
         lastPlayer = currentPlayer++;
@@ -473,28 +473,17 @@ public class GameModel implements Serializable {
             else if(!getStillInGame(i)){continue;}
             else{currentPlayer = i;break;}
         }
-
-        System.out.println("Table has: " + players.get(findTable()).getMoney() + " money and getRoundBet: " + getRoundBet(findTable()));
-
-        for (int i = 0; i < players.size(); i++) {
-            System.out.println("player: " + players.get(i).getName() + " all-in: " + getPlayerAllIn(i));
-        }
     }
     /**
-     * 
-     * @return 
-     */
-    private int getNextPlayer(){return currentPlayer;}
-    /**
-     * 
-     * @param nextPlayer 
+     * setNextPlayer sets the next player
+     * @param nextPlayer index of the player
      */
     private void setNextPlayer(int nextPlayer){
         currentPlayer = nextPlayer;
         setNextPlayer();
     }
     /**
-     * 
+     * bet is the method that gets called when the player makes a bet
      * @param betAmount 
      */
     public void bet(double betAmount){
@@ -507,24 +496,18 @@ public class GameModel implements Serializable {
         if(players.get(getCurrentPlayerId()).getMoney() == 0){
             //player went all in:
             setPlayerAllIn(getCurrentPlayerId(),true);
-            System.out.println("player is all in: " + players.get(currentPlayer).getMoney());
-            //create a pot in the splitPot Array.
-            //subtract all the previous pots
-
         }
-
-        System.out.println("roundbet: " + getRoundBet(findTable()));
         setHighestBetPlayerId(currentPlayer);
         setNextPlayer();
     }
     /**
-     * 
+     * check is the method if the player checks
      */
     public void check(){
         setNextPlayer();
     }
     /**
-     * 
+     * call calls the highest bet.
      */
     public void call(){
 
@@ -536,15 +519,15 @@ public class GameModel implements Serializable {
         setNextPlayer();
     }
     /**
-     * 
+     * fold is the method that makes the player fold
      */
     public void fold(){
         stillInGame.set(getCurrentPlayerId(),false);
             setNextPlayer();
     }
     /**
-     * 
-     * @param numberOfCards 
+     * dealCards deals cards to the players
+     * @param numberOfCards how many cards that the players will be dealt.
      */
     public void dealCards(int numberOfCards) {
         for (int i = 0; i < numberOfCards; i++) {
@@ -558,8 +541,8 @@ public class GameModel implements Serializable {
         }
     }
     /**
-     * 
-     * @param numberOfCards 
+     * dealTable deal cards to the table
+     * @param numberOfCards how many cards that the table will be dealt.
      */
     public void dealTable(int numberOfCards) {
         for (int i = 0; i < numberOfCards; i++) {
@@ -573,24 +556,24 @@ public class GameModel implements Serializable {
         }
     }
     /**
-     * 
-     * @param playerId
-     * @return 
+     * getRoundBet gets the current bet of the round
+     * @param playerId is the index of the player
+     * @return the amount the player bet this round
      */
     public double getRoundBet(int playerId){
         return roundBet.get(playerId);
     }
     /**
-     * 
-     * @param playerId
-     * @param amount 
+     * setRoundBet sets the roundBet for the player
+     * @param playerId index of the player
+     * @param amount of money the player bet is
      */
     private void setRoundBet(int playerId, double amount){
         roundBet.set(playerId,amount);
     }
     /**
-     * 
-     * @return 
+     * findTable find the table among all players
+     * @return index of the table
      */
     public int findTable(){
         for(int i = 0 ; i < players.size();i++) {
@@ -602,7 +585,7 @@ public class GameModel implements Serializable {
         throw new NoPlayerInGameException("Can not find the table.");
     }
     /**
-     * 
+     * rotatePlayers rotate the player on the table
      */
     private void rotatePlayers(){
         //rotate players one step
@@ -613,28 +596,28 @@ public class GameModel implements Serializable {
         }
     }
     /**
-     * 
+     * initGame initiates and resets values for the game.
      */
     public void initGame(){
         System.out.println("SHUFFLING CARDS...");
         theDeck.fillDeck();
         theDeck.shuffleCards();
-
-
-        System.out.println("Press :1 to start.");
-
-//        while (scan.nextInt() == 1) {
-            //make all players still in game and enabled to check
         rotatePlayers();
 
-            for (int i = 0; i < players.size();i++) {
-                setStillInGame(i,true);
-                players.get(i).removeAllCards();
-                setRoundBet(i,0.0);
-                setPlayerAllIn(i,false);
-            }
-            roundStatus = GameStatusEnum.PreFlop;
+        for (int i = 0; i < players.size();i++) {
+            setStillInGame(i,true);
+            players.get(i).removeAllCards();
+            setRoundBet(i,0.0);
+            setPlayerAllIn(i,false);
+        }
+        roundStatus = GameStatusEnum.PreFlop;
     }
+
+    /**
+     * checkFlush check if the player has a flush
+     * @param oneHand is the hand of the player
+     * @return the Suit of the flush, null if none.
+     */
     private Suit_ checkFlush(Hand oneHand){
         int suitArray[] = new int[Suit_.values().length];
         //populate rank and suit arrays:
@@ -649,17 +632,16 @@ public class GameModel implements Serializable {
                         return s;
                     }
                 }
-
             }
         }
         return null;
     }
     /**
-     * 
-     * @param oneHand
-     * @return 
+     * setHandValue sets what the player has in its hand.
+     * @param oneHand is the player hand
+     * @return returns the CardValueEnum (flush, straight and so on.)
      */
-    private CardValueEnum checkCardValue(Hand oneHand){
+    private CardValueEnum setHandValue(Hand oneHand){
         int straightCount = 0;
         int lastCardValue = 0;
         int lowestStraight = 0;
@@ -699,7 +681,6 @@ public class GameModel implements Serializable {
                 return CardValueEnum.FourOfAKind;
             }
         }
-
         if(threeOfAKind && pairCount == 1) {
             return CardValueEnum.FullHouse;
         }else if(threeOfAKind){
@@ -712,9 +693,9 @@ public class GameModel implements Serializable {
         return CardValueEnum.None;
     }
     /**
-     * 
-     * @param oneHand
-     * @return 
+     * getLowestCardInStraight gets the lowest valued card in the straight
+     * @param oneHand is the player hand
+     * @return the Rank of the lowest card in the straight.
      */
     private Rank_ getLowestCardInStraight(Hand oneHand){
         //lets first check if there is a straight here:
@@ -752,16 +733,16 @@ public class GameModel implements Serializable {
 
     }
     /**
-     * 
-     * @param oneHand
-     * @return 
+     * checkRankAndSuitValue checks for special combinations of cards
+     * @param oneHand is the player hand
+     * @return returns the cardRank
      */
     private CardValueEnum checkRankAndSuitValue(Hand oneHand){
         CardValueEnum cardRank;
         Suit_ flush;
         //check if flush is set:
         flush = checkFlush(oneHand);
-        cardRank = checkCardValue(oneHand);
+        cardRank = setHandValue(oneHand);
 
         if(cardRank == CardValueEnum.Straight && flush != null){
             //Jackpot! both straight and flush!
@@ -777,11 +758,12 @@ public class GameModel implements Serializable {
         return cardRank;
     }
     /**
-     * 
-     * @param oneHand
-     * @param numberOfMCards
-     * @param occurrences
-     * @return 
+     * getMatchingCards serarches through the hand for matching cards and how many occurrences of them
+     * @param oneHand is the player hand
+     * @param numberOfMCards how many. 1 = single card, 2 = pair, 3 = three of a kind, 4 = four of a kind.
+     * @param occurrences you can search for 2 occurrences of pair: tha will be:
+     * getMatchingCards(myHand,2,2)
+     * @return an arraylist of the Ranks of the cards that was requested
      */
     private ArrayList<Rank_> getMatchingCards(Hand oneHand,int numberOfMCards,int occurrences){
         //returns the highest matching pair, three of a kind or four of a kind
@@ -798,11 +780,13 @@ public class GameModel implements Serializable {
                 match = i;
                 for(Rank_ s : Rank_.values()){
                     if(s.getValue() == match){
+                        //if there is a match, add it to the arraylist
                         result.add(s);
                     }
                 }
                 checkOccurences++;
                 if(checkOccurences == occurrences){
+                    //if everything is found, break the loop
                     break;
                 }
             }
@@ -813,11 +797,11 @@ public class GameModel implements Serializable {
         return result;
     }
     /**
-     * 
+     * setHandRank checks
      * @param oneHand
      * @return 
      */
-    private int checkHandRank(Hand oneHand){
+    private int setHandRank(Hand oneHand){
         int handPoints = 0;
         ArrayList<Rank_> tempCardRanks = new ArrayList<Rank_>();
         CardValueEnum tempCardValueEnum;
