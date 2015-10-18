@@ -461,8 +461,8 @@ public class GameModel implements Serializable {
     }
 
     /**
-     *
-     * @return
+     * getLastPlayer returns the last player that made a move
+     * @return the Player object of the last player
      */
     public Player getLastPlayer(){return players.get(lastPlayer);}
     /**
