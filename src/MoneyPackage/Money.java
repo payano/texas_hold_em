@@ -16,7 +16,6 @@ public class Money implements Serializable {
         if(moneyValue <= 0){
             throw new NegativeFundException("can not add a negative number to money");
         }
-        //protect against negative values?
         this.moneyValue = moneyValue;
     }
     /**
@@ -33,7 +32,7 @@ public class Money implements Serializable {
      * addFunds add funds to moneyValue
      * @param money this is the amount that is added to moneyValue
      */
-    public void addFunds (double money){
+    public void addFunds(double money){
         if(money < 0){
             throw new NegativeFundException("Could not add negative amount: " + money + " to wallet.");
         }
