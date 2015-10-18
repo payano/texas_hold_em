@@ -13,6 +13,9 @@ public class Money implements Serializable {
      * @param moneyValue adds the moneyValue to the variable moneyValue
      */
     public Money(double moneyValue){
+        if(moneyValue <= 0){
+            throw new NegativeFundException("can not add a negative number to money");
+        }
         //protect against negative values?
         this.moneyValue = moneyValue;
     }

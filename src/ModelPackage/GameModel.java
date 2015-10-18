@@ -3,11 +3,8 @@ package ModelPackage;
 import CardPackage.*;
 import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
-
-import javax.security.auth.Subject;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 /**
@@ -20,7 +17,6 @@ public class GameModel implements Serializable {
     private ArrayList<Player> players;
     private final int stake = 50; //this is the minimum bet for all rounds in the game.
     private Deck theDeck;
-    private Scanner scan = new Scanner(System.in);
     private ArrayList<Boolean> stillInGame;
     private int highestBetPlayerId,bigBlind;
     private ArrayList<CardValueEnum> handRank;
@@ -229,7 +225,7 @@ public class GameModel implements Serializable {
      * @return an arraylist of winners
      */
     public ArrayList<Integer> setWinner(){
-        addTableCardsAndSortThem(); //sets the best hand of each player
+        addTableCardsToPlayers(); //sets the best hand of each player
         int highestHandPoints = 0;
         ArrayList<Integer> winner = new ArrayList<>();
 
@@ -272,9 +268,9 @@ public class GameModel implements Serializable {
      */
     public void getHandPoints(int playerId, CardValueEnum cardValue){handRank.set(playerId, cardValue);}
     /**
-     * addTableCardsAndSortThem adds table cards to the player hand and sorts them
+     * addTableCardsToPlayers adds table cards to the player hand and sorts them
      */
-    public void addTableCardsAndSortThem(){
+    public void addTableCardsToPlayers(){
         for(int i = 0; i < players.size();i++){
             if(players.get(i) instanceof TablePlayer){continue;}
             //add the Table hand to the player hands.
@@ -523,7 +519,7 @@ public class GameModel implements Serializable {
      */
     public void fold(){
         stillInGame.set(getCurrentPlayerId(),false);
-            setNextPlayer();
+        setNextPlayer();
     }
     /**
      * dealCards deals cards to the players
