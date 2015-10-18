@@ -102,6 +102,7 @@ public class GameView extends BorderPane{
         highScoreItem.setOnAction(event -> controller.showHighScore());
     }
 
+
     /**
      * 
      */
