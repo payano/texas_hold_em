@@ -86,6 +86,7 @@ public class GameController implements Observer{
             }
         }
         model.dealCards(2);
+        view.turnDownCards();
         model.smallAndBigBlind();
         view.savePLayerCard();
         view.updatePlayer();
