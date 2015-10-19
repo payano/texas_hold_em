@@ -437,6 +437,8 @@ public class GameView extends BorderPane{
 
         if(cardsInPlace){
             showPlayerCards = true;
+            updateCards();
+            updatePlayer();
             timer.stop();
         }
 
