@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 
@@ -119,6 +120,10 @@ public class GameView extends BorderPane{
         showPlayer2Cards = false;
 
         showPlayerCards = false;
+
+        for (int i = 0; i < 4; i++) {
+            cardCurrentPositions.remove(0);
+        }
         for (int i = 0; i < 4; i++) {
             cardCurrentPositions.add(new Point(24,40));
         }
