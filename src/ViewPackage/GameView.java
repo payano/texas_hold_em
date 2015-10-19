@@ -6,7 +6,6 @@ import ControllerPackage.GameController;
 import ModelPackage.GameModel;
 
 import PlayerPackage.HumanPlayer;
-import PlayerPackage.Player;
 import PlayerPackage.TablePlayer;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
@@ -37,6 +36,9 @@ public class GameView extends BorderPane{
     private final GameModel model;
     private final Stage stage;
     private final GameController controller;
+
+    private CallListener callListener;
+
     private Canvas canvas;
     private Image image;
     private Image player1Card1, player1Card2, player2Card1, player2Card2;
@@ -86,9 +88,7 @@ public class GameView extends BorderPane{
      * @param controller
      */
     private void addEventHandlers(GameController controller) {
-        //restartItem.setOnAction(event -> controller.startTheGame());
         betButton.setOnAction(event2 -> controller.betHandler());
-        callButton.setOnAction(event -> controller.callHandler());
         foldButton.setOnAction(event1 -> controller.foldHandler());
         allInButton.setOnAction(event1 -> controller.allInHandler());
         slider.setOnMouseDragged(event -> updateSlierAmountText());
@@ -100,6 +100,12 @@ public class GameView extends BorderPane{
             controller.cardPushedHandler();
 
         });
+        callButton.setOnAction(event -> {
+            callListener.callPreformed();
+            updatePlayer();
+            updateCards();
+        });
+
         saveItem.setOnAction(event -> controller.saveGame(stage));
         loadItem.setOnAction(event -> controller.loadGame(stage));
         highScoreItem.setOnAction(event -> controller.showHighScore());
@@ -250,7 +256,6 @@ public class GameView extends BorderPane{
                 sliderAmountField.setDisable(true);
                 slider.setDisable(true);
                 slider.setMax(0);
-                //slider.setMajorTickUnit();
 
             }
             else {
@@ -286,67 +291,8 @@ public class GameView extends BorderPane{
         if(model.getCurrentPlayer().getMoney() == 0){
             foldButton.setDisable(true);
         }else foldButton.setDisable(false);
-
-
-
-
-/*
-        for(Player onePlayer : model.getPlayers()){
-            if(onePlayer.getMoney() == 0){
-                betButton.setDisable(true);
-                sliderAmountField.setDisable(true);
-                slider.setDisable(true);
-                betButton.setDisable(true);
-                allInButton.setDisable(true);
-                break;
-            }else {
-                betButton.setDisable(false);
-                sliderAmountField.setDisable(false);
-                slider.setDisable(false);
-                betButton.setDisable(false);
-                allInButton.setDisable(false);
-            }
-        }*/
-        /*
-        //If the player have to litte money to call or bet, disable the buttons.
-        if(model.getCurrentPlayer().getMoney() < model.getRoundBet(model.findTable())){
-            betButton.setDisable(true);
-            callButton.setDisable(true);
-            sliderAmountField.setDisable(true);
-            slider.setDisable(true);
-        }else{
-            betButton.setDisable(false);
-            callButton.setDisable(false);
-            sliderAmountField.setDisable(false);
-            slider.setDisable(false);
-        }
-
-        if(model.getCurrentPlayer().getMoney() == 0 ){
-            foldButton.setDisable(true);
-        }else {
-            foldButton.setDisable(false);
-        }
-
-        //If one player has 0 money, you cant bet more.
-        for(Player onePlayer : model.getPlayers()){
-            if(onePlayer.getMoney() == 0){
-                betButton.setDisable(true);
-                sliderAmountField.setDisable(true);
-                slider.setDisable(true);
-                betButton.setDisable(true);
-                allInButton.setDisable(true);
-                break;
-            }else {
-                betButton.setDisable(false);
-                sliderAmountField.setDisable(false);
-                slider.setDisable(false);
-                betButton.setDisable(false);
-                allInButton.setDisable(false);
-            }
-        }
-        */
-
     }
+
     /**
      * Initiates the view.
      */
@@ -436,5 +382,9 @@ public class GameView extends BorderPane{
         alert.setTitle(title);
         alert.setContentText(message);
         alert.show();
+    }
+
+    public void setCallListener(CallListener callListener) {
+        this.callListener = callListener;
     }
 }

@@ -4,21 +4,19 @@ import ModelPackage.GameModel;
 import ModelPackage.GameStatusEnum;
 import PlayerPackage.HumanPlayer;
 import PlayerPackage.Player;
-import PlayerPackage.TablePlayer;
+import ViewPackage.CallListener;
 import ViewPackage.GameView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
  *
  */
-public class GameController implements Observer{
+public class GameController implements CallListener {
 
     private final GameModel model;
     private final GameView view;
@@ -38,15 +36,22 @@ public class GameController implements Observer{
     public void cardPushedHandler(){
         view.drawPlayerCard();
     }
+
+
+
+    @Override
+    public void callPreformed() {
+        model.call();
+    }
     /**
      * 
      */
-    public void callHandler(){
+    /*public void callHandler(){
         model.call();
         updateRoundStatus();
         view.updatePlayer();
         view.updateCards();
-    }
+    }*/
     /**
      * 
      */
@@ -204,8 +209,4 @@ public class GameController implements Observer{
        }
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-
-    }
 }

@@ -1,5 +1,6 @@
+import ControllerPackage.GameController;
 import ModelPackage.GameModel;
-import ViewPackage.GameView;
+import ViewPackage.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -31,6 +32,9 @@ public class Main extends Application{
         GameModel model = new GameModel();
         GameView view = new GameView(model, primaryStage);
 
+        GameController controller = new GameController(model, view);
+
+       view.setCallListener(controller);
 
         BorderPane rootPane = new BorderPane();
         rootPane.setCenter(view);
