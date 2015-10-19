@@ -7,6 +7,7 @@ import ModelPackage.GameModel;
 
 import PlayerPackage.HumanPlayer;
 import PlayerPackage.TablePlayer;
+import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -23,6 +24,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -38,6 +40,7 @@ public class GameView extends BorderPane{
     private final GameController controller;
 
     private CallListener callListener;
+    private AnimationTimer timer;
 
     private Canvas canvas;
     private Image image;
@@ -51,12 +54,12 @@ public class GameView extends BorderPane{
     private MenuItem exitItem, restartItem, highScoreItem, loadItem, saveItem;
     private Slider slider;
 
-
+    private ArrayList<Point> cardFinalPositions = new ArrayList<>(), cardCurrentPositions = new ArrayList<>();
     private double player1X = 100, player1Y = 230;
     private double player2X = 300, player2Y = 230;
 
     private double mouseX, mouseY;
-    private boolean showPlayer1Cards, showPlayer2Cards;
+    private boolean showPlayer1Cards, showPlayer2Cards,showPlayerCards;
 
     private final Alert alert = new Alert(Alert.AlertType.INFORMATION);
     /**
@@ -135,13 +138,12 @@ public class GameView extends BorderPane{
         drawPlayerCard();
 
         if(model.getPlayer(model.findTable()) instanceof TablePlayer){
-            double tableX = 65, tableY;
+            double tableX = 65;
             gc.fillText("Pot: " + ((Double) model.getPlayer(0).getMoney()).toString(), 145, 150);
             for (Card c : model.getPlayer(0).getCards()) {
                 image = c.getImage();
                 tableX += 80;
-                tableY = 40;
-                gc.drawImage(image, tableX, tableY);
+                gc.drawImage(image, tableX, 40);
             }
         }
     }
@@ -159,27 +161,36 @@ public class GameView extends BorderPane{
      */
     public void drawPlayerCard(){
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        if(mouseY > 230 && mouseY < 330 && mouseX > 100 && mouseX < 222) showPlayer1Cards = !showPlayer1Cards;
-        if(mouseY > 230 && mouseY < 330 && mouseX > 300 && mouseX < 422) showPlayer2Cards = !showPlayer2Cards;
+        if(showPlayerCards) {
 
-        if(showPlayer1Cards) {
-            gc.drawImage(player1Card1, player1X, player1Y);
-            gc.drawImage(player1Card2, player1X + 50, player1Y);
-        } else {
-            image = new Image(this.getClass().getResource("/resources/cards/b1fv.png").toString());
-            gc.drawImage(image, player1X, player1Y);
-            gc.drawImage(image, player1X+50, player1Y);
+            if (mouseY > 230 && mouseY < 330 && mouseX > 100 && mouseX < 222) showPlayer1Cards = !showPlayer1Cards;
+            if (mouseY > 230 && mouseY < 330 && mouseX > 300 && mouseX < 422) showPlayer2Cards = !showPlayer2Cards;
+
+            if (showPlayer1Cards) {
+                gc.drawImage(player1Card1, player1X, player1Y);
+                gc.drawImage(player1Card2, player1X + 50, player1Y);
+            } else {
+                image = new Image(this.getClass().getResource("/resources/cards/b1fv.png").toString());
+                gc.drawImage(image, player1X, player1Y);
+                gc.drawImage(image, player1X + 50, player1Y);
+            }
+            if (showPlayer2Cards) {
+                gc.drawImage(player2Card1, player2X, player2Y);
+                gc.drawImage(player2Card2, player2X + 50, player2Y);
+            } else {
+                image = new Image(this.getClass().getResource("/resources/cards/b1fv.png").toString());
+                gc.drawImage(image, player2X, player1Y);
+                gc.drawImage(image, player2X + 50, player1Y);
+            }
+            mouseX = 0;
+            mouseY = 0;
         }
-        if(showPlayer2Cards) {
-            gc.drawImage(player2Card1, player2X, player2Y);
-            gc.drawImage(player2Card2, player2X + 50, player2Y);
-        }else {
-            image = new Image(this.getClass().getResource("/resources/cards/b1fv.png").toString());
-            gc.drawImage(image, player2X, player1Y);
-            gc.drawImage(image, player2X + 50, player1Y);
-        }
-        mouseX = 0;
-        mouseY = 0;
+        image = new Image(this.getClass().getResource("/resources/cards/b1fv.png").toString());
+        gc.drawImage(image, 20, 40);
+        gc.drawImage(image, 20+2, 40);
+        gc.drawImage(image, 20+4, 40);
+
+
     }
 
 
@@ -375,6 +386,58 @@ public class GameView extends BorderPane{
         gc.setFill(Color.rgb(37, 38, 40));
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
+        //Set up the animation timer and animation
+        timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                //System.out.println("test");
+                moveCard();
+
+            }
+        };
+        cardFinalPositions.add(new Point((int)player1X,(int)player1Y));
+        cardFinalPositions.add(new Point((int)player1X+50,(int)player1Y));
+        cardFinalPositions.add(new Point((int)player2X,(int)player2Y));
+        cardFinalPositions.add(new Point((int)player2X+50,(int)player2Y));
+
+        for (int i = 0; i < 4; i++) {
+            cardCurrentPositions.add(new Point(24,40));
+        }
+
+    }
+
+    public void moveCard(){
+        boolean cardsInPlace = true;
+        //updateCards();
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        image = new Image(this.getClass().getResource("/resources/cards/b1fv.png").toString());
+
+        for (int i = 0; i < 4; i++) {
+            double x = cardCurrentPositions.get(i).getX();
+            double y = cardCurrentPositions.get(i).getY();
+
+            if(cardCurrentPositions.get(i).getX() < cardFinalPositions.get(i).getX()){
+                cardCurrentPositions.get(i).setLocation(x+=3,y);
+                cardsInPlace = false;
+            }
+
+            if(cardCurrentPositions.get(i).getY() < cardFinalPositions.get(i).getY()){
+                cardCurrentPositions.get(i).setLocation(x,y+=2);
+                cardsInPlace = false;
+            }
+            gc.drawImage(image,x,y);
+        }
+
+        if(cardsInPlace){
+            showPlayerCards = true;
+            timer.stop();
+        }
+
+    }
+
+    public void startTimer(){
+        timer.start();
     }
 
     public void showAlert(String message, String title) {
@@ -386,5 +449,8 @@ public class GameView extends BorderPane{
 
     public void setCallListener(CallListener callListener) {
         this.callListener = callListener;
+
     }
 }
+
+

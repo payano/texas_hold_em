@@ -42,6 +42,7 @@ public class GameController implements CallListener {
     @Override
     public void callPreformed() {
         model.call();
+        updateRoundStatus();
     }
     /**
      * 
@@ -91,6 +92,7 @@ public class GameController implements CallListener {
             }
         }
         model.dealCards(2);
+        view.startTimer();
         view.turnDownCards();
         model.smallAndBigBlind();
         view.savePLayerCard();
@@ -202,7 +204,7 @@ public class GameController implements CallListener {
                    }
                    view.showAlert("Player: " + winners + " won with " + wonWith + "!!","Winner!!");
 
-                   startTheGame();
+                   //startTheGame();
                    model.setRoundStatus(GameStatusEnum.PreFlop);
                }
                break;
