@@ -117,6 +117,10 @@ public class GameView extends BorderPane{
     public void turnDownCards(){
         showPlayer1Cards = false;
         showPlayer2Cards = false;
+
+        for (int i = 0; i < 4; i++) {
+            cardCurrentPositions.add(new Point(24,40));
+        }
     }
 
     /**

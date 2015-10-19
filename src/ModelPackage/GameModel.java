@@ -48,7 +48,7 @@ public class GameModel implements Serializable {
         //add players temporary:
         players.add(new TablePlayer("TheTable"));
         players.add(new HumanPlayer("Arvid",50000));
-        players.add(new HumanPlayer("TobkarsKorvar", 50000));
+        players.add(new HumanPlayer("Johan", 50000));
 
         //initiate array lists for users
         for (int i = 0; i < players.size() ; i++) {
