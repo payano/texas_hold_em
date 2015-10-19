@@ -204,7 +204,7 @@ public class GameController implements CallListener {
                    }
                    view.showAlert("Player: " + winners + " won with " + wonWith + "!!","Winner!!");
 
-                   startTheGame();
+                   //startTheGame();
                    model.setRoundStatus(GameStatusEnum.PreFlop);
                }
                break;

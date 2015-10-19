@@ -411,6 +411,8 @@ public class GameView extends BorderPane{
         cardFinalPositions.add(new Point((int)player2X,(int)player2Y));
         cardFinalPositions.add(new Point((int)player2X+50,(int)player2Y));
 
+        //cardFinalPositions.add(new Point();
+
         for (int i = 0; i < 4; i++) {
             cardCurrentPositions.add(new Point(24,40));
         }
@@ -457,6 +459,7 @@ public class GameView extends BorderPane{
         alert.setHeaderText("");
         alert.setTitle(title);
         alert.setContentText(message);
+        alert.setOnCloseRequest(event -> controller.startTheGame());
         alert.show();
     }
 
