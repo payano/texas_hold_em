@@ -93,7 +93,7 @@ public class GameController implements CallListener {
         }
         model.dealCards(2);
         view.turnDownCards();
-        view.startTimer();
+        view.starDealPlayerCardTimer();
         model.smallAndBigBlind();
         view.savePLayerCard();
         view.updatePlayer();

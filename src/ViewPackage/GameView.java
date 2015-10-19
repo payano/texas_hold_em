@@ -41,7 +41,7 @@ public class GameView extends BorderPane{
     private final GameController controller;
 
     private CallListener callListener;
-    private AnimationTimer timer;
+    private AnimationTimer dealPlayerCardTimer;
 
     private Canvas canvas;
     private Image image;
@@ -52,7 +52,7 @@ public class GameView extends BorderPane{
     private Label playerNameLabel, playerMoneyLabel,
             currentPlayerLabel, currentPLayerMoneyLabel, missingBetAmountLabel;
     private Menu fileMenu;
-    private MenuItem exitItem, restartItem, highScoreItem, loadItem, saveItem;
+    private MenuItem exitItem, loadItem, saveItem;
     private Slider slider;
 
     private ArrayList<Point> cardFinalPositions = new ArrayList<>(), cardCurrentPositions = new ArrayList<>();
@@ -112,7 +112,7 @@ public class GameView extends BorderPane{
 
         saveItem.setOnAction(event -> controller.saveGame(stage));
         loadItem.setOnAction(event -> controller.loadGame(stage));
-        highScoreItem.setOnAction(event -> controller.showHighScore());
+        exitItem.setOnAction(event -> System.exit(1));
     }
 
     public void turnDownCards(){
@@ -322,11 +322,9 @@ public class GameView extends BorderPane{
         //Add the menu
         fileMenu = new Menu("File");
         exitItem = new MenuItem("Exit");
-        restartItem = new MenuItem("Restart");
         saveItem = new MenuItem("Save Game");
         loadItem = new MenuItem("Load Game");
-        highScoreItem = new MenuItem("Highscore");
-        fileMenu.getItems().addAll(highScoreItem, loadItem,saveItem,restartItem, exitItem);
+        fileMenu.getItems().addAll(loadItem,saveItem,exitItem);
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(fileMenu);
         this.setTop(menuBar);
@@ -398,28 +396,28 @@ public class GameView extends BorderPane{
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         //Set up the animation timer and animation
-        timer = new AnimationTimer() {
+        dealPlayerCardTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 //System.out.println("test");
-                moveCard();
+                movePlayerCards();
 
             }
         };
+
         cardFinalPositions.add(new Point((int)player1X,(int)player1Y));
         cardFinalPositions.add(new Point((int)player1X+50,(int)player1Y));
         cardFinalPositions.add(new Point((int)player2X,(int)player2Y));
         cardFinalPositions.add(new Point((int)player2X+50,(int)player2Y));
 
-        //cardFinalPositions.add(new Point();
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 6; i++) {
             cardCurrentPositions.add(new Point(24,40));
         }
 
     }
 
-    public void moveCard(){
+    public void movePlayerCards(){
         boolean cardsInPlace = true;
         updateCards();
 
@@ -446,13 +444,13 @@ public class GameView extends BorderPane{
             showPlayerCards = true;
             updateCards();
             updatePlayer();
-            timer.stop();
+            dealPlayerCardTimer.stop();
         }
 
     }
 
-    public void startTimer(){
-        timer.start();
+    public void starDealPlayerCardTimer(){
+        dealPlayerCardTimer.start();
     }
 
     public void showAlert(String message, String title) {
