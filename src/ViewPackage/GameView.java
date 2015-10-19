@@ -118,9 +118,11 @@ public class GameView extends BorderPane{
         showPlayer1Cards = false;
         showPlayer2Cards = false;
 
+        showPlayerCards = false;
         for (int i = 0; i < 4; i++) {
             cardCurrentPositions.add(new Point(24,40));
         }
+
     }
 
     /**
@@ -422,7 +424,7 @@ public class GameView extends BorderPane{
             double y = cardCurrentPositions.get(i).getY();
 
             if(cardCurrentPositions.get(i).getX() < cardFinalPositions.get(i).getX()){
-                cardCurrentPositions.get(i).setLocation(x+=3,y);
+                cardCurrentPositions.get(i).setLocation(x+=4,y);
                 cardsInPlace = false;
             }
 

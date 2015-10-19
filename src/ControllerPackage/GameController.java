@@ -92,8 +92,8 @@ public class GameController implements CallListener {
             }
         }
         model.dealCards(2);
-        view.startTimer();
         view.turnDownCards();
+        view.startTimer();
         model.smallAndBigBlind();
         view.savePLayerCard();
         view.updatePlayer();
@@ -204,7 +204,7 @@ public class GameController implements CallListener {
                    }
                    view.showAlert("Player: " + winners + " won with " + wonWith + "!!","Winner!!");
 
-                   //startTheGame();
+                   startTheGame();
                    model.setRoundStatus(GameStatusEnum.PreFlop);
                }
                break;
