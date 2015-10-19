@@ -408,7 +408,7 @@ public class GameView extends BorderPane{
 
     public void moveCard(){
         boolean cardsInPlace = true;
-        //updateCards();
+        updateCards();
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
         image = new Image(this.getClass().getResource("/resources/cards/b1fv.png").toString());
