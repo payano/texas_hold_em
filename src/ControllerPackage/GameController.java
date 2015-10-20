@@ -206,8 +206,8 @@ public class GameController implements CallListener {
            case River:
                if (model.roundComplete()) {
                    view.updateCards();
-                   String wonWith = new String();
-                   String winners = new String();
+                   String wonWith = "";
+                   String winners = "";
 
                    for(Integer i: model.setWinner()){
                       wonWith += model.getHandRank(i);
