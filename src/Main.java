@@ -15,7 +15,6 @@ import javafx.stage.Stage;
  */
 
 public class Main extends Application{
-    private AnimationTimer timer;
 
     /**
      * Main constructor
