@@ -29,32 +29,32 @@ public class GameController implements CallListener {
         this.model = model;
         this.view = view;
     }
+
     /**
-     * 
-     * @param
+     * Handles what to do when the screen i klicked.
      */
     public void cardPushedHandler(){
         view.drawPlayerCard();
     }
 
-
-
+    /**
+     * Uses its own listener to communicate with the view
+     * that the call button has been pushed.
+     * Preforms the call in model, then its updates
+     * the game status, player info and players cards
+     * in the view.
+     */
     @Override
     public void callPreformed() {
         model.call();
         updateRoundStatus();
     }
+
     /**
-     * 
-     */
-    /*public void callHandler(){
-        model.call();
-        updateRoundStatus();
-        view.updatePlayer();
-        view.updateCards();
-    }*/
-    /**
-     * 
+     * Handles when the fold button is pushed.
+     * Preforms the fold in model, then its updates
+     * the game status, player info and players cards
+     * in the view.
      */
     public void foldHandler(){
         model.fold();
@@ -62,8 +62,12 @@ public class GameController implements CallListener {
         view.updatePlayer();
         view.updateCards();
     }
+
     /**
-     * 
+     * Handles when the bet button is pushed.
+     * Preforms the bet in model, then its updates
+     * the game status, player info and players cards
+     * in the view.
      */
     public void betHandler(){
         model.bet(view.getBet());
@@ -71,8 +75,13 @@ public class GameController implements CallListener {
         view.updatePlayer();
         view.updateCards();
     }
+
     /**
-     * 
+     * Handles when the allIn button is pushed.
+     * Preforms the bet(with all the players
+     * moeny) in model, then its updates
+     * the game status, player info and players cards
+     * in the view.
      */
     public void allInHandler(){
         model.bet(view.allIn());
@@ -80,8 +89,13 @@ public class GameController implements CallListener {
         view.updatePlayer();
         view.updateCards();
     }
+
     /**
-     * 
+     * Starts the game and preforms the necessary actions
+     * for the game to restart.
+     * Initiates the game via model, dealCards, turns the players
+     * cards face down, starts the deal animation, deals the blinds
+     * , and lastly it shows the players info.
      */
     public void startTheGame(){
         model.initGame();
@@ -98,8 +112,10 @@ public class GameController implements CallListener {
         view.savePLayerCard();
         view.updatePlayer();
     }
+
     /**
-     * 
+     * Save game saves the currentinfo about the players to a searial file
+     * that can be loaded via loadGame.
      */
     public void saveGame(Stage stage){
         // https://docs.oracle.com/javase/8/javafx/api/javafx/stage/FileChooser.html
@@ -118,8 +134,10 @@ public class GameController implements CallListener {
             }
         }
     }
+
     /**
-     * 
+     * Loads the game for a file of your choice, and starts a new game with
+     * that player info.
      */
     public void loadGame(Stage stage){
         // https://docs.oracle.com/javase/8/javafx/api/javafx/stage/FileChooser.html
@@ -145,15 +163,10 @@ public class GameController implements CallListener {
             }
         }
     }
-    /**
-     * 
-     */
-    public void showHighScore(){
-        System.out.println("highscore");
 
-    }
     /**
-     * 
+     * Checks if the current status should be updated
+     * using the updateRoundStatus in model.
      */
     private void updateRoundStatus(){
         if(model.getPlayersInGame() == 1){
@@ -210,5 +223,4 @@ public class GameController implements CallListener {
                break;
        }
     }
-
 }

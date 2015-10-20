@@ -1,10 +1,8 @@
 package ViewPackage;
 
 import CardPackage.Card;
-
 import ControllerPackage.GameController;
 import ModelPackage.GameModel;
-
 import PlayerPackage.HumanPlayer;
 import PlayerPackage.TablePlayer;
 import javafx.animation.AnimationTimer;
@@ -26,7 +24,6 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 
@@ -63,9 +60,11 @@ public class GameView extends BorderPane{
     private boolean showPlayer1Cards, showPlayer2Cards,showPlayerCards;
 
     private final Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
     /**
-     *
+     * GameView constructor. Creates the GameView.
      * @param model
+     * @param stage
      */
     public GameView(GameModel model, Stage stage){
         this.model = model;
