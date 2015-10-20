@@ -5,7 +5,6 @@ import ControllerPackage.GameController;
 import ModelPackage.GameModel;
 import PlayerPackage.HumanPlayer;
 import PlayerPackage.TablePlayer;
-import com.sun.java.swing.action.FileMenu;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
@@ -62,8 +61,8 @@ public class GameView extends BorderPane{
 
     /**
      * GameView constructor. Creates the GameView.
-     * @param model
-     * @param stage
+     * @param model the model to use.
+     * @param stage the stage to use.
      */
     public GameView(GameModel model, Stage stage){
         this.model = model;
@@ -87,7 +86,7 @@ public class GameView extends BorderPane{
 
     /**
      * Adds the corresponding handler to all the items that needs it.
-     * @param controller
+     * @param controller the controller to use.
      */
     private void addEventHandlers(GameController controller) {
         //EventHandlers assigned to the items.
@@ -232,8 +231,7 @@ public class GameView extends BorderPane{
 
     /**
      * Get the value from the text field to bet with.
-     *
-     * @retrun bet;
+     * @return the bet amount
      */
     public int getBet(){
         int bet;
@@ -245,7 +243,7 @@ public class GameView extends BorderPane{
     /**
      * Get the value from the text field to bet with.
      *
-     * @retrun bet;
+     * @return  the is the bet amount.
      */
     public int allIn(){
         int bet;
@@ -480,8 +478,8 @@ public class GameView extends BorderPane{
      * at the top. The close botton can be set with
      * enableStartGame to choose if the button should start
      * the game when klicked.
-     * @param message
-     * @param title
+     * @param message the message to be show in the main body
+     * @param title the titel on the top of the window.
      */
     public void showAlert(String message, String title, boolean enableStartGame) {
         alert.setHeaderText("");
@@ -494,7 +492,7 @@ public class GameView extends BorderPane{
 
     /**
      * Sets up the callListener.
-     * @param callListener
+     * @param callListener the listener to use.
      */
     public void setCallListener(CallListener callListener) {
         this.callListener = callListener;

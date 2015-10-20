@@ -21,9 +21,9 @@ public class GameController implements CallListener {
     private final GameModel model;
     private final GameView view;
     /**
-     * 
-     * @param model
-     * @param view 
+     * The GameController constructor.
+     * @param model the model to use.
+     * @param view the view to use.
      */
     public GameController(GameModel model, GameView view){
         this.model = model;
@@ -118,6 +118,7 @@ public class GameController implements CallListener {
     /**
      * Save game saves the currentinfo about the players to a serial file
      * that can be loaded via loadGame.
+     * @param stage the stage to save from-
      */
     public void saveGame(Stage stage){
         // https://docs.oracle.com/javase/8/javafx/api/javafx/stage/FileChooser.html
@@ -140,6 +141,7 @@ public class GameController implements CallListener {
     /**
      * Loads the game for a file of your choice, and starts a new game with
      * that player info.
+     * @param stage the stage to load in to.
      */
     public void loadGame(Stage stage){
         // https://docs.oracle.com/javase/8/javafx/api/javafx/stage/FileChooser.html
