@@ -147,7 +147,7 @@ public class GameView extends BorderPane{
         gc.setStroke(Color.rgb(152, 158, 168));
         gc.setFill(Color.rgb(152, 158, 168));
 
-        //Update the labes with the players name and remaining money.
+        //Update the labels with the players name and remaining money.
         gc.fillText("Player: " + model.getPlayer(1).getName(), player1X, player1Y + 110);
         gc.fillText("Money: " + ((Double) model.getPlayer(1).getMoney()).toString(), player1X, player1Y + 125);
         gc.fillText("Player: " + model.getPlayer(2).getName(), player2X, player2Y + 110);

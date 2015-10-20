@@ -1,7 +1,6 @@
 import ControllerPackage.GameController;
 import ModelPackage.GameModel;
 import ViewPackage.*;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
