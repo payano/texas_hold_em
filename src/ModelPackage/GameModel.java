@@ -257,7 +257,6 @@ public class GameModel implements Serializable {
         for (int i = 0; i < winner.size(); i++) {
             players.get(winner.get(i)).addMoney(
                     players.get(findTable()).withdrawMoney(players.get(findTable()).getMoney() / winner.size()));
-                    System.out.println("player: " + players.get(winner.get(i)).getName() + ", handPoints: " + getHandPoints(winner.get(i)) + " CardValue: " + getHandRank(winner.get(i)));
         }
 
         return winner;
@@ -497,8 +496,6 @@ public class GameModel implements Serializable {
      */
     public void bet(double betAmount){
         double difference = getRoundBet(findTable()) - getRoundBet(getCurrentPlayerId());
-        System.out.println("YEYEYEYEEE");
-
         //players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
 
         players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount + difference));
@@ -552,7 +549,6 @@ public class GameModel implements Serializable {
                 if (!getStillInGame(j)) {continue;}
                 //Give each player one card at a time.
                 players.get(j).addCard(theDeck.dealCard());
-                System.out.println(players.get(j).toString());
             }
         }
     }
@@ -567,7 +563,6 @@ public class GameModel implements Serializable {
                 if (!getStillInGame(j)) {continue;}
                 //Give the table cards.
                 players.get(j).addCard(theDeck.dealCard());
-                System.out.println(players.get(j).toString());
             }
         }
     }
@@ -615,7 +610,6 @@ public class GameModel implements Serializable {
      * initGame initiates and resets values for the game.
      */
     public void initGame(){
-        System.out.println("SHUFFLING CARDS...");
         theDeck.fillDeck();
         theDeck.shuffleCards();
         rotatePlayers();
