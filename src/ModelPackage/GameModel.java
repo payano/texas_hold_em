@@ -25,14 +25,9 @@ public class GameModel implements Serializable {
     private int currentPlayer,lastPlayer;
     private GameStatusEnum roundStatus;
 
-    //For split pots:
-    private ArrayList<Integer> splitPot;
-    private ArrayList<ArrayList<Integer>> splitPlayers;
-    //never implemented
 
     private ArrayList<Boolean> playerAllIn;
 
-    //end for split pots
 
     /**
      * GameModel constructor - initializes the game

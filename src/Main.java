@@ -36,14 +36,14 @@ public class Main extends Application{
         GameModel model = new GameModel();
         GameView view = new GameView(model, primaryStage);
 
+        //Set up the callListener
         GameController controller = new GameController(model, view);
-
         view.setCallListener(controller);
 
+        //Set up and show the rootPane
         BorderPane rootPane = new BorderPane();
         rootPane.setCenter(view);
         primaryStage.setTitle("Texas Hold Em");
-
         Scene scene = new Scene(rootPane,700,600);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

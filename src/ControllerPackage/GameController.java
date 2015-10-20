@@ -102,7 +102,9 @@ public class GameController implements CallListener {
         for(Player onePlayer : model.getPlayers()){
             if(onePlayer.getMoney() == 0 && onePlayer instanceof HumanPlayer) {
                 onePlayer.addMoney(10*model.getStake());
-                view.showAlert("Player: " + onePlayer.getName() + " is out of money, gave him 10 times the stake!", "Out of money!");
+                view.showAlert("Player: " + onePlayer.getName() +
+                        " is out of money, gave him 10 times the stake!",
+                        "Out of money!",false);
             }
         }
         model.dealCards(2);
@@ -114,7 +116,7 @@ public class GameController implements CallListener {
     }
 
     /**
-     * Save game saves the currentinfo about the players to a searial file
+     * Save game saves the currentinfo about the players to a serial file
      * that can be loaded via loadGame.
      */
     public void saveGame(Stage stage){
@@ -171,7 +173,8 @@ public class GameController implements CallListener {
     private void updateRoundStatus(){
         if(model.getPlayersInGame() == 1){
             view.showAlert(model.getPlayer(model.winnerByFold()).getName() +
-                    " is the winner by all the other players folding!!", "Winner!!");
+                    " is the winner by all the other players folding!!",
+                    "Winner!!", true);
             startTheGame();
             model.setRoundStatus(GameStatusEnum.PreFlop);
         }
@@ -180,33 +183,26 @@ public class GameController implements CallListener {
            case PreFlop:
                if (model.roundComplete()) {
                    model.dealTable(3);
-                   //view.updateTable();
                    view.updateCards();
                    model.setRoundStatus(GameStatusEnum.Flop);
-                   System.out.println("\nPreFlop -> Flop\n");
        }
                break;
            case Flop:
                if (model.roundComplete()) {
                    model.dealTable(1);
-                   //view.updateTable();
                    view.updateCards();
                    model.setRoundStatus(GameStatusEnum.Turn);
-                   System.out.println("\nFlop -> Turn\n");
                }
                break;
            case Turn:
                if (model.roundComplete()) {
                    model.dealTable(1);
-                   //view.updateTable();
                    view.updateCards();
                    model.setRoundStatus(GameStatusEnum.River);
-                   System.out.println("\nTurn -> River\n");
                }
                break;
            case River:
                if (model.roundComplete()) {
-                   System.out.println("\nRiver -> PreFlop\n");
                    view.updateCards();
                    String wonWith = new String();
                    String winners = new String();
@@ -215,9 +211,9 @@ public class GameController implements CallListener {
                       wonWith += model.getHandRank(i);
                        winners = model.getPlayer(i).getName();
                    }
-                   view.showAlert("Player: " + winners + " won with " + wonWith + "!!","Winner!!");
+                   view.showAlert("Player: " + winners +
+                           " won with " + wonWith + "!!","Winner!!", true);
 
-                   //startTheGame();
                    model.setRoundStatus(GameStatusEnum.PreFlop);
                }
                break;

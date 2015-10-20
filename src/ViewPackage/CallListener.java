@@ -5,5 +5,10 @@ package ViewPackage;
  *
  */
 public interface CallListener {
+
+    /**
+     * Updates all the implementing classes if this
+     * method is called.
+     */
     void callPreformed();
 }
