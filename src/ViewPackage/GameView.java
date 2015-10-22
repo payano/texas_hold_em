@@ -185,6 +185,7 @@ public class GameView extends BorderPane{
      */
     public void drawPlayerCard(){
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        ClassLoader cl = this.getClass().getClassLoader();
         if(showPlayerCards) {
 
             //If the mouse was over one of the players cards, toggle the side to show.
@@ -196,7 +197,7 @@ public class GameView extends BorderPane{
                 gc.drawImage(player1Card1, player1X, player1Y);
                 gc.drawImage(player1Card2, player1X + 50, player1Y);
             } else {
-                image = new Image(this.getClass().getResource("/resources/cards/b1fv.png").toString());
+                image = new Image(cl.getResource("/resources/cards/b1fv.png"));
                 gc.drawImage(image, player1X, player1Y);
                 gc.drawImage(image, player1X + 50, player1Y);
             }
@@ -204,7 +205,7 @@ public class GameView extends BorderPane{
                 gc.drawImage(player2Card1, player2X, player2Y);
                 gc.drawImage(player2Card2, player2X + 50, player2Y);
             } else {
-                image = new Image(this.getClass().getResource("/resources/cards/b1fv.png").toString());
+                image = new Image(cl.getResource("/resources/cards/b1fv.png"));
                 gc.drawImage(image, player2X, player1Y);
                 gc.drawImage(image, player2X + 50, player1Y);
             }
@@ -213,7 +214,7 @@ public class GameView extends BorderPane{
         }
 
         //Draw the "deck"
-        image = new Image(this.getClass().getResource("/resources/cards/b1fv.png").toString());
+        image = new Image(cl.getResource("/resources/cards/b1fv.png"));
         gc.drawImage(image, 20, 40);
         gc.drawImage(image, 20+2, 40);
         gc.drawImage(image, 20+4, 40);
