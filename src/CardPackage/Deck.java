@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
  */
 public class Deck {
     private List<Card> theCards = new ArrayList<>();
+    ClassLoader cl = this.getClass().getClassLoader();
     /**
      * Deck constructor creates a new deck with 52 cards.
      */
@@ -74,7 +75,7 @@ public class Deck {
         for (Rank_ r : Rank_.values()){
             if(r == Rank_.One){continue;} //if dont do anything
             for (Suit_ s : Suit_.values()){
-                theCards.add(new Card(r,s,new Image(this.getClass().getResource("../resources/cards/" + imgNr + ".png").toString())));
+                theCards.add(new Card(r,s,new Image(cl.getResource("./resources/cards/" + imgNr + ".png").toString())));
                 imgNr--;
             }
         }
