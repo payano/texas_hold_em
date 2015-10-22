@@ -176,8 +176,7 @@ public class GameController implements CallListener {
         if(model.getPlayersInGame() == 1){
             view.showAlert(model.getPlayer(model.winnerByFold()).getName() +
                     " is the winner by all the other players folding!!",
-                    "Winner!!", true);
-            startTheGame();
+                    "Winner!!",true);
             model.setRoundStatus(GameStatusEnum.PreFlop);
         }
 
