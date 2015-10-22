@@ -75,7 +75,7 @@ public class Deck {
         for (Rank_ r : Rank_.values()){
             if(r == Rank_.One){continue;} //if dont do anything
             for (Suit_ s : Suit_.values()){
-                Image kaos = new Image(cl.getResourceAsStream("resources/cards/1.png"));
+                Image kaos = new Image(cl.getResourceAsStream("resources/cards/" + imgNr + ".png"));
                 theCards.add(new Card(r,s,kaos));
                 imgNr--;
             }
