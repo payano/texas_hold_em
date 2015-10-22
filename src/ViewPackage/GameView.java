@@ -436,7 +436,7 @@ public class GameView extends BorderPane{
         updateCards();
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        image = new Image(cl.getResourceAsStream("./resources/cards/b1fv.png"));
+        image = new Image(cl.getResourceAsStream("resources/cards/b1fv.png"));
 
         //Loop thru all the cards an move the towards there final position.
         for (int i = 0; i < 4; i++) {
