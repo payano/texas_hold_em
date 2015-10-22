@@ -197,7 +197,7 @@ public class GameView extends BorderPane{
                 gc.drawImage(player1Card1, player1X, player1Y);
                 gc.drawImage(player1Card2, player1X + 50, player1Y);
             } else {
-                image = new Image(cl.getResource("./resources/cards/b1fv.png").toString());
+                Image image  = new Image(cl.getResourceAsStream("resources/cards/b1fv.png"));
                 gc.drawImage(image, player1X, player1Y);
                 gc.drawImage(image, player1X + 50, player1Y);
             }
@@ -205,7 +205,7 @@ public class GameView extends BorderPane{
                 gc.drawImage(player2Card1, player2X, player2Y);
                 gc.drawImage(player2Card2, player2X + 50, player2Y);
             } else {
-                image = new Image(cl.getResource("./resources/cards/b1fv.png").toString());
+                image = new Image(cl.getResourceAsStream("resources/cards/b1fv.png"));
                 gc.drawImage(image, player2X, player1Y);
                 gc.drawImage(image, player2X + 50, player1Y);
             }
@@ -214,7 +214,7 @@ public class GameView extends BorderPane{
         }
 
         //Draw the "deck"
-        image = new Image(cl.getResource("./resources/cards/b1fv.png").toString());
+        image = new Image(cl.getResourceAsStream("resources/cards/b1fv.png"));
         gc.drawImage(image, 20, 40);
         gc.drawImage(image, 20+2, 40);
         gc.drawImage(image, 20+4, 40);
@@ -436,7 +436,7 @@ public class GameView extends BorderPane{
         updateCards();
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        image = new Image(cl.getResource("./resources/cards/b1fv.png").toString());
+        image = new Image(cl.getResourceAsStream("./resources/cards/b1fv.png"));
 
         //Loop thru all the cards an move the towards there final position.
         for (int i = 0; i < 4; i++) {
