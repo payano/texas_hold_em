@@ -5,6 +5,7 @@ import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Observable;
 
 
 /**
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  *
  * GameModel is the player logic in the game texas hold em.
  */
-public class GameModel implements Serializable {
+public class GameModel extends Observable implements Serializable {
 
     //private data members in game class:
     private ArrayList<Player> players;
@@ -508,6 +509,10 @@ public class GameModel implements Serializable {
         setHighestBetPlayerId(currentPlayer);
         setNextPlayer();
         setBigBlind(findTable());
+
+        //The model has changed update observers
+        this.setChanged();
+        this.notifyObservers();
     }
     /**
      * check is the method if the player checks
