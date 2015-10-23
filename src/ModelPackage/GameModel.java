@@ -3,6 +3,8 @@ package ModelPackage;
 import CardPackage.*;
 import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
+import ViewPackage.GameView;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;

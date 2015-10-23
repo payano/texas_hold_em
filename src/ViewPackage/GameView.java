@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Observable;
@@ -71,6 +72,7 @@ public class GameView extends BorderPane implements Observer{
         this.model = model;
         this.stage = stage;
 
+
         //Creat the controller and the model.
         controller = new GameController(model, this);
 
@@ -93,7 +95,9 @@ public class GameView extends BorderPane implements Observer{
      */
     private void addEventHandlers(GameController controller) {
         //EventHandlers assigned to the items.
-        betButton.setOnAction(event2 -> controller.betHandler());
+        betButton.setOnAction(event2 -> {
+            controller.betHandler();
+        });
         foldButton.setOnAction(event1 -> controller.foldHandler());
         allInButton.setOnAction(event1 -> controller.allInHandler());
         slider.setOnMouseDragged(event -> updateSlierAmountText());
@@ -426,6 +430,7 @@ public class GameView extends BorderPane implements Observer{
             cardCurrentPositions.add(new Point(24,40));
         }
 
+        model.addObserver(this);
     }
 
     /**
@@ -503,7 +508,7 @@ public class GameView extends BorderPane implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("TEST");
+        System.out.println(arg);
     }
 }
 
