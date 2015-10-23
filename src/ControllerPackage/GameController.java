@@ -211,7 +211,7 @@ public class GameController implements CallListener {
 
                    for(Integer i: model.setWinner()){
                       wonWith += model.getHandRank(i);
-                       winners = model.getPlayer(i).getName();
+                       winners += model.getPlayer(i).getName();
                    }
                    view.showAlert("Player: " + winners +
                            " won with " + wonWith + "!!","Winner!!", true);

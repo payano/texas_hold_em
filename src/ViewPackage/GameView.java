@@ -25,13 +25,15 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Observable;
+import java.util.Observer;
 
 
 /**
  * Created by Arvid Bodin(arvidbod@kth.se) and Johan Svensson(johans7@kth.se) on 2015-10-09
  *
  */
-public class GameView extends BorderPane{
+public class GameView extends BorderPane implements Observer{
 
     private final GameModel model;
     private final Stage stage;
@@ -497,6 +499,11 @@ public class GameView extends BorderPane{
      */
     public void setCallListener(CallListener callListener) {
         this.callListener = callListener;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("TEST");
     }
 }
 
