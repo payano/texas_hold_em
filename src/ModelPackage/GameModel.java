@@ -5,7 +5,9 @@ import PlayerPackage.HumanPlayer;
 import PlayerPackage.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 
 
 /**
@@ -25,7 +27,6 @@ public class GameModel extends Observable implements Serializable {
     private ArrayList<Double> roundBet; //change to gameeBet later...
     private int currentPlayer,lastPlayer;
     private GameStatusEnum roundStatus;
-
 
     private ArrayList<Boolean> playerAllIn;
 
@@ -490,7 +491,7 @@ public class GameModel extends Observable implements Serializable {
      * bet is the method that gets called when the player makes a bet
      * @param betAmount is the amount that will player bet is
      */
-    public final void bet(double betAmount){
+    public void bet(double betAmount){
         double difference = getRoundBet(findTable()) - getRoundBet(getCurrentPlayerId());
         //players.get(findTable()).addMoney(getCurrentPlayer().withdrawMoney(betAmount));
 
@@ -512,7 +513,7 @@ public class GameModel extends Observable implements Serializable {
 
         //The model has changed update observers
         this.setChanged();
-        this.notifyObservers();
+        this.notifyObservers(new String("betDone"));
     }
     /**
      * check is the method if the player checks
